@@ -1,9 +1,13 @@
-site_name: Curso OpenShift
-
-theme:
-  name: material
-  language: es
-
 nav:
   - Inicio: index.md
-  - Sesión 1: sesion1.md
+
+  - Sesión 1:
+      - 1.1 Introducción: sesion1/1.1 Introduccion.md
+      - 1.2 De servidor a contenedor: sesion1/1.2 de servidor a contendor.md
+      - 1.3 Kubernetes: sesion1/1.3 kubernetes.md
+      - 1.4 Qué añade OpenShift: sesion1/1.4 que añade openshift.md
+      - 1.5 Arquitectura del clúster: sesion1/1.5 Arquitectura cluster.md
+      - 1.6 Consola web: sesion1/1.6 Consola web.md
+      - 1.7 Cliente oc: sesion1/1.7 cliente oc.md
+      - 1.8 Práctica: sesion1/1.8-practica-imagen-cluster-completo.md
+      - 1.9 Cierre: sesion1/1.9 cierre.md
