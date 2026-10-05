@@ -1,0 +1,9 @@
+site_name: Curso OpenShift
+
+theme:
+  name: material
+  language: es
+
+nav:
+  - Inicio: index.md
+  - Sesión 1: sesion1.md
