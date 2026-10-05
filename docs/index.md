@@ -4,4 +4,4 @@ Bienvenido al curso.
 
 ## Sesiones
 
-- [Sesión 1](sesion
+- [Ir a la Sesión 1](sesion1.md
