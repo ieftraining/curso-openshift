@@ -1,3 +1,9 @@
+site_name: Curso OpenShift
+
+theme:
+  name: material
+  language: es
+
 nav:
   - Inicio: index.md
 
@@ -11,3 +17,6 @@ nav:
       - 1.7 Cliente oc: sesion1/1.7 cliente oc.md
       - 1.8 Práctica: sesion1/1.8-practica-imagen-cluster-completo.md
       - 1.9 Cierre: sesion1/1.9 cierre.md
+
+markdown_extensions:
+  - admonition
