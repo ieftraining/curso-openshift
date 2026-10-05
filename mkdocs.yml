@@ -4,9 +4,6 @@ theme:
   name: material
   language: es
 
-  features:
-    - content.code.copy
-
 nav:
   - Inicio: index.md
 
@@ -23,3 +20,10 @@ nav:
 
 markdown_extensions:
   - admonition
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
