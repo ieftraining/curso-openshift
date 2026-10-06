@@ -2,6 +2,4 @@
 
 Bienvenido al curso.
 
-## Sesiones
-
-- [Ir a la Sesión 1](sesion1.md)
+Utiliza el menú lateral para navegar por las distintas sesiones del curso.
