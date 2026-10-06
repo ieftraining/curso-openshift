@@ -25,6 +25,7 @@ nav:
   - Sesión 2:
       - 2.1 Cargas de trabajo: sesion2/2.1 Cargas de trabajo.md
       - 2.2 Exponer aplicaciones: sesion2/2.2 Exponer aplicaciones.md
+      - 2.2 2.3 Salud recursos y escalado: sesion2/2.2 2.3 Salud recursos y escalado.md
       
 
 markdown_extensions:
