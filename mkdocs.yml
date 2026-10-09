@@ -28,6 +28,7 @@ nav:
       - 2.3 Salud recursos y escalado: sesion2/2.3 Salud recursos y escalado.md
       - 2.4 Configuracion fuera de la imagen: sesion2/2.4 Configuracion fuera de la imagen.md
       - 2.5 Almacenamiento Persistente: sesion2/2.5 Almacenamiento Persistente.md
+      - 2.6 Politicas de Seguridad: sesion2/2.6 Politicas de Seguridad.md
       
 
 markdown_extensions:
