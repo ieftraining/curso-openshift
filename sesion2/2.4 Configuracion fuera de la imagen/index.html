@@ -1,0 +1,1832 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2.3%20Salud%20recursos%20y%20escalado/">
+      
+      
+        <link rel="next" href="../2.5%20Almacenamiento%20Persistente/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2.4 Configuracion fuera de la imagen - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#24-configuracion-fuera-de-la-imagen-configmaps-y-secrets" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.4 Configuracion fuera de la imagen
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desacoplar-la-configuracion-de-la-imagen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desacoplar la configuración de la imagen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configmaps-frente-a-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConfigMaps frente a Secrets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ConfigMaps frente a Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConfigMap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creacion-de-configmaps-y-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creación de ConfigMaps y Secrets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creación de ConfigMaps y Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-la-cli-oc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: Mediante la CLI oc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-mediante-manifiestos-yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: Mediante manifiestos YAML
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Opción 2: Mediante manifiestos YAML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configmap-configmapyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConfigMap (configmap.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret-secretyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secret (secret.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobacion-de-los-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobación de los recursos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inyeccion-como-variables-de-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inyección como variables de entorno
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inyección como variables de entorno">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#como-se-conectan-los-objetos-con-el-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Cómo se conectan los objetos con el Deployment?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#actualizacion-del-deployment-deploymentyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actualización del Deployment (deployment.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificacion-de-las-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación de las variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#montar-configmaps-y-secrets-como-volumenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Montar ConfigMaps y Secrets como volúmenes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Montar ConfigMaps y Secrets como volúmenes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-un-volumen-en-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es un volumen en Kubernetes?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#actualizacion-del-deployment-con-volumenes-deploymentyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actualización del Deployment con Volúmenes (deployment.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificacion-de-los-archivos-en-el-contenedor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación de los archivos en el contenedor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actualizacion-de-configuracion-en-tiempo-real-hot-reload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actualización de configuración en tiempo real (Hot-reload)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actualización de configuración en tiempo real (Hot-reload)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-modificar-el-configmap-en-caliente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Modificar el ConfigMap en caliente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-comprobar-la-actualizacion-sin-reiniciar-el-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Comprobar la actualización sin reiniciar el Pod
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desacoplar-la-configuracion-de-la-imagen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desacoplar la configuración de la imagen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configmaps-frente-a-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConfigMaps frente a Secrets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ConfigMaps frente a Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConfigMap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creacion-de-configmaps-y-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creación de ConfigMaps y Secrets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creación de ConfigMaps y Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-la-cli-oc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: Mediante la CLI oc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-mediante-manifiestos-yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: Mediante manifiestos YAML
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Opción 2: Mediante manifiestos YAML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configmap-configmapyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConfigMap (configmap.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret-secretyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secret (secret.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobacion-de-los-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobación de los recursos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inyeccion-como-variables-de-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inyección como variables de entorno
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inyección como variables de entorno">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#como-se-conectan-los-objetos-con-el-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Cómo se conectan los objetos con el Deployment?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#actualizacion-del-deployment-deploymentyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actualización del Deployment (deployment.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificacion-de-las-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación de las variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#montar-configmaps-y-secrets-como-volumenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Montar ConfigMaps y Secrets como volúmenes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Montar ConfigMaps y Secrets como volúmenes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-un-volumen-en-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es un volumen en Kubernetes?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#actualizacion-del-deployment-con-volumenes-deploymentyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actualización del Deployment con Volúmenes (deployment.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificacion-de-los-archivos-en-el-contenedor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación de los archivos en el contenedor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actualizacion-de-configuracion-en-tiempo-real-hot-reload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actualización de configuración en tiempo real (Hot-reload)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actualización de configuración en tiempo real (Hot-reload)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-modificar-el-configmap-en-caliente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Modificar el ConfigMap en caliente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-comprobar-la-actualizacion-sin-reiniciar-el-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Comprobar la actualización sin reiniciar el Pod
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="24-configuracion-fuera-de-la-imagen-configmaps-y-secrets">2.4 Configuración fuera de la imagen: ConfigMaps y Secrets</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender la importancia de desacoplar la configuración del código y de las imágenes de contenedor.</li>
+<li>Identificar cuándo utilizar un <strong>ConfigMap</strong> y cuándo utilizar un <strong>Secret</strong>.</li>
+<li>Crear ConfigMaps y Secrets mediante CLI y manifiestos YAML.</li>
+<li>Inyectar datos de configuración como variables de entorno y consumirlos desde la aplicación.</li>
+<li>Entender el concepto de volumen y cómo montar ConfigMaps y Secrets en el sistema de ficheros del contenedor.</li>
+<li>Comprobar la actualización en tiempo real (<em>hot-reload</em>) al modificar volúmenes.</li>
+</ul>
+<hr />
+<h2 id="desacoplar-la-configuracion-de-la-imagen">Desacoplar la configuración de la imagen</h2>
+<p>Uno de los principios fundamentales en el desarrollo y despliegue de aplicaciones modernas en contenedores es la <strong>separación estricta entre el código y la configuración</strong>.</p>
+<p>Una imagen de contenedor debe ser un artefacto <strong>inmutable y agnóstico del entorno</strong>. La misma imagen debe poder ejecutarse en entornos de desarrollo, pruebas o producción sin necesidad de volver a compilarla o modificar sus capas internas.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph "Imagen Inmutable"
+        A[Código de la Aplicación]
+    end
+
+    subgraph "Inyección de Configuración"
+        B[ConfigMap / Secret Dev] --&gt;|Entorno Desarrollo| A
+        C[ConfigMap / Secret Prod] --&gt;|Entorno Producción| A
+    end</code></pre>
+<p>Si guardamos parámetros como cadenas de conexión a bases de datos, claves API, URLs de servicios externos o niveles de traza (<em>LOG_LEVEL</em>) dentro de la imagen, nos enfrentamos a graves inconvenientes:</p>
+<ul>
+<li><strong>Riesgo de seguridad:</strong> Credenciales o contraseñas expuestas en registros de imágenes (<em>registries</em>) o en repositorios de código.</li>
+<li><strong>Falta de flexibilidad:</strong> Necesidad de reconstruir la imagen cada vez que cambia un parámetro de configuración.</li>
+<li><strong>Incompatibilidad con la promoción de artefactos:</strong> Se rompe la regla de "construir una vez y promover el mismo artefacto a todos los entornos".</li>
+</ul>
+<p>Para resolver esto, Kubernetes y OpenShift proporcionan dos recursos nativos: <strong>ConfigMaps</strong> y <strong>Secrets</strong>.</p>
+<hr />
+<h2 id="configmaps-frente-a-secrets">ConfigMaps frente a Secrets</h2>
+<p>Aunque ambos recursos se utilizan para almacenar datos de configuración en forma de pares clave-valor o archivos completos, están orientados a diferentes tipos de información:</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Configuración Externa]
+    A --&gt;|Datos no sensibles| B[ConfigMap]
+    A --&gt;|Datos sensibles / Confidenciales| C[Secret]
+
+    B --&gt; D[LOG_LEVEL, PORT, App.conf]
+    C --&gt; E[Passwords, Tokens, Certificados TLS]</code></pre>
+<h3 id="configmap">ConfigMap</h3>
+<p>Está diseñado para almacenar <strong>datos de configuración no sensibles</strong> en texto plano.</p>
+<p>Ejemplos típicos:
+- Niveles de log (<code>LOG_LEVEL: debug</code>).
+- URLs de endpoints y servicios auxiliares.
+- Archivos de configuración de servidores web (ej. <code>nginx.conf</code>, <code>application.properties</code>).
+- Variables de entorno generales de la aplicación.</p>
+<h3 id="secret">Secret</h3>
+<p>Está diseñado para almacenar <strong>información sensible y confidencial</strong>.</p>
+<p>Ejemplos típicos:
+- Contraseñas y credenciales de acceso a bases de datos.
+- Claves privadas y certificados TLS/SSL.
+- Tokens de autenticación API o llaves de cifrado.
+- Archivos de claves SSH o <code>.dockercfg</code>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Característica</th>
+<th style="text-align: left;">ConfigMap</th>
+<th style="text-align: left;">Secret</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Tipo de datos</strong></td>
+<td style="text-align: left;">Configuración no sensible</td>
+<td style="text-align: left;">Datos confidenciales o sensibles</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Formato en manifiesto</strong></td>
+<td style="text-align: left;">Texto plano (<code>data</code>)</td>
+<td style="text-align: left;">Codificado en Base64 (<code>data</code>) o texto plano (<code>stringData</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Uso principal</strong></td>
+<td style="text-align: left;">Ajustar comportamiento de la app</td>
+<td style="text-align: left;">Proteger credenciales y accesos</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Montaje en Pod</strong></td>
+<td style="text-align: left;">Variable de entorno / Volumen</td>
+<td style="text-align: left;">Variable de entorno / Volumen</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="creacion-de-configmaps-y-secrets">Creación de ConfigMaps y Secrets</h2>
+<p>Tanto los ConfigMaps como los Secrets se pueden crear directamente desde la herramienta de línea de comandos <code>oc</code> o aplicando manifiestos YAML.</p>
+<h3 id="opcion-1-mediante-la-cli-oc">Opción 1: Mediante la CLI <code>oc</code></h3>
+<p>Podemos crear un ConfigMap definiendo los pares clave-valor que necesita nuestra aplicación mediante el parámetro <code>--from-literal</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>create<span class="w"> </span>configmap<span class="w"> </span>app-config<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">LOG_LEVEL</span><span class="o">=</span>info<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">APP_COLOR</span><span class="o">=</span>blue<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">APP_TITLE</span><span class="o">=</span><span class="s2">"Entorno de Formacion OpenShift"</span>
+</code></pre></div>
+<p>En este comando, cada <code>--from-literal</code> guarda una pareja de datos <strong><code>CLAVE=VALOR</code></strong>:
+- <code>LOG_LEVEL</code> es la <strong>clave</strong> y <code>"info"</code> es su <strong>valor</strong>.
+- <code>APP_COLOR</code> es la <strong>clave</strong> y <code>"blue"</code> es su <strong>valor</strong>.
+- <code>APP_TITLE</code> es la <strong>clave</strong> y <code>"Entorno de Formacion OpenShift"</code> es su <strong>valor</strong>.</p>
+<p>De la misma forma, creamos un Secret asignando también sus pares clave-valor confidenciales:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>app-secrets<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">DB_USER</span><span class="o">=</span>admin_user<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">DB_PASSWORD</span><span class="o">=</span>SuperSecretPass123!
+</code></pre></div>
+<h3 id="opcion-2-mediante-manifiestos-yaml">Opción 2: Mediante manifiestos YAML</h3>
+<p>También podemos definir estos recursos mediante archivos YAML.</p>
+<h4 id="configmap-configmapyaml">ConfigMap (<code>configmap.yaml</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-config</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">LOG_LEVEL</span><span class="p">:</span><span class="w"> </span><span class="s">"info"</span>
+<span class="w">  </span><span class="nt">APP_COLOR</span><span class="p">:</span><span class="w"> </span><span class="s">"blue"</span>
+<span class="w">  </span><span class="nt">APP_TITLE</span><span class="p">:</span><span class="w"> </span><span class="s">"Entorno</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">Formacion</span><span class="nv"> </span><span class="s">OpenShift"</span>
+</code></pre></div>
+<h4 id="secret-secretyaml">Secret (<code>secret.yaml</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-secrets</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="nt">stringData</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">DB_USER</span><span class="p">:</span><span class="w"> </span><span class="s">"admin_user"</span>
+<span class="w">  </span><span class="nt">DB_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="s">"PasswordSeguro2026"</span>
+</code></pre></div>
+<p>Aplicamos los manifiestos:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>configmap.yaml
+oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>secret.yaml
+</code></pre></div>
+<h3 id="comprobacion-de-los-recursos">Comprobación de los recursos</h3>
+<p>Verificamos la creación de ambos objetos en el proyecto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>app-config
+oc<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>app-secrets
+</code></pre></div>
+<hr />
+<h2 id="inyeccion-como-variables-de-entorno">Inyección como variables de entorno</h2>
+<p>La forma más habitual de consumir datos de un ConfigMap o Secret es inyectándolos como <strong>variables de entorno</strong> dentro de los contenedores.</p>
+<pre class="mermaid"><code>flowchart LR
+    CM[ConfigMap: app-config] --&gt;|LOG_LEVEL| Pod[Pod / Contenedor]
+    SEC[Secret: app-secrets] --&gt;|DB_PASSWORD| Pod</code></pre>
+<h3 id="como-se-conectan-los-objetos-con-el-deployment">¿Cómo se conectan los objetos con el Deployment?</h3>
+<p>Para inyectar estos datos en los contenedores, utilizamos la sección <code>env</code> dentro de la especificación del contenedor en el Deployment.</p>
+<p>Cada variable se define con un nombre interno (el que leerá la aplicación) y hace referencia a la clave del ConfigMap o Secret mediante <code>valueFrom</code>:</p>
+<ul>
+<li><strong>Para ConfigMaps (<code>configMapKeyRef</code>):</strong></li>
+<li><code>name</code>: Nombre del ConfigMap existente (<code>app-config</code>).</li>
+<li><code>key</code>: Nombre de la clave guardada dentro del ConfigMap (<code>LOG_LEVEL</code> o <code>APP_COLOR</code>).</li>
+<li><strong>Para Secrets (<code>secretKeyRef</code>):</strong></li>
+<li><code>name</code>: Nombre del Secret existente (<code>app-secrets</code>).</li>
+<li><code>key</code>: Nombre de la clave confidencial guardada en el Secret (<code>DB_PASSWORD</code>).</li>
+</ul>
+<h3 id="actualizacion-del-deployment-deploymentyaml">Actualización del Deployment (<code>deployment.yaml</code>)</h3>
+<p>Modificamos la definición del Deployment para añadir el bloque <code>env</code> asociando claves de nuestro ConfigMap y Secret:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Inyeccion</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">ConfigMap</span><span class="nv"> </span><span class="s">y</span><span class="nv"> </span><span class="s">Secret</span><span class="nv"> </span><span class="s">como</span><span class="nv"> </span><span class="s">variables</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">entorno"</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v3</span>
+<span class="w">        </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LOG_LEVEL</span>
+<span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">configMapKeyRef</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-config</span>
+<span class="w">              </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LOG_LEVEL</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">APP_COLOR</span>
+<span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">configMapKeyRef</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-config</span>
+<span class="w">              </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">APP_COLOR</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DB_PASSWORD</span>
+<span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">secretKeyRef</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-secrets</span>
+<span class="w">              </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DB_PASSWORD</span>
+</code></pre></div>
+<p>Aplicamos los cambios:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h3 id="verificacion-de-las-variables">Verificación de las variables</h3>
+<p>Comprobamos que las variables están disponibles dentro del Pod en ejecución:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span>--<span class="w"> </span>env<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"LOG_LEVEL|APP_COLOR|DB_PASSWORD"</span>
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>LOG_LEVEL=info
+APP_COLOR=blue
+DB_PASSWORD=PasswordSeguro2026
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Comportamiento de las variables de entorno</p>
+<p>Si cambias el valor de un ConfigMap o Secret en el clúster, <strong>las variables de entorno de los Pods en ejecución NO cambian automáticamente</strong>.</p>
+<p>Las variables de entorno solo se cargan cuando se inicia el proceso. Para aplicar un cambio en variables de entorno es necesario reiniciar el Pod:
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div></p>
+</div>
+<hr />
+<h2 id="montar-configmaps-y-secrets-como-volumenes">Montar ConfigMaps y Secrets como volúmenes</h2>
+<p>Cuando la configuración consiste en archivos completos (como <code>nginx.conf</code>, <code>application.properties</code> o certificados) o cuando necesitamos actualización en caliente sin reiniciar el Pod, la alternativa a las variables de entorno es utilizar <strong>volúmenes de archivos</strong>.</p>
+<h3 id="que-es-un-volumen-en-kubernetes">¿Qué es un volumen en Kubernetes?</h3>
+<p>Un <strong>volumen</strong> es un directorio accesible para los contenedores dentro de un Pod. A diferencia del almacenamiento efímero del propio contenedor, los volúmenes permiten adjuntar recursos externos (como un disco persistente, un directorio temporal o, en este caso, un objeto de configuración).</p>
+<p>Para montar un ConfigMap o Secret como un volumen en nuestra aplicación intervienen dos partes dentro del manifiesto:</p>
+<ol>
+<li><strong><code>spec.volumes</code> (a nivel de Pod):</strong> Declara la fuente del volumen y le asigna un nombre dentro del Pod.</li>
+<li><code>name</code>: Nombre identificativo del volumen (ej. <code>config-volume</code>).</li>
+<li><code>configMap</code> / <code>secret</code>: Indica el objeto del clúster que provee los datos.</li>
+<li><strong><code>spec.containers.volumeMounts</code> (a nivel de contenedor):</strong> Define en qué directorio interno del contenedor se va a publicar ese volumen.</li>
+<li><code>name</code>: Debe coincidir exactamente con el nombre definido en <code>volumes</code>.</li>
+<li><code>mountPath</code>: Ruta dentro del sistema de archivos del contenedor donde se crearán los archivos (<code>/etc/config</code> o <code>/etc/secrets</code>).</li>
+</ol>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Clúster
+        CM[ConfigMap / Secret]
+    end
+
+    subgraph Pod
+        V[Volumen virtual]
+        FS[Directorio /etc/config]
+    end
+
+    CM --&gt;|1. Definido en spec.volumes| V
+    V --&gt;|2. Asignado en volumeMounts| FS</code></pre>
+<h3 id="actualizacion-del-deployment-con-volumenes-deploymentyaml">Actualización del Deployment con Volúmenes (<code>deployment.yaml</code>)</h3>
+<p>Añadimos la sección <code>volumes</code> al Pod y la asociamos con <code>volumeMounts</code> en el contenedor:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Montaje</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">ConfigMap</span><span class="nv"> </span><span class="s">y</span><span class="nv"> </span><span class="s">Secret</span><span class="nv"> </span><span class="s">como</span><span class="nv"> </span><span class="s">volumenes</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">archivos"</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v3</span>
+<span class="w">        </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">        </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config-volume</span>
+<span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/config</span>
+<span class="w">          </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secret-volume</span>
+<span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/secrets</span>
+<span class="w">          </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config-volume</span>
+<span class="w">        </span><span class="nt">configMap</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-config</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secret-volume</span>
+<span class="w">        </span><span class="nt">secret</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-secrets</span>
+</code></pre></div>
+<p>Aplicamos la configuración:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h3 id="verificacion-de-los-archivos-en-el-contenedor">Verificación de los archivos en el contenedor</h3>
+<p>Cada clave dentro del ConfigMap o Secret se convierte en un archivo independiente dentro de la ruta de montaje:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span>--<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/etc/config
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>lrwxrwxrwx 1 root root 16 Oct  8 10:00 APP_COLOR -&gt; ..data/APP_COLOR
+lrwxrwxrwx 1 root root 16 Oct  8 10:00 LOG_LEVEL -&gt; ..data/LOG_LEVEL
+</code></pre></div>
+<p>Consultamos el contenido del archivo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/etc/config/APP_COLOR
+</code></pre></div>
+<p>Resultado:</p>
+<div class="highlight"><pre><span></span><code>blue
+</code></pre></div>
+<hr />
+<h2 id="actualizacion-de-configuracion-en-tiempo-real-hot-reload">Actualización de configuración en tiempo real (<em>Hot-reload</em>)</h2>
+<p>A diferencia de las variables de entorno, cuando un ConfigMap o Secret está montado como volumen, <strong>Kubernetes actualiza de forma automática el contenido de los archivos en el contenedor</strong>.</p>
+<h3 id="1-modificar-el-configmap-en-caliente">1. Modificar el ConfigMap en caliente</h3>
+<p>Cambiamos el valor de <code>APP_COLOR</code> directamente en el clúster:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>patch<span class="w"> </span>configmap<span class="w"> </span>app-config<span class="w"> </span>-p<span class="w"> </span><span class="s1">'{"data":{"APP_COLOR":"green"}}'</span>
+</code></pre></div>
+<h3 id="2-comprobar-la-actualizacion-sin-reiniciar-el-pod">2. Comprobar la actualización sin reiniciar el Pod</h3>
+<p>Transcurridos unos segundos (habitualmente entre 10 y 30 segundos), volvemos a consultar el archivo dentro del contenedor:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/etc/config/APP_COLOR
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>green
+</code></pre></div>
+<p>El contenido se ha actualizado a <code>green</code> <strong>sin reiniciar el Pod ni interrumpir el servicio</strong>.</p>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>La configuración debe separarse siempre del código y de la imagen para garantizar artefactos inmutables.</li>
+<li><strong>ConfigMap</strong> almacena datos de configuración generales no sensibles.</li>
+<li><strong>Secret</strong> almacena credenciales y datos confidenciales.</li>
+<li>Las <strong>variables de entorno</strong> son sencillas de usar, pero requieren reiniciar el Pod si los valores cambian.</li>
+<li>Un <strong>volumen</strong> es un directorio accesible por el contenedor; al montar un ConfigMap o Secret como volumen, sus claves se proyectan como archivos.</li>
+<li>Los <strong>volúmenes de configuración</strong> se actualizan automáticamente (<em>hot-reload</em>) en el contenedor sin reiniciar el Pod.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

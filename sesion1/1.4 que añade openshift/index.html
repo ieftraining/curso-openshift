@@ -1,0 +1,1387 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../1.3%20kubernetes/">
+      
+      
+        <link rel="next" href="../1.5%20Arquitectura%20cluster/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1.4 Qué añade OpenShift - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#14-que-anade-openshift" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.4 Qué añade OpenShift
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kubernetes-y-openshift-relacion-entre-ambos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kubernetes y OpenShift: relación entre ambos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projects-el-espacio-de-trabajo-habitual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projects: el espacio de trabajo habitual
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Projects: el espacio de trabajo habitual">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplos-de-proyectos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplos de proyectos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routes-publicar-aplicaciones-fuera-del-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routes: publicar aplicaciones fuera del clúster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#buildconfig-construccion-de-imagenes-en-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BuildConfig: construcción de imágenes en OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scc-una-capa-adicional-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SCC: una capa adicional de seguridad
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-concepto-de-operador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El concepto de operador
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-cluster-esta-hecho-de-operadores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El clúster está hecho de operadores
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operatorhub-ampliar-la-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OperatorHub: ampliar la plataforma
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#demostracion-instalacion-del-operador-web-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demostración: instalación del operador Web Terminal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kubernetes-y-openshift-relacion-entre-ambos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kubernetes y OpenShift: relación entre ambos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projects-el-espacio-de-trabajo-habitual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projects: el espacio de trabajo habitual
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Projects: el espacio de trabajo habitual">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplos-de-proyectos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplos de proyectos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routes-publicar-aplicaciones-fuera-del-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routes: publicar aplicaciones fuera del clúster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#buildconfig-construccion-de-imagenes-en-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BuildConfig: construcción de imágenes en OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scc-una-capa-adicional-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SCC: una capa adicional de seguridad
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-concepto-de-operador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El concepto de operador
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-cluster-esta-hecho-de-operadores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El clúster está hecho de operadores
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operatorhub-ampliar-la-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OperatorHub: ampliar la plataforma
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#demostracion-instalacion-del-operador-web-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demostración: instalación del operador Web Terminal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="14-que-anade-openshift">1.4 Qué añade OpenShift</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender que OpenShift se construye sobre Kubernetes y añade capacidades adicionales.</li>
+<li>Identificar algunos de los recursos más característicos de OpenShift.</li>
+<li>Comprender la diferencia entre Project y Namespace.</li>
+<li>Entender el propósito de las Routes.</li>
+<li>Comprender el objetivo de las Security Context Constraints (SCC).</li>
+<li>Reconocer la existencia de BuildConfig como mecanismo de construcción de imágenes.</li>
+<li>Entender qué es un operador y por qué es un concepto fundamental en OpenShift.</li>
+<li>Comprender el papel de OperatorHub como mecanismo de extensión de la plataforma.</li>
+</ul>
+<h2 id="kubernetes-y-openshift-relacion-entre-ambos">Kubernetes y OpenShift: relación entre ambos</h2>
+<p>OpenShift no sustituye Kubernetes.</p>
+<p>OpenShift utiliza Kubernetes como base y añade funcionalidades orientadas a facilitar la construcción, operación y administración de plataformas empresariales.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Aplicaciones]
+    --&gt; B[OpenShift]
+    --&gt; C[Kubernetes]
+    --&gt; D[Contenedores]
+    --&gt; E[Sistema operativo]</code></pre>
+<p>Todos los conceptos fundamentales siguen existiendo:</p>
+<ul>
+<li>Pods.</li>
+<li>Deployments.</li>
+<li>Services.</li>
+<li>Namespaces.</li>
+<li>ConfigMaps.</li>
+<li>Secrets.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Idea clave</p>
+<p>OpenShift no reemplaza Kubernetes. OpenShift amplía Kubernetes con funcionalidades empresariales adicionales.</p>
+</div>
+<h2 id="projects-el-espacio-de-trabajo-habitual">Projects: el espacio de trabajo habitual</h2>
+<p>En Kubernetes existe el concepto de Namespace.</p>
+<p>OpenShift introduce el concepto de Project, que se apoya sobre un Namespace pero añade capacidades relacionadas con usuarios, permisos y experiencia de uso.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Project]
+    --&gt; B[Namespace Kubernetes]</code></pre>
+<h3 id="ejemplos-de-proyectos">Ejemplos de proyectos</h3>
+<div class="highlight"><pre><span></span><code>equipo-a-dev
+equipo-a-test
+equipo-a-prod
+</code></pre></div>
+<p>Cada proyecto contiene sus propios recursos:</p>
+<ul>
+<li>Pods.</li>
+<li>Deployments.</li>
+<li>Services.</li>
+<li>Routes.</li>
+<li>ConfigMaps.</li>
+<li>Secrets.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Durante el curso</p>
+<p>Cada alumno trabajará normalmente dentro de su propio Project.</p>
+</div>
+<h2 id="routes-publicar-aplicaciones-fuera-del-cluster">Routes: publicar aplicaciones fuera del clúster</h2>
+<p>Un Service proporciona acceso estable dentro del clúster.</p>
+<p>Cuando necesitamos acceso desde el exterior utilizamos una Route.</p>
+<pre class="mermaid"><code>flowchart TD
+    U[Usuario]
+    --&gt; R[Route]
+    --&gt; S[Service]
+    --&gt; P[Pods]</code></pre>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>https://mi-aplicacion.apps.empresa.com
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Para recordar</p>
+<p>Service resuelve el acceso interno.</p>
+<p>Route resuelve el acceso externo.</p>
+</div>
+<h2 id="buildconfig-construccion-de-imagenes-en-openshift">BuildConfig: construcción de imágenes en OpenShift</h2>
+<p>OpenShift incorpora mecanismos propios para construir imágenes dentro de la plataforma.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Código fuente]
+    --&gt; C[BuildConfig]
+
+    B[Dockerfile]
+    --&gt; C
+
+    C --&gt; D[Construcción]
+    D --&gt; E[Imagen]
+    E --&gt; F[Registro de imágenes]</code></pre>
+<p>Un BuildConfig define cómo debe ejecutarse la construcción.</p>
+<p>Habitualmente describe:</p>
+<ul>
+<li>Origen del código.</li>
+<li>Estrategia de construcción.</li>
+<li>Destino de la imagen.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Importante</p>
+<p>BuildConfig no sustituye al Dockerfile.
+Ambos colaboran en el proceso de construcción.</p>
+</div>
+<h2 id="scc-una-capa-adicional-de-seguridad">SCC: una capa adicional de seguridad</h2>
+<p>OpenShift incorpora Security Context Constraints (SCC).</p>
+<p>Las SCC definen qué puede hacer un contenedor cuando se ejecuta.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Pod solicitado]
+    --&gt; B[Validación SCC]
+    --&gt; C[Permitido o rechazado]</code></pre>
+<p>Ejemplos de controles:</p>
+<ul>
+<li>Usuario de ejecución.</li>
+<li>Privilegios permitidos.</li>
+<li>Capacidades del sistema.</li>
+<li>Configuraciones de seguridad.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Seguridad</p>
+<p>Las SCC son una de las diferencias más importantes entre OpenShift y muchas instalaciones básicas de Kubernetes.</p>
+</div>
+<h2 id="el-concepto-de-operador">El concepto de operador</h2>
+<p>Un operador es un componente software encargado de instalar, configurar, mantener y actualizar otro componente software.</p>
+<p>Puede verse como un administrador automatizado.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Administrador humano]
+    --&gt; B[Operador]
+    --&gt; C[Componente gestionado]</code></pre>
+<p>Los operadores utilizan los mismos principios de reconciliación vistos anteriormente en Kubernetes.</p>
+<h2 id="el-cluster-esta-hecho-de-operadores">El clúster está hecho de operadores</h2>
+<p>Gran parte de los componentes internos de OpenShift están gestionados mediante operadores.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>Consola web.</li>
+<li>Registro interno.</li>
+<li>Monitorización.</li>
+<li>Red.</li>
+<li>Certificados.</li>
+<li>Autenticación.</li>
+<li>Almacenamiento.</li>
+</ul>
+<pre class="mermaid"><code>flowchart TD
+    A[OpenShift]
+    --&gt; B[Operador de consola]
+    --&gt; C[Operador de monitorización]
+    --&gt; D[Operador de red]
+    --&gt; E[Operador de registro]</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Idea fundamental</p>
+<p>OpenShift es, en gran medida, una plataforma construida sobre operadores.</p>
+</div>
+<h2 id="operatorhub-ampliar-la-plataforma">OperatorHub: ampliar la plataforma</h2>
+<p>OperatorHub proporciona un catálogo de operadores instalables.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[OperatorHub]
+    --&gt; B[Seleccionar operador]
+    --&gt; C[Instalar]
+    --&gt; D[Nueva funcionalidad disponible]</code></pre>
+<p>Gracias a OperatorHub es posible ampliar las capacidades del clúster de forma sencilla.</p>
+<h2 id="demostracion-instalacion-del-operador-web-terminal">Demostración: instalación del operador Web Terminal</h2>
+<p>Como demostración, el instructor instalará el operador Web Terminal.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[OperatorHub]
+    --&gt; B[Instalación de operador]
+    --&gt; C[Despliegue automático]
+    --&gt; D[Web Terminal disponible]</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Objetivo de la demostración</p>
+<p>Lo importante no es memorizar los pasos de instalación, sino comprender cómo OpenShift incorpora nuevas capacidades mediante operadores.</p>
+</div>
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>OpenShift utiliza Kubernetes como base.</li>
+<li>Project es la forma habitual de trabajar con Namespaces.</li>
+<li>Route proporciona acceso externo.</li>
+<li>BuildConfig permite construir imágenes dentro de OpenShift.</li>
+<li>SCC añade controles de seguridad adicionales.</li>
+<li>Los operadores automatizan la gestión de componentes.</li>
+<li>Gran parte de OpenShift está construida sobre operadores.</li>
+<li>OperatorHub permite ampliar la plataforma mediante nuevos operadores.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

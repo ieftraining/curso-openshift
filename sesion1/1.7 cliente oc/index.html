@@ -1,0 +1,1566 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../1.6%20Consola%20web/">
+      
+      
+        <link rel="next" href="../1.8-practica-imagen-cluster-completo/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1.7 Cliente oc - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#17-el-cliente-oc" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.7 Cliente oc
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-oc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es OC?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conectarse-al-cluster-oc-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conectarse al clúster: oc login
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conectarse al clúster: oc login">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tengo-que-hacer-login-cada-vez" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Tengo que hacer login cada vez?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-fichero-kubeconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El fichero kubeconfig
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El fichero kubeconfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ubicacion-habitual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ubicación habitual
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-un-contexto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es un contexto?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trabajar-con-proyectos-oc-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trabajar con proyectos: oc project
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trabajar con proyectos: oc project">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lo-que-suele-confundirse-al-principio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lo que suele confundirse al principio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oc-y-kubectl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OC y kubectl
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consultar-recursos-con-oc-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar recursos con oc get
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#obtener-mas-detalle-con-oc-describe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Obtener más detalle con oc describe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consultar-logs-con-oc-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar logs con oc logs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-herramienta-mas-infravalorada-oc-explain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La herramienta más infravalorada: oc explain
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="La herramienta más infravalorada: oc explain">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#una-analogia-util" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Una analogía útil
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consola-web-y-cli-dos-vistas-del-mismo-mundo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consola web y CLI: dos vistas del mismo mundo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-oc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es OC?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conectarse-al-cluster-oc-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conectarse al clúster: oc login
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conectarse al clúster: oc login">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tengo-que-hacer-login-cada-vez" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Tengo que hacer login cada vez?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-fichero-kubeconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El fichero kubeconfig
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El fichero kubeconfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ubicacion-habitual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ubicación habitual
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-un-contexto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es un contexto?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trabajar-con-proyectos-oc-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trabajar con proyectos: oc project
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trabajar con proyectos: oc project">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lo-que-suele-confundirse-al-principio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lo que suele confundirse al principio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oc-y-kubectl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OC y kubectl
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consultar-recursos-con-oc-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar recursos con oc get
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#obtener-mas-detalle-con-oc-describe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Obtener más detalle con oc describe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consultar-logs-con-oc-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar logs con oc logs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-herramienta-mas-infravalorada-oc-explain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La herramienta más infravalorada: oc explain
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="La herramienta más infravalorada: oc explain">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#una-analogia-util" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Una analogía útil
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consola-web-y-cli-dos-vistas-del-mismo-mundo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consola web y CLI: dos vistas del mismo mundo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="17-el-cliente-oc">1.7 El cliente OC</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender qué es la herramienta <code>oc</code>.</li>
+<li>Conectarte a un clúster OpenShift mediante <code>oc login</code>.</li>
+<li>Identificar dónde se almacena la configuración de acceso.</li>
+<li>Entender qué es un contexto y por qué resulta importante.</li>
+<li>Utilizar <code>oc project</code> para cambiar de proyecto de trabajo.</li>
+<li>Diferenciar OpenShift CLI (<code>oc</code>) de Kubernetes CLI (<code>kubectl</code>).</li>
+<li>Consultar información básica sobre recursos mediante <code>get</code>, <code>describe</code> y <code>logs</code>.</li>
+<li>Utilizar <code>oc explain</code> para descubrir recursos y atributos sin depender de documentación externa.</li>
+</ul>
+<h2 id="que-es-oc">¿Qué es OC?</h2>
+<p>Hasta ahora hemos visto la consola web como una de las principales formas de interactuar con OpenShift. La segunda herramienta fundamental es el cliente de línea de comandos <strong>oc</strong>. citeturn57search7</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Usuario]
+    --&gt; B[CLI oc]
+    --&gt; C[API Server]
+    --&gt; D[OpenShift]</code></pre>
+<p>Desde <code>oc</code> es posible:</p>
+<ul>
+<li>Consultar recursos.</li>
+<li>Desplegar aplicaciones.</li>
+<li>Obtener logs.</li>
+<li>Escalar aplicaciones.</li>
+<li>Gestionar configuraciones.</li>
+<li>Automatizar tareas mediante scripts.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Idea clave</p>
+<p>Prácticamente cualquier acción que realizamos desde la consola web termina convirtiéndose en llamadas a la API del clúster. <code>oc</code> utiliza esa misma API.</p>
+</div>
+<h2 id="conectarse-al-cluster-oc-login">Conectarse al clúster: oc login</h2>
+<p>Antes de poder trabajar es necesario autenticarse.</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>login<span class="w"> </span>https://api.cluster.ejemplo.com:6443
+</code></pre></div>
+<p>También es posible utilizar un token:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>login<span class="w"> </span>--token<span class="o">=</span>&lt;TOKEN&gt;<span class="w"> </span>--server<span class="o">=</span>https://api.cluster.ejemplo.com:6443
+</code></pre></div>
+<h3 id="tengo-que-hacer-login-cada-vez">¿Tengo que hacer login cada vez?</h3>
+<p>Normalmente no.</p>
+<p>Tras autenticarse correctamente, el cliente guarda la información necesaria para reutilizar la sesión en futuras ejecuciones.</p>
+<div class="admonition tip">
+<p class="admonition-title">Trabajo diario</p>
+<p>Lo habitual es realizar el login una vez y reutilizar la configuración almacenada localmente.</p>
+</div>
+<h2 id="el-fichero-kubeconfig">El fichero kubeconfig</h2>
+<p>Cuando se realiza un <code>oc login</code>, la configuración se almacena en un fichero denominado <strong>kubeconfig</strong>. citeturn57search7</p>
+<p>Contiene información como:</p>
+<ul>
+<li>Clústeres conocidos.</li>
+<li>Usuarios.</li>
+<li>Métodos de autenticación.</li>
+<li>Contextos.</li>
+<li>Proyecto activo.</li>
+</ul>
+<h3 id="ubicacion-habitual">Ubicación habitual</h3>
+<p><strong>Linux / macOS</strong></p>
+<div class="highlight"><pre><span></span><code>~/.kube/config
+</code></pre></div>
+<p><strong>Windows</strong></p>
+<div class="highlight"><pre><span></span><code>%USERPROFILE%\.kube\config
+</code></pre></div>
+<pre class="mermaid"><code>flowchart TD
+    A[oc login]
+    --&gt; B[kubeconfig]
+    --&gt; C[Clústeres]
+    B --&gt; D[Usuarios]
+    B --&gt; E[Contextos]</code></pre>
+<h2 id="que-es-un-contexto">¿Qué es un contexto?</h2>
+<p>Un contexto define la combinación:</p>
+<div class="highlight"><pre><span></span><code>Usuario + Clúster + Proyecto
+</code></pre></div>
+<pre class="mermaid"><code>flowchart LR
+    U[Usuario]
+    --&gt; Ctx[Contexto]
+
+    C[Clúster]
+    --&gt; Ctx
+
+    P[Proyecto]
+    --&gt; Ctx</code></pre>
+<p>Consultar contexto actual:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>config<span class="w"> </span>current-context
+</code></pre></div>
+<p>Listar contextos:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>config<span class="w"> </span>get-contexts
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Antes de modificar recursos</p>
+<p>Comprueba siempre el contexto activo para evitar trabajar sobre el clúster o proyecto equivocado.</p>
+</div>
+<h2 id="trabajar-con-proyectos-oc-project">Trabajar con proyectos: oc project</h2>
+<p>Consultar proyecto activo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>project
+</code></pre></div>
+<p>Cambiar de proyecto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>project<span class="w"> </span>desarrollo
+</code></pre></div>
+<h3 id="lo-que-suele-confundirse-al-principio">Lo que suele confundirse al principio</h3>
+<pre class="mermaid"><code>flowchart LR
+    A[cd /tmp]
+    --&gt; B[Cambio de directorio local]
+
+    C[oc project desarrollo]
+    --&gt; D[Cambio de proyecto OpenShift]</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Importante</p>
+<p><code>oc project</code> no cambia una carpeta local. Cambia el espacio de trabajo sobre el que actuarán los siguientes comandos.</p>
+</div>
+<h2 id="oc-y-kubectl">OC y kubectl</h2>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>kubectl = Kubernetes
+oc      = Kubernetes + OpenShift
+</code></pre></div>
+<pre class="mermaid"><code>flowchart TD
+    A[kubectl]
+    --&gt; B[Recursos Kubernetes]
+
+    C[oc]
+    --&gt; B
+    C --&gt; D[Recursos OpenShift]</code></pre>
+<p>Entre los recursos específicos de OpenShift encontramos:</p>
+<ul>
+<li>Projects.</li>
+<li>Routes.</li>
+<li>ImageStreams.</li>
+<li>BuildConfigs.</li>
+</ul>
+<h2 id="consultar-recursos-con-oc-get">Consultar recursos con oc get</h2>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+oc<span class="w"> </span>get<span class="w"> </span>deployments
+oc<span class="w"> </span>get<span class="w"> </span>services
+oc<span class="w"> </span>get<span class="w"> </span>routes
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Para recordar</p>
+<p><code>get</code> responde a la pregunta: ¿Qué existe y cuál es su estado general?</p>
+</div>
+<h2 id="obtener-mas-detalle-con-oc-describe">Obtener más detalle con oc describe</h2>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>mi-aplicacion-1-abcde
+</code></pre></div>
+<p><code>describe</code> proporciona información detallada:</p>
+<ul>
+<li>Etiquetas.</li>
+<li>Imágenes utilizadas.</li>
+<li>Eventos.</li>
+<li>Configuración.</li>
+<li>Estado de contenedores.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>get      -&gt; resumen
+describe -&gt; detalle
+</code></pre></div>
+<h2 id="consultar-logs-con-oc-logs">Consultar logs con oc logs</h2>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>mi-aplicacion-1-abcde
+</code></pre></div>
+<p>Suele ser uno de los primeros comandos utilizados durante el diagnóstico.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Aplicación]
+    --&gt; B[Logs]
+    --&gt; C[Diagnóstico]</code></pre>
+<h2 id="la-herramienta-mas-infravalorada-oc-explain">La herramienta más infravalorada: oc explain</h2>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>explain<span class="w"> </span>deployment
+</code></pre></div>
+<p>Profundizar en un atributo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>explain<span class="w"> </span>deployment.spec
+oc<span class="w"> </span>explain<span class="w"> </span>deployment.spec.template
+</code></pre></div>
+<pre class="mermaid"><code>flowchart TD
+    A[Recurso]
+    --&gt; B[oc explain]
+    --&gt; C[Estructura]
+    C --&gt; D[Atributos]
+    C --&gt; E[Descripción]</code></pre>
+<h3 id="una-analogia-util">Una analogía útil</h3>
+<div class="highlight"><pre><span></span><code>oc get      -&gt; ¿Qué existe?
+oc describe -&gt; ¿Cómo está configurado?
+oc explain  -&gt; ¿Qué significa cada campo?
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Autonomía</p>
+<p>Aprender a utilizar <code>oc explain</code> reduce enormemente la dependencia de ejemplos externos y documentación adicional.</p>
+</div>
+<h2 id="consola-web-y-cli-dos-vistas-del-mismo-mundo">Consola web y CLI: dos vistas del mismo mundo</h2>
+<pre class="mermaid"><code>flowchart TD
+    A[Consola Web]
+    --&gt; R[Recursos OpenShift]
+
+    B[CLI oc]
+    --&gt; R</code></pre>
+<p>La consola facilita la exploración visual.</p>
+<p>La CLI aporta:</p>
+<ul>
+<li>Rapidez.</li>
+<li>Repetibilidad.</li>
+<li>Automatización.</li>
+<li>Diagnóstico avanzado.</li>
+</ul>
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li><code>oc</code> es el cliente de línea de comandos de OpenShift.</li>
+<li><code>oc login</code> permite autenticarse contra un clúster.</li>
+<li>La configuración se almacena en kubeconfig.</li>
+<li>Un contexto define usuario, clúster y proyecto.</li>
+<li><code>oc project</code> cambia el proyecto activo.</li>
+<li><code>oc</code> incluye Kubernetes y extensiones específicas de OpenShift.</li>
+<li><code>oc get</code>, <code>oc describe</code> y <code>oc logs</code> son herramientas fundamentales.</li>
+<li><code>oc explain</code> es una de las mejores ayudas para aprender OpenShift.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

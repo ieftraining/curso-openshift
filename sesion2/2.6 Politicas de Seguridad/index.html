@@ -1,0 +1,1640 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2.5%20Almacenamiento%20Persistente/">
+      
+      
+        <link rel="next" href="../2.7%20Cierre/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2.6 Politicas de Seguridad - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#26-politicas-de-seguridad-de-la-plataforma-scc" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.6 Politicas de Seguridad
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-una-security-context-constraint-scc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es una Security Context Constraint (SCC)?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="¿Qué es una Security Context Constraint (SCC)?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controles-principales-de-una-scc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controles principales de una SCC
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catalogo-de-sccs-predefinidas-en-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catálogo de SCCs predefinidas en OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-politica-predeterminada-restricted-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La política predeterminada: restricted-v2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduccion-necesaria-que-es-una-serviceaccount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introducción necesaria: ¿Qué es una ServiceAccount?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-problema-comun-con-imagenes-de-registros-publicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El problema común con imágenes de registros públicos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrategias-de-solucion-ante-rechazos-por-scc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrategias de solución ante rechazos por SCC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estrategias de solución ante rechazos por SCC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-a-adaptar-la-imagen-buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción A: Adaptar la imagen (Buenas Prácticas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-b-conceder-la-scc-anyuid-excepcion-de-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción B: Conceder la SCC anyuid (Excepción de plataforma)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagnosticar-y-resolver-un-bloqueo-por-scc-paso-a-paso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnosticar y resolver un bloqueo por SCC paso a paso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagnosticar y resolver un bloqueo por SCC paso a paso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-despliegue-de-una-imagen-no-adaptada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Despliegue de una imagen no adaptada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-diagnostico-del-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Diagnóstico del error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-solucion-mediante-concesion-de-la-scc-anyuid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Solución mediante concesión de la SCC anyuid
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Solución mediante concesión de la SCC anyuid">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crear-la-serviceaccount-dedicada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crear la ServiceAccount dedicada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otorgar-la-scc-anyuid-a-la-serviceaccount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Otorgar la SCC anyuid a la ServiceAccount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vinculacion-de-la-serviceaccount-en-el-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vinculación de la ServiceAccount en el Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-verificacion-final-de-la-solucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Verificación final de la solución
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-una-security-context-constraint-scc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es una Security Context Constraint (SCC)?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="¿Qué es una Security Context Constraint (SCC)?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controles-principales-de-una-scc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controles principales de una SCC
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catalogo-de-sccs-predefinidas-en-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catálogo de SCCs predefinidas en OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-politica-predeterminada-restricted-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La política predeterminada: restricted-v2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduccion-necesaria-que-es-una-serviceaccount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introducción necesaria: ¿Qué es una ServiceAccount?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-problema-comun-con-imagenes-de-registros-publicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El problema común con imágenes de registros públicos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrategias-de-solucion-ante-rechazos-por-scc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrategias de solución ante rechazos por SCC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estrategias de solución ante rechazos por SCC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-a-adaptar-la-imagen-buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción A: Adaptar la imagen (Buenas Prácticas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-b-conceder-la-scc-anyuid-excepcion-de-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción B: Conceder la SCC anyuid (Excepción de plataforma)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagnosticar-y-resolver-un-bloqueo-por-scc-paso-a-paso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnosticar y resolver un bloqueo por SCC paso a paso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagnosticar y resolver un bloqueo por SCC paso a paso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-despliegue-de-una-imagen-no-adaptada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Despliegue de una imagen no adaptada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-diagnostico-del-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Diagnóstico del error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-solucion-mediante-concesion-de-la-scc-anyuid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Solución mediante concesión de la SCC anyuid
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Solución mediante concesión de la SCC anyuid">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crear-la-serviceaccount-dedicada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crear la ServiceAccount dedicada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otorgar-la-scc-anyuid-a-la-serviceaccount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Otorgar la SCC anyuid a la ServiceAccount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vinculacion-de-la-serviceaccount-en-el-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vinculación de la ServiceAccount en el Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-verificacion-final-de-la-solucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Verificación final de la solución
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="26-politicas-de-seguridad-de-la-plataforma-scc">2.6 Políticas de seguridad de la plataforma (SCC)</h1>
+<h4 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h4>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender qué es una Security Context Constraint (SCC) y por qué OpenShift la utiliza para garantizar la seguridad del clúster.</li>
+<li>Conocer el catálogo de SCCs predefinidas que incluye OpenShift por defecto.</li>
+<li>Identificar las restricciones de la política predeterminada <code>restricted-v2</code>: asignación arbitraria de UID, uso del grupo 0 y bloqueo de escalada de privilegios.</li>
+<li>Entender qué es una <strong>ServiceAccount</strong> (Cuenta de Servicio) y cuál es su papel como identidad de los Pods dentro del clúster.</li>
+<li>Evaluar las estrategias de solución ante un rechazo por SCC: adaptar la imagen (<code>Dockerfile</code>) o aplicar la política <code>anyuid</code>.</li>
+<li>Diagnosticar y resolver un bloqueo de seguridad aplicando la SCC <code>anyuid</code> de forma segura mediante una ServiceAccount dedicada.</li>
+</ul>
+<hr />
+<h2 id="que-es-una-security-context-constraint-scc">¿Qué es una Security Context Constraint (SCC)?</h2>
+<p>En Kubernetes estándar, los contenedores pueden ejecutarse con permisos elevados si la imagen o el manifiesto no especifican restricciones. En cambio, <strong>OpenShift prioriza la seguridad por defecto</strong> utilizando las <strong>Security Context Constraints (SCC)</strong>.</p>
+<p>Una SCC es un recurso de nivel de clúster que funciona como un mecanismo de admisión: define las condiciones de seguridad que un Pod debe cumplir para que la plataforma admita su creación y le permita ejecutarse.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Solicitud de creación de Pod] --&gt; B[Controlador de Admisión SCC]
+    B --&gt; C{¿El Pod cumple con alguna SCC permitida?}
+    C -- Sí --&gt; D[Pod programado y en ejecución]
+    C -- No --&gt; E[Admisión rechazada / Error de permisos]</code></pre>
+<h3 id="controles-principales-de-una-scc">Controles principales de una SCC</h3>
+<ul>
+<li><strong>ID de usuario (UID):</strong> Define con qué usuario del sistema operativo dentro del contenedor se ejecutará el proceso.</li>
+<li><strong>Privilegios de superusuario:</strong> Controla si el contenedor puede ejecutarse como <code>root</code> (UID 0) o solicitar capacidades avanzadas del Kernel Linux.</li>
+<li><strong>Permisos de volúmenes y sistema de archivos:</strong> Asigna qué grupos (<code>FSGroup</code> / GID) tienen acceso a los volúmenes montados.</li>
+<li><strong>Escalada de privilegios:</strong> Impide la ejecución de procesos que intenten elevar sus permisos (<code>allowPrivilegeEscalation: false</code>).</li>
+</ul>
+<hr />
+<h2 id="catalogo-de-sccs-predefinidas-en-openshift">Catálogo de SCCs predefinidas en OpenShift</h2>
+<p>OpenShift incluye de fábrica un conjunto de SCCs creadas con distintos niveles de permisividad para adaptarse a diversos tipos de cargas de trabajo. Entre las más destacadas se encuentran:</p>
+<ul>
+<li><strong><code>restricted-v2</code> / <code>restricted</code>:</strong> La política predeterminada y más estricta para proyectos de usuario. Obliga a usar UIDs aleatorios y prohíbe la ejecución como <code>root</code>.</li>
+<li><strong><code>anyuid</code>:</strong> Una política intermedia que relaja únicamente la regla del ID de usuario, autorizando al contenedor a ejecutarse con el UID declarado en la imagen (incluido UID 0 / <code>root</code>).</li>
+<li><strong><code>hostmount-nodes</code> / <code>nonroot</code>:</strong> Políticas orientadas a cargas de trabajo que requieren montar almacenamiento del host o UIDs no-root fijos específicos.</li>
+<li><strong><code>privileged</code>:</strong> La política con mayores privilegios del sistema. Desactiva casi todas las restricciones de seguridad y se reserva exclusivamente para componentes de infraestructura de la plataforma.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Visualización de SCCs en el clúster</p>
+<p>En entornos con permisos de administración de clúster, se puede consultar el listado completo mediante el comando <code>oc get scc</code>. En entornos limitados para estudiantes (como OpenShift Developer Sandbox), la consulta global de SCCs puede estar restringida por permisos, pero las políticas <code>restricted-v2</code> y <code>anyuid</code> siguen estando presentes e integradas en la plataforma.</p>
+</div>
+<hr />
+<h2 id="la-politica-predeterminada-restricted-v2">La política predeterminada: <code>restricted-v2</code></h2>
+<p>En todos los proyectos de usuario en OpenShift, la plataforma aplica por defecto la SCC <strong><code>restricted-v2</code></strong> a todas las cargas de trabajo.</p>
+<p>Esta SCC impone tres reglas esenciales:</p>
+<ol>
+<li><strong>UID arbitrario (Non-Root obligatorio):</strong> Aunque la imagen tenga configurado <code>USER root</code> en su <code>Dockerfile</code>, OpenShift ignora esa instrucción y le asigna un UID aleatorio único dentro de un rango reservado para ese proyecto (por ejemplo, UID <code>1000650000</code>).</li>
+<li><strong>Permisos para el Grupo 0 (<code>root</code> group):</strong> Para que una imagen funcione con un UID dinámico aleatorio, sus directorios de trabajo y carpetas temporales (<code>/tmp</code>, <code>/var/run</code>) deben pertenecer al grupo <strong>GID 0 (<code>root</code>)</strong> y tener permisos de lectura y escritura para ese grupo.</li>
+<li><strong>Bloqueo de privilegios:</strong> Desactiva cualquier intento de ejecutar binarios con permisos <code>sudo</code> o SUID.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">El Grupo 0 no otorga privilegios de superusuario</p>
+<p>Pertenecer al grupo <code>root</code> (GID 0) en Linux no da acceso de administración al sistema. Únicamente permite que el usuario aleatorio asignado por OpenShift pueda leer y escribir en las carpetas preparadas para ese grupo dentro de la imagen.</p>
+</div>
+<hr />
+<h2 id="introduccion-necesaria-que-es-una-serviceaccount">Introducción necesaria: ¿Qué es una ServiceAccount?</h2>
+<p>Para comprender cómo se gestionan los permisos de seguridad de las aplicaciones en OpenShift, debemos entender la diferencia entre las identidades de personas y las identidades de procesos:</p>
+<ul>
+<li><strong>Usuarios humanos (User Accounts):</strong> Cuentas asignadas a personas que interactúan con el clúster a través de la CLI <code>oc</code> o la consola web.</li>
+<li><strong>Cuentas de Servicio (ServiceAccounts):</strong> Objetos de Kubernetes/OpenShift que proporcionan una <strong>identidad propia a los Pods y aplicaciones</strong>.</li>
+</ul>
+<p>Cuando un Pod se ejecuta en el clúster, no actúa en nombre de la persona que lo desplegó; ejecuta sus acciones utilizando la identidad de una <strong>ServiceAccount</strong>.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Identidades
+        U[Usuario Humano / Administrador]
+        SA[ServiceAccount]
+    end
+
+    subgraph Plataforma
+        CLI[CLI oc / Consola Web]
+        P[Pod en ejecución]
+    end
+
+    U --&gt;|Se autentica en| CLI
+    SA --&gt;|Asignada como identidad a| P</code></pre>
+<p>Por defecto, cada proyecto en OpenShift incluye una ServiceAccount llamada <code>default</code> que se asigna automáticamente a los Pods a menos que se especifique otra distinta. Cuando necesitamos otorgar permisos especiales a una aplicación (como ejecutar con privilegios o comunicarse con la API de OpenShift), creamos una ServiceAccount dedicada y le asignamos los permisos únicamente a ella.</p>
+<hr />
+<h2 id="el-problema-comun-con-imagenes-de-registros-publicos">El problema común con imágenes de registros públicos</h2>
+<p>Muchas imágenes oficiales de registros públicos y catálogos comerciales (como Docker Hub o Quay.io) vienen diseñadas bajo la suposición histórica de que se ejecutarán como <code>root</code> (UID 0) o con usuarios fijos sin permisos de escritura en el grupo 0. </p>
+<p>Esto ocurre por tres motivos principales:</p>
+<ol>
+<li><strong>Estándar de la industria:</strong> Docker se popularizó ejecutando procesos como root por defecto.</li>
+<li><strong>Puertos privilegiados:</strong> Servicios como NGINX o Apache escuchan por defecto en el puerto <code>80</code>, lo cual requiere privilegios en sistemas Linux tradicionales.</li>
+<li><strong>Portabilidad universal:</strong> Sus creadores buscan una imagen universal que funcione en motores de contenedores básicos sin asumir las estrictas políticas de plataformas corporativas.</li>
+</ol>
+<p>Al desplegar este tipo de imágenes estándar en OpenShift se presentan dos comportamientos típicos:</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Despliegue de imagen estándar] --&gt; B{Validación con restricted-v2}
+    B -- Exige ejecución como Root --&gt; C[Rechazo directo de creación del Pod]
+    B -- Asigna UID aleatorio --&gt; D[El contenedor inicia]
+    D --&gt; E{¿Intenta escribir en directorios restringidos?}
+    E -- Sí --&gt; F[Fallo: Permission denied / CrashLoopBackOff]
+    E -- No --&gt; G[Ejecución correcta]</code></pre>
+<ol>
+<li><strong>Rechazo directo por admisión:</strong> Si la definición exige privilegios de root o capacidades de Kernel explícitas que <code>restricted-v2</code> prohíbe, el clúster rechaza la creación del Pod.</li>
+<li><strong>Fallo en tiempo de ejecución (<code>Permission denied</code>):</strong> El contenedor inicia con el UID aleatorio asignado por OpenShift, pero falla inmediatamente cuando la aplicación intenta crear o escribir en carpetas cuyas rutas pertenecen exclusivamente a <code>root:root</code> (permisos 755).</li>
+</ol>
+<hr />
+<h2 id="estrategias-de-solucion-ante-rechazos-por-scc">Estrategias de solución ante rechazos por SCC</h2>
+<p>Frente a un fallo de despliegue por restricciones de seguridad, el equipo de desarrollo u operaciones debe evaluar dos vías de actuación:</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Fallo por SCC] --&gt; B{Estrategia de solución}
+    B --&gt;|Opción A: Recomendada| C[Adaptar la Imagen / Dockerfile]
+    B --&gt;|Opción B: Excepción| D[Conceder SCC 'anyuid' a ServiceAccount]</code></pre>
+<h3 id="opcion-a-adaptar-la-imagen-buenas-practicas">Opción A: Adaptar la imagen (Buenas Prácticas)</h3>
+<p>Es la solución óptima y recomendada en entornos corporativos, ya que mantiene los estándares de seguridad de la plataforma sin relajar las políticas del clúster:</p>
+<ul>
+<li><strong>Ajustar el <code>Dockerfile</code>:</strong> Modificar la construcción de la imagen para garantizar que las carpetas donde la aplicación necesita escribir pertenezcan al grupo <code>0</code> (<code>root</code>) y cuenten con permisos de lectura y escritura para el grupo:
+  <div class="highlight"><pre><span></span><code><span class="k">RUN</span><span class="w"> </span>chgrp<span class="w"> </span>-R<span class="w"> </span><span class="m">0</span><span class="w"> </span>/app<span class="w"> </span>/var/cache<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>chmod<span class="w"> </span>-R<span class="w"> </span>g+rwX<span class="w"> </span>/app<span class="w"> </span>/var/cache
+</code></pre></div></li>
+<li><strong>Usar variantes unprivileged:</strong> Recurrir a imágenes creadas específicamente por los fabricantes para funcionar en entornos sin privilegios (por ejemplo, <code>nginxinc/nginx-unprivileged</code>), las cuales escuchan en puertos superiores al <code>1024</code> y tienen sus carpetas de caché adaptadas.</li>
+</ul>
+<h3 id="opcion-b-conceder-la-scc-anyuid-excepcion-de-plataforma">Opción B: Conceder la SCC <code>anyuid</code> (Excepción de plataforma)</h3>
+<p>Cuando se debe desplegar software de terceros en formato binario cerrado o imágenes comerciales no modificables, la plataforma permite relajar las restricciones mediante la SCC <strong><code>anyuid</code></strong>, la cual autoriza al Pod a utilizar el usuario definido originalmente en la imagen.</p>
+<div class="admonition warning">
+<p class="admonition-title">Aplica el principio de menor privilegio</p>
+<p><strong>NUNCA</strong> debes conceder una SCC a usuarios finales ni a proyectos enteros. Las SCC se otorgan siempre a <strong>ServiceAccounts</strong> específicas para aislar los privilegios elevados exclusivamente al Pod que lo requiere.</p>
+</div>
+<hr />
+<h2 id="diagnosticar-y-resolver-un-bloqueo-por-scc-paso-a-paso">Diagnosticar y resolver un bloqueo por SCC paso a paso</h2>
+<p>A continuación analizaremos en vivo cómo se manifiesta este problema de seguridad y cómo resolverlo de manera controlada en la plataforma.</p>
+<h3 id="1-despliegue-de-una-imagen-no-adaptada">1. Despliegue de una imagen no adaptada</h3>
+<p>Para analizar el comportamiento de las SCC, definimos e importamos un manifiesto <code>Deployment</code> que utiliza la imagen oficial de NGINX (<code>nginx:latest</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-oficial</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-oficial</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-oficial</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-oficial</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:latest</span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+</code></pre></div>
+<p>Desplegamos el manifiesto guardado como <code>nginx-deployment.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>nginx-deployment.yaml
+</code></pre></div>
+<p>Verificamos el estado del Pod creado:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<p><em>Salida típica:</em>
+<div class="highlight"><pre><span></span><code>NAME                            READY   STATUS             RESTARTS   AGE
+nginx-oficial-6d5f74c77-x8z9q   0/1     CrashLoopBackOff   2          30s
+</code></pre></div></p>
+<h3 id="2-diagnostico-del-error">2. Diagnóstico del error</h3>
+<p>Consultamos los registros del contenedor para averiguar la razón del fallo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>deployment/nginx-oficial
+</code></pre></div>
+<p><em>Salida obtenida:</em>
+<div class="highlight"><pre><span></span><code>2026/10/09 11:00:00 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+nginx: [emerg] mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+</code></pre></div></p>
+<p><strong>Análisis del diagnóstico:</strong>
+* OpenShift asignó un UID arbitrario (ej. <code>1000650000</code>) para cumplir con <code>restricted-v2</code>.
+* El proceso del contenedor intenta escribir en <code>/var/cache/nginx/</code>, un directorio con permisos de escritura restringidos exclusivamente al usuario <code>root</code>.</p>
+<hr />
+<h3 id="3-solucion-mediante-concesion-de-la-scc-anyuid">3. Solución mediante concesión de la SCC <code>anyuid</code></h3>
+<p>Al tratarse de una imagen de registro público no modificable directamente en este ejercicio, crearemos una <strong>ServiceAccount dedicada</strong> para aislar los permisos y le asociaremos la SCC <strong><code>anyuid</code></strong> del catálogo predefinido del clúster.</p>
+<h4 id="crear-la-serviceaccount-dedicada">Crear la ServiceAccount dedicada</h4>
+<p>Creamos una cuenta de servicio específica para esta aplicación. De este modo, los permisos elevados afectarán únicamente a este despliegue y no a otros Pods del proyecto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>create<span class="w"> </span>sa<span class="w"> </span>sa-nginx-anyuid
+</code></pre></div>
+<ul>
+<li><code>oc create sa</code>: Comando para crear una ServiceAccount (<code>sa</code>).</li>
+<li><code>sa-nginx-anyuid</code>: Nombre identificativo de la nueva cuenta de servicio.</li>
+</ul>
+<h4 id="otorgar-la-scc-anyuid-a-la-serviceaccount">Otorgar la SCC <code>anyuid</code> a la ServiceAccount</h4>
+<p>Asignamos la política de seguridad a la ServiceAccount creada mediante el comando <code>oc adm policy</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>adm<span class="w"> </span>policy<span class="w"> </span>add-scc-to-user<span class="w"> </span>anyuid<span class="w"> </span>-z<span class="w"> </span>sa-nginx-anyuid
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Restricción de permisos en entornos compartidos (Sandbox)</p>
+<p>La ejecución del comando <code>oc adm policy add-scc-to-user</code> requiere permisos de administrador a nivel de clúster (<code>cluster-admin</code>). Si estás realizando esta práctica en un entorno restringido como el <strong>OpenShift Developer Sandbox</strong>, la API devolverá un error de tipo <code>Forbidden</code>. </p>
+<ul>
+<li><strong>Nota para prácticas:</strong> Recuerda revisar o ejecutar este comando específico únicamente cuando dispongas de un clúster dedicado o un entorno de laboratorio propio con permisos completos de plataforma. En entornos limitados, la alternativa recomendada es utilizar imágenes preparadas para funcionar sin privilegios (como <code>nginxinc/nginx-unprivileged</code>).</li>
+</ul>
+</div>
+<p>Desglose del comando:</p>
+<ul>
+<li><code>oc adm policy</code>: Subcomando de administración para la gestión de políticas del clúster.</li>
+<li><code>add-scc-to-user anyuid</code>: Indica que concedemos la SCC predefinida <code>anyuid</code> (que permite ejecutar contenedores con cualquier UID, incluido root).</li>
+<li><code>-z sa-nginx-anyuid</code>: Abreviatura de <code>--serviceaccount</code>. Especifica el nombre de la ServiceAccount en el proyecto actual a la que se aplica la regla.</li>
+</ul>
+<h4 id="vinculacion-de-la-serviceaccount-en-el-deployment">Vinculación de la ServiceAccount en el Deployment</h4>
+<p>Actualizamos nuestro manifiesto <code>nginx-deployment.yaml</code> declarando el campo <code>serviceAccountName: sa-nginx-anyuid</code> dentro de la especificación del Pod (<code>spec.template.spec</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-oficial</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-oficial</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-oficial</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-oficial</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">serviceAccountName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sa-nginx-anyuid</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:latest</span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+</code></pre></div>
+<p>Aplicamos la actualización del manifiesto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>nginx-deployment.yaml
+</code></pre></div>
+<h3 id="4-verificacion-final-de-la-solucion">4. Verificación final de la solución</h3>
+<p>Verificamos que OpenShift recree el Pod aplicando la nueva política de seguridad:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
+</code></pre></div>
+<p><em>Salida esperada:</em>
+<div class="highlight"><pre><span></span><code>NAME                            READY   STATUS    RESTARTS   AGE
+nginx-oficial-84df8c99b-k9l2m   1/1     Running   0          10s
+</code></pre></div></p>
+<p>El Pod pasa al estado <strong>Running</strong> porque la ServiceAccount <code>sa-nginx-anyuid</code> le autoriza a ejecutar el proceso con el UID requerido por la imagen.</p>
+<hr />
+<h2 id="ideas-clave">Ideas clave</h2>
+<div class="admonition tip">
+<p class="admonition-title">Puntos principales a recordar</p>
+<ul>
+<li>OpenShift utiliza <strong>SCC</strong> para aplicar políticas de seguridad a nivel de Pod.</li>
+<li>El clúster incluye un <strong>catálogo de SCCs predefinidas</strong> (<code>restricted-v2</code>, <code>anyuid</code>, <code>privileged</code>, etc.).</li>
+<li>La política predeterminada <strong><code>restricted-v2</code></strong> exige el uso de UIDs arbitrarios y permisos de grupo 0.</li>
+<li>Una <strong>ServiceAccount</strong> representa la identidad propia de una aplicación o Pod dentro del clúster.</li>
+<li>Ante un bloqueo por SCC, la buena práctica es <strong>adaptar la imagen</strong> (<code>Dockerfile</code> con grupo 0); si no es posible, se otorga la SCC necesaria (como <code>anyuid</code>) asignándola exclusivamente a su <strong>ServiceAccount</strong> (revisando disponer de permisos de clúster en entornos reales), nunca a usuarios humanos o proyectos globales.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

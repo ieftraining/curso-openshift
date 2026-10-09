@@ -1,0 +1,1532 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../1.2%20de%20servidor%20a%20contendor/">
+      
+      
+        <link rel="next" href="../1.4%20que%20a%C3%B1ade%20openshift/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1.3 Kubernetes - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#13-kubernetes-la-capa-de-orquestacion-de-contenedores" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.3 Kubernetes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-los-contenedores-a-la-orquestacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De los contenedores a la orquestación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="De los contenedores a la orquestación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preguntas-que-aparecen-a-escala" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preguntas que aparecen a escala
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es Kubernetes?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#los-tres-problemas-principales-que-resuelve-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los tres problemas principales que resuelve Kubernetes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Los tres problemas principales que resuelve Kubernetes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Despliegue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escalado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escalado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recuperacion-ante-fallos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recuperación ante fallos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-idea-clave-estado-deseado-y-estado-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La idea clave: estado deseado y estado real
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-bucle-de-reconciliacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El bucle de reconciliación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El bucle de reconciliación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#como-mantiene-kubernetes-una-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo mantiene Kubernetes una aplicación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cómo mantiene Kubernetes una aplicación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#responsabilidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Responsabilidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etiquetas-y-selectores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Etiquetas y selectores
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Etiquetas y selectores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-de-etiquetas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo de etiquetas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-de-selector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo de selector
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-un-punto-de-acceso-estable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service: un punto de acceso estable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-los-contenedores-a-la-orquestacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De los contenedores a la orquestación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="De los contenedores a la orquestación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preguntas-que-aparecen-a-escala" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preguntas que aparecen a escala
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es Kubernetes?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#los-tres-problemas-principales-que-resuelve-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los tres problemas principales que resuelve Kubernetes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Los tres problemas principales que resuelve Kubernetes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Despliegue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escalado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escalado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recuperacion-ante-fallos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recuperación ante fallos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-idea-clave-estado-deseado-y-estado-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La idea clave: estado deseado y estado real
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-bucle-de-reconciliacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El bucle de reconciliación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El bucle de reconciliación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#como-mantiene-kubernetes-una-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo mantiene Kubernetes una aplicación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cómo mantiene Kubernetes una aplicación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#responsabilidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Responsabilidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etiquetas-y-selectores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Etiquetas y selectores
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Etiquetas y selectores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-de-etiquetas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo de etiquetas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-de-selector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo de selector
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-un-punto-de-acceso-estable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service: un punto de acceso estable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="13-kubernetes-la-capa-de-orquestacion-de-contenedores">1.3 Kubernetes: la capa de orquestación de contenedores</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender qué problema resuelve Kubernetes.</li>
+<li>Entender cómo ayuda a desplegar, escalar y recuperar aplicaciones.</li>
+<li>Comprender los conceptos de estado deseado y estado real.</li>
+<li>Entender qué es el bucle de reconciliación.</li>
+<li>Identificar el papel de los Deployments, ReplicaSets y Pods.</li>
+<li>Comprender para qué sirven los Services.</li>
+<li>Entender el papel de las etiquetas y selectores.</li>
+</ul>
+<h2 id="de-los-contenedores-a-la-orquestacion">De los contenedores a la orquestación</h2>
+<p>En el apartado anterior vimos cómo los contenedores permiten empaquetar una aplicación junto con todas sus dependencias.</p>
+<p>Sin embargo, los contenedores por sí solos no resuelven todos los problemas.</p>
+<p>Ejecutar una única aplicación en un único contenedor es relativamente sencillo. El verdadero reto aparece cuando debemos gestionar decenas, cientos o incluso miles de contenedores distribuidos entre múltiples servidores.</p>
+<h3 id="preguntas-que-aparecen-a-escala">Preguntas que aparecen a escala</h3>
+<ul>
+<li>¿Qué ocurre si un contenedor se detiene inesperadamente?</li>
+<li>¿Cómo ejecutamos varias copias de una aplicación?</li>
+<li>¿Cómo repartimos la carga entre ellas?</li>
+<li>¿Cómo actualizamos una aplicación sin interrumpir el servicio?</li>
+<li>¿Cómo garantizamos que las aplicaciones sigan funcionando después de un fallo?</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Problema a resolver</p>
+<p>A medida que aumenta el número de aplicaciones, la gestión manual deja de ser viable.
+Aquí es donde aparece Kubernetes.</p>
+</div>
+<h2 id="que-es-kubernetes">¿Qué es Kubernetes?</h2>
+<p>Kubernetes es una plataforma de orquestación de contenedores.</p>
+<p>Cuando hablamos de orquestación nos referimos a la capacidad de coordinar automáticamente la ejecución de aplicaciones basadas en contenedores.</p>
+<p>Kubernetes no sustituye a los contenedores. Los contenedores siguen siendo el mecanismo mediante el cual se ejecutan las aplicaciones.</p>
+<p>Lo que aporta Kubernetes es la capacidad de gestionarlos de forma automática y a gran escala.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Aplicación]
+    --&gt; B[Contenedor]
+    --&gt; C[Kubernetes]
+    --&gt; D[Gestión automática]</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Idea clave</p>
+<p>Kubernetes es la capa de orquestación situada por encima de los contenedores.</p>
+</div>
+<h2 id="los-tres-problemas-principales-que-resuelve-kubernetes">Los tres problemas principales que resuelve Kubernetes</h2>
+<p>Aunque Kubernetes incorpora muchas capacidades, todas ellas giran alrededor de tres necesidades fundamentales.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Despliegue]
+    B[Escalado]
+    C[Recuperación ante fallos]
+
+    A --&gt; B --&gt; C</code></pre>
+<h3 id="despliegue">Despliegue</h3>
+<p>Kubernetes permite poner aplicaciones en funcionamiento de forma repetible y controlada.</p>
+<h3 id="escalado">Escalado</h3>
+<p>Una aplicación que inicialmente necesita una única instancia puede requerir varias copias cuando aumenta la carga.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[1 Pod] --&gt; B[3 Pods] --&gt; C[5 Pods]</code></pre>
+<h3 id="recuperacion-ante-fallos">Recuperación ante fallos</h3>
+<p>Kubernetes supervisa continuamente la situación del entorno.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Pod funcionando]
+    --&gt; B[Fallo]
+    --&gt; C[Kubernetes detecta el problema]
+    --&gt; D[Nuevo Pod]</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Alta disponibilidad</p>
+<p>Si una aplicación deja de estar disponible, Kubernetes intentará restaurarla automáticamente.</p>
+</div>
+<h2 id="la-idea-clave-estado-deseado-y-estado-real">La idea clave: estado deseado y estado real</h2>
+<p>Normalmente no indicamos a Kubernetes los pasos exactos que debe realizar.</p>
+<p>Lo que hacemos es describir el resultado que esperamos obtener.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Estado deseado
+3 Pods]
+    B[Estado real
+2 Pods]
+
+    A -. Diferencia .-&gt; B</code></pre>
+<p>Su objetivo permanente consiste en hacer que el estado real coincida con el estado deseado.</p>
+<h2 id="el-bucle-de-reconciliacion">El bucle de reconciliación</h2>
+<p>El mecanismo mediante el cual Kubernetes mantiene alineados ambos estados se denomina bucle de reconciliación.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Estado deseado]
+    --&gt; B[Comparación]
+    --&gt; C[Estado real]
+    --&gt; D[Corrección]
+    --&gt; A</code></pre>
+<h3 id="ejemplo">Ejemplo</h3>
+<div class="highlight"><pre><span></span><code>Deseado: 3 Pods
+Real:    2 Pods
+</code></pre></div>
+<p>Kubernetes detectará la diferencia y creará automáticamente un nuevo Pod.</p>
+<h2 id="como-mantiene-kubernetes-una-aplicacion">Cómo mantiene Kubernetes una aplicación</h2>
+<p>Cuando trabajamos con Kubernetes normalmente no creamos Pods individuales.</p>
+<p>Lo habitual es trabajar con un recurso denominado Deployment.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Deployment]
+    --&gt; B[ReplicaSet]
+    --&gt; C[Pod]</code></pre>
+<h3 id="responsabilidades">Responsabilidades</h3>
+<ul>
+<li><strong>Deployment</strong>: define cómo debe ejecutarse la aplicación.</li>
+<li><strong>ReplicaSet</strong>: garantiza que exista el número correcto de Pods.</li>
+<li><strong>Pod</strong>: ejecuta los contenedores de la aplicación.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Lo habitual</p>
+<p>Los usuarios trabajan normalmente con Deployments y no directamente con ReplicaSets.</p>
+</div>
+<h2 id="etiquetas-y-selectores">Etiquetas y selectores</h2>
+<p>Kubernetes relaciona muchos de sus recursos mediante etiquetas.</p>
+<h3 id="ejemplo-de-etiquetas">Ejemplo de etiquetas</h3>
+<div class="highlight"><pre><span></span><code>app=web
+entorno=desarrollo
+</code></pre></div>
+<h3 id="ejemplo-de-selector">Ejemplo de selector</h3>
+<div class="highlight"><pre><span></span><code>app=web
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Para recordar</p>
+<p>Las etiquetas y selectores son el mecanismo principal utilizado por Kubernetes para relacionar recursos.</p>
+</div>
+<h2 id="service-un-punto-de-acceso-estable">Service: un punto de acceso estable</h2>
+<p>Los Pods son recursos efímeros y sus direcciones IP pueden cambiar.</p>
+<p>Para evitar depender de direcciones IP concretas, Kubernetes utiliza un Service.</p>
+<pre class="mermaid"><code>flowchart TD
+    S[Service]
+
+    S --&gt; P1[Pod 1]
+    S --&gt; P2[Pod 2]
+    S --&gt; P3[Pod 3]</code></pre>
+<p>Además, Kubernetes registra automáticamente un nombre DNS interno asociado al Service.</p>
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>Kubernetes es una plataforma de orquestación de contenedores.</li>
+<li>Automatiza despliegue, escalado y recuperación ante fallos.</li>
+<li>Mantiene el estado real alineado con el estado deseado.</li>
+<li>Utiliza un bucle de reconciliación continuo.</li>
+<li>Los Deployments gestionan aplicaciones mediante ReplicaSets y Pods.</li>
+<li>Los Services proporcionan un punto de acceso estable.</li>
+<li>OpenShift utiliza Kubernetes como motor de orquestación y amplía sus capacidades.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

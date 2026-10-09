@@ -1,0 +1,2975 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1.1 Encuadre: objetivo del curso, mapa de contenidos y alcance - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#11-encuadre-objetivo-del-curso-mapa-de-contenidos-y-alcance" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.1 Encuadre: objetivo del curso, mapa de contenidos y alcance
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivo-de-la-formacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivo de la formación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapa-del-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mapa del curso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mapa del curso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dia-1-fundamentos-de-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Día 1. Fundamentos de OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dia-2-recursos-de-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Día 2. Recursos de aplicación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dia-3-construccion-y-ciclo-de-vida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Día 3. Construcción y ciclo de vida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dia-4-operacion-y-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Día 4. Operación y diagnóstico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enfoque-de-la-formacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enfoque de la formación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-no-cubre-este-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué no cubre este curso
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#una-consideracion-importante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Una consideración importante
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumen
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="11-encuadre-objetivo-del-curso-mapa-de-contenidos-y-alcance">1.1 Encuadre: objetivo del curso, mapa de contenidos y alcance</h1>
+<h2 id="objetivo-de-la-formacion">Objetivo de la formación</h2>
+<p>El objetivo de este curso es proporcionar una visión práctica y realista de OpenShift como plataforma de ejecución y operación de aplicaciones basadas en contenedores.</p>
+<p>Durante las distintas sesiones aprenderemos los conceptos fundamentales sobre los que se construye la plataforma, entenderemos cómo se organiza un clúster OpenShift y adquiriremos los conocimientos necesarios para desplegar, operar y diagnosticar aplicaciones dentro de un entorno empresarial.</p>
+<p>El enfoque del curso está orientado a comprender cómo funcionan las plataformas modernas basadas en Kubernetes y OpenShift, priorizando el entendimiento de los conceptos sobre la memorización de comandos o procedimientos.</p>
+<p>Al finalizar la formación, el alumno deberá ser capaz de:</p>
+<ul>
+<li>Comprender la relación entre contenedores, Kubernetes y OpenShift.</li>
+<li>Identificar los principales componentes de una plataforma OpenShift.</li>
+<li>Interpretar el estado de una aplicación desplegada.</li>
+<li>Utilizar la consola web y la herramienta de línea de comandos (<code>oc</code>) para tareas habituales de consulta y operación.</li>
+<li>Entender los patrones de despliegue y operación utilizados en entornos corporativos.</li>
+</ul>
+<hr />
+<h2 id="mapa-del-curso">Mapa del curso</h2>
+<p>La formación se estructura en varias sesiones que siguen una progresión lógica, comenzando por los conceptos fundamentales y avanzando posteriormente hacia aspectos de operación, despliegue y arquitectura.</p>
+<h3 id="dia-1-fundamentos-de-openshift">Día 1. Fundamentos de OpenShift</h3>
+<p>Comenzaremos construyendo una visión de conjunto de la plataforma:</p>
+<ul>
+<li>Contenedores e imágenes.</li>
+<li>Kubernetes como plataforma de orquestación de contenedores.</li>
+<li>Deployment, ReplicaSet, Pod, Service y DNS interno.</li>
+<li>Capacidades que OpenShift añade sobre Kubernetes.</li>
+<li>Arquitectura general de un clúster OpenShift.</li>
+<li>Consola web y herramienta de línea de comandos (<code>oc</code>).</li>
+</ul>
+<p>El objetivo de esta primera sesión es comprender cómo se ejecuta una aplicación dentro de OpenShift, desde la imagen de contenedor hasta los recursos que la mantienen disponible y accesible dentro del clúster.</p>
+<h3 id="dia-2-recursos-de-aplicacion">Día 2. Recursos de aplicación</h3>
+<p>Profundizaremos en los recursos más utilizados para desplegar aplicaciones:</p>
+<ul>
+<li>Deployments.</li>
+<li>Services.</li>
+<li>Routes.</li>
+<li>ConfigMaps.</li>
+<li>Secrets.</li>
+<li>Variables de entorno.</li>
+<li>Consumo de almacenamiento.</li>
+</ul>
+<p>El foco estará en comprender cómo se define y configura una aplicación dentro de la plataforma.</p>
+<h3 id="dia-3-construccion-y-ciclo-de-vida">Día 3. Construcción y ciclo de vida</h3>
+<p>Analizaremos las distintas opciones para construir, versionar y promocionar aplicaciones:</p>
+<ul>
+<li>Imágenes de contenedor.</li>
+<li>Registros de imágenes.</li>
+<li>Pipelines.</li>
+<li>Estrategias de despliegue.</li>
+<li>Operadores.</li>
+<li>Automatización.</li>
+</ul>
+<p>Se explicarán los patrones habituales utilizados en entornos corporativos para la gestión del ciclo de vida de las aplicaciones.</p>
+<h3 id="dia-4-operacion-y-diagnostico">Día 4. Operación y diagnóstico</h3>
+<p>Nos centraremos en la operación diaria de la plataforma:</p>
+<ul>
+<li>Observabilidad.</li>
+<li>Logs.</li>
+<li>Eventos.</li>
+<li>Diagnóstico de incidencias.</li>
+<li>Consumo de recursos.</li>
+<li>Resolución de problemas frecuentes.</li>
+</ul>
+<p>El objetivo será adquirir una metodología básica para analizar incidentes y comprender el comportamiento de las aplicaciones desplegadas.</p>
+<hr />
+<h2 id="enfoque-de-la-formacion">Enfoque de la formación</h2>
+<p>La formación sigue una aproximación progresiva.</p>
+<p>Primero entenderemos los conceptos sobre los que se construyen los contenedores, Kubernetes y OpenShift.</p>
+<p>Después veremos cómo dichos conceptos aparecen y se materializan dentro de la plataforma.</p>
+<p>Finalmente aprenderemos a utilizarlos y operarlos mediante la consola web y la herramienta de línea de comandos.</p>
+<p>Siempre que sea posible se utilizarán ejemplos cercanos a situaciones reales de operación de plataformas empresariales.</p>
+<p>El objetivo no es convertir al alumno en administrador experto de OpenShift al finalizar el curso, sino proporcionarle una base sólida que le permita comprender cómo funciona la plataforma y desenvolverse con seguridad en ella.</p>
+<hr />
+<h2 id="que-no-cubre-este-curso">Qué no cubre este curso</h2>
+<p>Es importante delimitar el alcance de la formación.</p>
+<p>Este curso no pretende profundizar en:</p>
+<ul>
+<li>Administración avanzada de clústeres OpenShift.</li>
+<li>Instalación de OpenShift.</li>
+<li>Diseño de arquitecturas empresariales complejas.</li>
+<li>Desarrollo avanzado de operadores.</li>
+<li>Administración avanzada de Kubernetes.</li>
+<li>Automatización avanzada de pipelines o GitOps.</li>
+</ul>
+<p>Estos temas requieren conocimientos previos y una dedicación específica que quedan fuera del alcance de esta formación introductoria.</p>
+<hr />
+<h2 id="una-consideracion-importante">Una consideración importante</h2>
+<p>Los ejemplos, patrones y recomendaciones que aparecerán a lo largo del curso están inspirados en plataformas OpenShift desplegadas y operadas en entornos reales.</p>
+<p>Sin embargo, el entorno utilizado durante las prácticas tiene fines formativos.</p>
+<p>Por este motivo, algunas configuraciones, capacidades o procedimientos pueden simplificarse respecto a los existentes en una plataforma corporativa en producción.</p>
+<p>El interés de la formación no está en conocer los detalles concretos del clúster del laboratorio, sino en comprender los principios y patrones que posteriormente encontraremos en cualquier plataforma OpenShift empresarial.</p>
+<hr />
+<h2 id="resumen">Resumen</h2>
+<p>Antes de comenzar con OpenShift es importante entender el recorrido que seguiremos durante la formación.</p>
+<p>Empezaremos por los contenedores y Kubernetes, estudiaremos cómo OpenShift amplía sus capacidades, aprenderemos a utilizar las herramientas de acceso y operación de la plataforma y, posteriormente, profundizaremos en los recursos y mecanismos necesarios para desplegar y operar aplicaciones en entornos corporativos.</p>
+<p>Con este marco común podremos abordar el resto del curso desde una comprensión compartida de los conceptos fundamentales.</p>
+<h1 id="12-de-servidor-a-contenedor">1.2 De servidor a contenedor</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender la diferencia entre una aplicación instalada en un servidor tradicional y una aplicación ejecutada en un contenedor.</li>
+<li>Entender qué es una imagen de contenedor.</li>
+<li>Comprender qué es una imagen base.</li>
+<li>Comprender qué es un contenedor y su relación con una imagen.</li>
+<li>Comprender por qué los contenedores se consideran efímeros.</li>
+<li>Entender la filosofía de sustituir en lugar de parchear.</li>
+<li>Interpretar los elementos básicos de un Dockerfile.</li>
+</ul>
+<hr />
+<h2 id="del-servidor-tradicional-al-contenedor">Del servidor tradicional al contenedor</h2>
+<p>Durante muchos años, el despliegue de aplicaciones siguió un modelo similar:</p>
+<ol>
+<li>Se preparaba un servidor físico o una máquina virtual.</li>
+<li>Se instalaba el sistema operativo.</li>
+<li>Se instalaban librerías y dependencias.</li>
+<li>Se desplegaba y configuraba la aplicación.</li>
+<li>Se realizaban actualizaciones y cambios sobre ese mismo servidor.</li>
+</ol>
+<p>Con el paso del tiempo, cada servidor acababa teniendo una configuración propia.</p>
+<p>Era habitual escuchar frases como:</p>
+<blockquote>
+<p>"En mi servidor funciona perfectamente."</p>
+</blockquote>
+<p>El problema es que reproducir exactamente el mismo entorno en otro servidor no siempre era sencillo. Una diferencia de versión, una librería instalada manualmente o una modificación realizada meses atrás podían provocar comportamientos distintos.</p>
+<p>Los contenedores surgen precisamente para solucionar este problema.</p>
+<p>La idea es sencilla:</p>
+<blockquote>
+<p>En lugar de transportar instrucciones para instalar una aplicación, transportamos la aplicación ya preparada para ejecutarse.</p>
+</blockquote>
+<hr />
+<h2 id="un-cambio-en-la-forma-de-desplegar-no-en-la-forma-de-programar">Un cambio en la forma de desplegar, no en la forma de programar</h2>
+<p>Cuando se empieza a trabajar con plataformas de contenedores suele surgir una duda frecuente:</p>
+<blockquote>
+<p>¿Tengo que aprender a programar para OpenShift?</p>
+</blockquote>
+<p>La respuesta es no.</p>
+<p>OpenShift no define cómo se desarrolla una aplicación. Una aplicación Java sigue desarrollándose en Java, una aplicación .NET sigue desarrollándose en .NET y una aplicación Python sigue desarrollándose en Python.</p>
+<p>Lo que cambia es la forma en la que la aplicación se empaqueta, se despliega y se opera.</p>
+<p>Podemos compararlo con el paso que muchas organizaciones dieron al migrar de servidores físicos a máquinas virtuales. El software seguía siendo el mismo, pero cambiaba la plataforma sobre la que se ejecutaba.</p>
+<p>De forma simplificada, la evolución ha sido:</p>
+<div class="highlight"><pre><span></span><code>Servidor físico
+       ↓
+Máquina virtual
+       ↓
+Contenedor
+</code></pre></div>
+<p>En este curso nos centraremos en comprender este último paso y en cómo OpenShift facilita la ejecución y operación de aplicaciones basadas en contenedores.</p>
+<hr />
+<h2 id="que-es-una-imagen-de-contenedor">¿Qué es una imagen de contenedor?</h2>
+<p>Una imagen es un paquete que contiene todo lo necesario para ejecutar una aplicación.</p>
+<p>Normalmente incluye:</p>
+<ul>
+<li>Un sistema operativo o parte de él.</li>
+<li>Librerías necesarias.</li>
+<li>Dependencias.</li>
+<li>Componentes de ejecución.</li>
+<li>Código de la aplicación.</li>
+<li>Configuración básica de arranque.</li>
+</ul>
+<p>Podemos pensar en una imagen como una plantilla inmutable.</p>
+<p>Una vez creada, la imagen no cambia.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>empresa/web:v1
+</code></pre></div>
+<p>Esta imagen contiene una versión concreta de una aplicación web.</p>
+<p>Si la copiamos a distintos entornos:</p>
+<ul>
+<li>Desarrollo</li>
+<li>Pruebas</li>
+<li>Producción</li>
+</ul>
+<p>siempre será exactamente la misma.</p>
+<p>Esto aporta consistencia y reduce errores.</p>
+<hr />
+<h2 id="la-imagen-base-el-punto-de-partida">La imagen base: el punto de partida</h2>
+<p>Rara vez una imagen se construye desde cero.</p>
+<p>Lo habitual es partir de una imagen base sobre la que se añade la aplicación.</p>
+<p>Podemos pensar en ella como la capa de sistema operativo y componentes comunes que servirán de fundamento para nuestra aplicación.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Imagen base
+(Red Hat UBI + Java)
+          +
+Código de la aplicación
+          +
+Configuración
+          =
+Imagen final
+</code></pre></div>
+<p>La imagen base suele contener:</p>
+<ul>
+<li>Un sistema operativo ligero.</li>
+<li>Librerías básicas.</li>
+<li>Componentes comunes.</li>
+<li>Un lenguaje o entorno de ejecución (Java, Python, Node.js, .NET, etc.).</li>
+</ul>
+<p>El equipo de desarrollo se centra en la aplicación, mientras que otros componentes ya vienen preparados en la imagen base.</p>
+<h3 id="quien-mantiene-la-imagen-base">¿Quién mantiene la imagen base?</h3>
+<p>La responsabilidad de las imágenes base depende del modelo organizativo de cada empresa.</p>
+<p>Habitualmente intervienen varios equipos:</p>
+<ul>
+<li>Equipo de plataforma o OpenShift.</li>
+<li>Equipo de infraestructura o sistemas.</li>
+<li>Equipo de seguridad.</li>
+<li>Equipo DevOps o CI/CD.</li>
+<li>Equipos de desarrollo.</li>
+</ul>
+<p>Lo importante es que exista un proceso común para definir qué imágenes pueden utilizarse en la organización.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Fabricante (Red Hat)
+          ↓
+Imagen base aprobada
+          ↓
+Repositorio corporativo
+          ↓
+Equipos de desarrollo
+</code></pre></div>
+<p>En muchas organizaciones, el equipo responsable de la plataforma OpenShift participa en este proceso, pero no suele ser el único responsable.</p>
+<p>Con frecuencia, la selección, validación y actualización de imágenes base se realiza de forma conjunta con los equipos de seguridad y arquitectura.</p>
+<h3 id="imagenes-certificadas-y-homologadas">Imágenes certificadas y homologadas</h3>
+<p>Una práctica habitual en entornos empresariales consiste en que los desarrolladores no utilicen directamente imágenes obtenidas de Internet.</p>
+<p>En su lugar, la organización define un catálogo de imágenes aprobadas y mantenidas corporativamente.</p>
+<div class="highlight"><pre><span></span><code>Red Hat UBI
+      ↓
+Validación corporativa
+      ↓
+Imagen base corporativa
+      ↓
+Aplicaciones de la organización
+</code></pre></div>
+<p>De esta forma:</p>
+<ul>
+<li>Los equipos de desarrollo utilizan componentes homologados.</li>
+<li>El equipo de seguridad puede validar los componentes incluidos.</li>
+<li>El equipo de plataforma puede controlar qué imágenes se distribuyen dentro del entorno OpenShift.</li>
+<li>Se simplifica la gestión de vulnerabilidades y actualizaciones.</li>
+</ul>
+<p>En resumen, no se pierde el control. Al contrario, se centraliza y se gobierna de forma más eficiente.</p>
+<hr />
+<h2 id="lectura-basica-de-un-dockerfile">Lectura básica de un Dockerfile</h2>
+<p>Ya sabemos qué es una imagen y qué es una imagen base.</p>
+<p>La siguiente pregunta es:</p>
+<blockquote>
+<p>¿Cómo se construye una imagen?</p>
+</blockquote>
+<p>La respuesta habitual es mediante un Dockerfile.</p>
+<p>Un Dockerfile es un fichero de texto que describe las instrucciones necesarias para construir una imagen de contenedor.</p>
+<p>Durante este curso no aprenderemos a escribir Dockerfiles complejos, pero sí es importante poder interpretar uno sencillo.</p>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">ubi9/openjdk-17</span>
+
+<span class="k">COPY</span><span class="w"> </span>app.jar<span class="w"> </span>/opt/app/app.jar
+
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
+
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">"java"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-jar"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/opt/app/app.jar"</span><span class="p">]</span>
+</code></pre></div>
+<p>Veamos qué significa cada línea.</p>
+<h3 id="from">FROM</h3>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">ubi9/openjdk-17</span>
+</code></pre></div>
+<p>Indica la imagen base.</p>
+<p>Es el punto de partida sobre el que construiremos nuestra aplicación.</p>
+<p>En este caso se utiliza una imagen con Java ya instalado.</p>
+<h3 id="copy">COPY</h3>
+<div class="highlight"><pre><span></span><code><span class="k">COPY</span><span class="w"> </span>app.jar<span class="w"> </span>/opt/app/app.jar
+</code></pre></div>
+<p>Copia el fichero de la aplicación al interior de la imagen.</p>
+<h3 id="expose">EXPOSE</h3>
+<div class="highlight"><pre><span></span><code><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
+</code></pre></div>
+<p>Indica el puerto utilizado por la aplicación.</p>
+<h3 id="cmd">CMD</h3>
+<div class="highlight"><pre><span></span><code><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">"java"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-jar"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/opt/app/app.jar"</span><span class="p">]</span>
+</code></pre></div>
+<p>Define el comando que se ejecutará cuando arranque el contenedor.</p>
+<p>De forma simplificada, el proceso sería:</p>
+<div class="highlight"><pre><span></span><code>Imagen base
+      +
+Aplicación
+      +
+Instrucciones Dockerfile
+      ↓
+Imagen final
+</code></pre></div>
+<hr />
+<h2 id="que-es-un-contenedor">¿Qué es un contenedor?</h2>
+<p>Una imagen por sí sola no hace nada.</p>
+<p>Cuando la ejecutamos obtenemos un contenedor.</p>
+<p>Si ya has trabajado con virtualización, puedes pensar en una imagen de contenedor de forma parecida a una plantilla de máquina virtual.</p>
+<div class="highlight"><pre><span></span><code>Plantilla VM
+      ↓
+Máquina Virtual
+
+Imagen
+   ↓
+Contenedor
+</code></pre></div>
+<p>En ambos casos existe una definición reutilizable a partir de la cual se crean instancias de ejecución.</p>
+<p>La diferencia es que una máquina virtual incluye un sistema operativo completo, mientras que una imagen de contenedor contiene únicamente lo necesario para ejecutar la aplicación.</p>
+<p>Además, los contenedores son normalmente más ligeros y rápidos de crear que una máquina virtual tradicional.</p>
+<p>Una única imagen puede utilizarse para crear múltiples contenedores.</p>
+<div class="highlight"><pre><span></span><code>               Imagen
+         empresa/web:v1
+                    │
+       ┌────────────┼────────────┐
+       │            │            │
+       ▼            ▼            ▼
+
+ Contenedor-1  Contenedor-2  Contenedor-3
+
+   Ejecutando   Ejecutando   Ejecutando
+      APP          APP          APP
+</code></pre></div>
+<p>Todos parten de la misma definición inicial, pero cada contenedor se ejecuta como una instancia independiente.</p>
+<p>Podemos resumir la relación de la siguiente manera:</p>
+<div class="highlight"><pre><span></span><code>Imagen
+   ↓
+¿Qué obtenemos al ejecutarla?
+   ↓
+Contenedor
+</code></pre></div>
+<hr />
+<h2 id="el-contenedor-es-efimero">El contenedor es efímero</h2>
+<p>Uno de los cambios de mentalidad más importantes al trabajar con contenedores es entender que el contenedor no está pensado para durar indefinidamente.</p>
+<p>En un entorno tradicional era habitual:</p>
+<ul>
+<li>Conectarse al servidor.</li>
+<li>Modificar archivos manualmente.</li>
+<li>Instalar paquetes.</li>
+<li>Corregir configuraciones sobre la marcha.</li>
+</ul>
+<p>Con contenedores la filosofía es diferente.</p>
+<p>Si un contenedor falla:</p>
+<div class="highlight"><pre><span></span><code>Contenedor antiguo
+        ↓
+ Se elimina
+        ↓
+Contenedor nuevo
+</code></pre></div>
+<p>Lo importante no es el contenedor concreto, sino la imagen desde la que se creó.</p>
+<p>También podemos representarlo de esta manera:</p>
+<div class="highlight"><pre><span></span><code>Imagen
+empresa/web:v1
+      │
+      │ ejecutar
+      ▼
+
+Contenedor
+empresa/web-abc123
+
+      │
+      │ eliminar
+      ▼
+
+Contenedor desaparece
+
+      │
+      │ volver a crear
+      ▼
+
+Nuevo contenedor
+empresa/web-xyz789
+</code></pre></div>
+<p>Por ello, los cambios realizados manualmente dentro de un contenedor suelen considerarse temporales.</p>
+<hr />
+<h2 id="sustituir-en-lugar-de-parchear">Sustituir en lugar de parchear</h2>
+<p>Este principio es una de las bases de las plataformas cloud-native como OpenShift.</p>
+<h3 id="modelo-tradicional">Modelo tradicional</h3>
+<div class="highlight"><pre><span></span><code>Servidor existente
+       ↓
+Modificar
+       ↓
+Actualizar
+       ↓
+Corregir errores
+</code></pre></div>
+<p>Con el tiempo resulta difícil saber exactamente qué cambios se han realizado.</p>
+<h3 id="modelo-basado-en-imagenes">Modelo basado en imágenes</h3>
+<div class="highlight"><pre><span></span><code>Crear nueva imagen
+        ↓
+Desplegar nuevo contenedor
+        ↓
+Retirar el anterior
+</code></pre></div>
+<p>De esta forma:</p>
+<ul>
+<li>Los cambios quedan controlados.</li>
+<li>Es más sencillo volver atrás.</li>
+<li>Los despliegues son más predecibles.</li>
+<li>Se reducen las diferencias entre entornos.</li>
+</ul>
+<p>Cuando una aplicación necesita una nueva versión, normalmente no se modifica el contenedor existente.</p>
+<p>Se genera una nueva imagen y se despliega una nueva instancia.</p>
+<hr />
+<h2 id="que-ocurre-cuando-cambia-la-aplicacion">¿Qué ocurre cuando cambia la aplicación?</h2>
+<p>En un modelo tradicional era frecuente actualizar directamente el servidor donde se ejecutaba la aplicación.</p>
+<p>En plataformas basadas en contenedores la aproximación es diferente.</p>
+<p>Cuando una aplicación incorpora cambios en su código:</p>
+<div class="highlight"><pre><span></span><code>Nuevo código
+      ↓
+Nueva imagen
+      ↓
+Nuevo contenedor
+</code></pre></div>
+<p>El contenedor que estaba ejecutándose no suele modificarse.</p>
+<p>En su lugar, se genera una nueva imagen que incorpora los cambios y se despliega un nuevo contenedor a partir de ella.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>empresa/web:v1
+       ↓
+Contenedor versión 1
+
+Cambio en la aplicación
+
+empresa/web:v2
+       ↓
+Contenedor versión 2
+</code></pre></div>
+<h3 id="y-si-el-codigo-no-cambia">¿Y si el código no cambia?</h3>
+<p>Una nueva imagen no se crea únicamente cuando cambia la aplicación.</p>
+<p>También puede ser necesario generar una nueva versión cuando cambia alguno de sus componentes.</p>
+<p>Por ejemplo, si aparece una vulnerabilidad en la imagen base:</p>
+<div class="highlight"><pre><span></span><code>Imagen v1
+
+Base v1
++
+Aplicación v1
+</code></pre></div>
+<p>Tras aplicar las correcciones necesarias:</p>
+<div class="highlight"><pre><span></span><code>Imagen v2
+
+Base v2
++
+Aplicación v1
+</code></pre></div>
+<p>En este caso:</p>
+<ul>
+<li>El código de la aplicación no ha cambiado.</li>
+<li>La imagen sí ha cambiado.</li>
+<li>Debe desplegarse un nuevo contenedor.</li>
+</ul>
+<p>Por tanto, una nueva imagen puede generarse por distintos motivos.</p>
+<p><strong>Cambio en la aplicación</strong></p>
+<div class="highlight"><pre><span></span><code>Base v1 + Aplicación v1
+           ↓
+Base v1 + Aplicación v2
+</code></pre></div>
+<p><strong>Cambio en la imagen base</strong></p>
+<div class="highlight"><pre><span></span><code>Base v1 + Aplicación v1
+           ↓
+Base v2 + Aplicación v1
+</code></pre></div>
+<p><strong>Cambio en ambos</strong></p>
+<div class="highlight"><pre><span></span><code>Base v1 + Aplicación v1
+           ↓
+Base v2 + Aplicación v2
+</code></pre></div>
+<p>En todos los casos:</p>
+<div class="highlight"><pre><span></span><code>Nueva imagen
+      ↓
+Nuevo contenedor
+</code></pre></div>
+<hr />
+<h2 id="por-que-es-importante-entender-esto-en-openshift">¿Por qué es importante entender esto en OpenShift?</h2>
+<p>OpenShift trabaja continuamente con imágenes y contenedores.</p>
+<p>Aunque muchas tareas estarán automatizadas, es fundamental comprender algunos conceptos básicos:</p>
+<ul>
+<li>Las aplicaciones se despliegan a partir de imágenes.</li>
+<li>Un mismo despliegue puede crear múltiples contenedores.</li>
+<li>Los contenedores pueden ser reemplazados automáticamente.</li>
+<li>Las modificaciones deben realizarse en el proceso de construcción de la imagen y no directamente sobre los contenedores en ejecución.</li>
+</ul>
+<p>Comprender esta filosofía facilitará posteriormente el entendimiento de Kubernetes y OpenShift, donde los contenedores se crean, eliminan y sustituyen de forma continua como parte del funcionamiento normal de la plataforma.</p>
+<h1 id="13-kubernetes-la-capa-de-orquestacion-de-contenedores">1.3 Kubernetes: la capa de orquestación de contenedores</h1>
+<h2 id="objetivos-de-aprendizaje_1">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender qué problema resuelve Kubernetes.</li>
+<li>Entender cómo ayuda a desplegar, escalar y recuperar aplicaciones.</li>
+<li>Comprender los conceptos de estado deseado y estado real.</li>
+<li>Entender qué es el bucle de reconciliación.</li>
+<li>Identificar el papel de los Deployments, ReplicaSets y Pods.</li>
+<li>Comprender para qué sirven los Services.</li>
+<li>Entender el papel de las etiquetas y selectores.</li>
+</ul>
+<hr />
+<h1 id="de-los-contenedores-a-la-orquestacion">De los contenedores a la orquestación</h1>
+<p>En el apartado anterior vimos cómo los contenedores permiten empaquetar una aplicación junto con todas sus dependencias, facilitando que pueda ejecutarse de forma consistente en distintos entornos.</p>
+<p>Sin embargo, los contenedores por sí solos no resuelven todos los problemas.</p>
+<p>Ejecutar una única aplicación en un único contenedor es relativamente sencillo. El verdadero reto aparece cuando debemos gestionar decenas, cientos o incluso miles de contenedores distribuidos entre múltiples servidores.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>¿Qué ocurre si un contenedor se detiene inesperadamente?</li>
+<li>¿Cómo ejecutamos varias copias de una aplicación?</li>
+<li>¿Cómo repartimos la carga entre ellas?</li>
+<li>¿Cómo actualizamos una aplicación sin interrumpir el servicio?</li>
+<li>¿Cómo garantizamos que las aplicaciones sigan funcionando después de un fallo?</li>
+</ul>
+<p>A medida que aumenta el número de aplicaciones, la gestión manual deja de ser viable.</p>
+<p>Aquí es donde aparece Kubernetes.</p>
+<hr />
+<h1 id="que-es-kubernetes">¿Qué es Kubernetes?</h1>
+<p>Kubernetes es una plataforma de orquestación de contenedores.</p>
+<p>Cuando hablamos de orquestación nos referimos a la capacidad de coordinar automáticamente la ejecución de aplicaciones basadas en contenedores.</p>
+<p>Kubernetes no sustituye a los contenedores.</p>
+<p>Los contenedores siguen siendo el mecanismo mediante el cual se ejecutan las aplicaciones.</p>
+<p>Lo que aporta Kubernetes es la capacidad de gestionarlos de forma automática y a gran escala.</p>
+<p>Podemos representarlo de forma simplificada así:</p>
+<div class="highlight"><pre><span></span><code>Aplicación
+     ↓
+Contenedor
+     ↓
+Kubernetes
+     ↓
+Gestión automática
+</code></pre></div>
+<p>Por este motivo suele decirse que Kubernetes es la capa de orquestación situada por encima de los contenedores.</p>
+<hr />
+<h1 id="los-tres-problemas-principales-que-resuelve-kubernetes">Los tres problemas principales que resuelve Kubernetes</h1>
+<p>Aunque Kubernetes incorpora muchas capacidades, todas ellas giran alrededor de tres necesidades fundamentales:</p>
+<ul>
+<li>Despliegue.</li>
+<li>Escalado.</li>
+<li>Recuperación ante fallos.</li>
+</ul>
+<h2 id="despliegue">Despliegue</h2>
+<p>Kubernetes permite poner aplicaciones en funcionamiento de forma repetible y controlada.</p>
+<p>En lugar de arrancar contenedores manualmente, describimos cómo queremos que sea la aplicación y la plataforma se encarga de crear los recursos necesarios.</p>
+<p>La idea es similar a pedir un resultado, no una lista de pasos.</p>
+<hr />
+<h2 id="escalado">Escalado</h2>
+<p>Las necesidades de una aplicación pueden cambiar con el tiempo.</p>
+<p>Una aplicación que inicialmente necesita una única instancia puede requerir varias copias cuando aumenta la carga de trabajo.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>1 Pod
+ ↓
+3 Pods
+ ↓
+5 Pods
+</code></pre></div>
+<p>Kubernetes facilita aumentar o reducir el número de instancias sin necesidad de gestionar manualmente cada contenedor.</p>
+<hr />
+<h2 id="recuperacion-ante-fallos">Recuperación ante fallos</h2>
+<p>En cualquier entorno real pueden producirse errores:</p>
+<ul>
+<li>Un proceso puede detenerse.</li>
+<li>Un contenedor puede finalizar inesperadamente.</li>
+<li>Un servidor puede sufrir una avería.</li>
+</ul>
+<p>Kubernetes supervisa continuamente la situación del entorno.</p>
+<p>Si detecta que una aplicación ha dejado de estar disponible, intentará restaurarla automáticamente.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Pod funcionando
+       ↓
+    Falla
+       ↓
+Kubernetes detecta el problema
+       ↓
+Se crea un nuevo Pod
+</code></pre></div>
+<p>Esta capacidad de recuperación automática es una de las características más importantes de la plataforma.</p>
+<hr />
+<h1 id="la-idea-clave-estado-deseado-y-estado-real">La idea clave: estado deseado y estado real</h1>
+<p>Para comprender Kubernetes es necesario entender un concepto fundamental.</p>
+<p>Normalmente no indicamos a Kubernetes los pasos exactos que debe realizar.</p>
+<p>Lo que hacemos es describir el resultado que esperamos obtener.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Quiero 3 instancias de mi aplicación
+</code></pre></div>
+<p>Eso representa el <strong>estado deseado</strong>.</p>
+<p>Por otro lado, la situación real existente en cada momento dentro del clúster representa el <strong>estado real</strong>.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Estado deseado: 3 Pods
+
+Estado real: 2 Pods
+</code></pre></div>
+<p>En este caso existe una diferencia entre ambos estados.</p>
+<p>Kubernetes detectará esa discrepancia y actuará para corregirla.</p>
+<p>Su objetivo permanente consiste en hacer que el estado real coincida con el estado deseado.</p>
+<hr />
+<h1 id="el-bucle-de-reconciliacion">El bucle de reconciliación</h1>
+<p>El mecanismo mediante el cual Kubernetes mantiene alineados ambos estados se denomina <strong>bucle de reconciliación</strong>.</p>
+<p>De forma simplificada, el proceso sigue continuamente este ciclo:</p>
+<div class="highlight"><pre><span></span><code>Estado deseado
+        ↓
+   Comparación
+        ↓
+ Estado real
+        ↓
+   Corrección
+        ↓
+Nueva comprobación
+</code></pre></div>
+<p>Este proceso nunca se detiene.</p>
+<p>Kubernetes está observando continuamente el sistema y corrigiendo cualquier desviación respecto a lo solicitado.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Deseado: 3 Pods
+Real:    3 Pods
+</code></pre></div>
+<p>No es necesaria ninguna acción.</p>
+<p>Si posteriormente uno de ellos desaparece:</p>
+<div class="highlight"><pre><span></span><code>Deseado: 3 Pods
+Real:    2 Pods
+</code></pre></div>
+<p>Kubernetes detectará la diferencia y creará automáticamente un nuevo Pod.</p>
+<p>Una vez completada la corrección:</p>
+<div class="highlight"><pre><span></span><code>Deseado: 3 Pods
+Real:    3 Pods
+</code></pre></div>
+<p>La situación vuelve a coincidir con lo solicitado.</p>
+<p>Este comportamiento está presente en prácticamente todos los componentes de Kubernetes y OpenShift.</p>
+<hr />
+<h1 id="como-mantiene-kubernetes-una-aplicacion">Cómo mantiene Kubernetes una aplicación</h1>
+<p>Cuando trabajamos con Kubernetes normalmente no creamos Pods individuales.</p>
+<p>Lo habitual es trabajar con un recurso denominado <strong>Deployment</strong>.</p>
+<p>Un Deployment describe cómo debe ejecutarse una aplicación:</p>
+<ul>
+<li>Qué imagen debe utilizar.</li>
+<li>Cuántas instancias deben existir.</li>
+<li>Cómo deben aplicarse las actualizaciones.</li>
+</ul>
+<p>Internamente Kubernetes utiliza varios componentes para mantener ese estado deseado.</p>
+<p>La relación habitual puede representarse así:</p>
+<div class="highlight"><pre><span></span><code>Deployment
+      ↓
+ReplicaSet
+      ↓
+Pod
+</code></pre></div>
+<p>Cada elemento tiene una responsabilidad diferente:</p>
+<ul>
+<li><strong>Deployment</strong>: define cómo debe ejecutarse la aplicación.</li>
+<li><strong>ReplicaSet</strong>: garantiza que exista el número correcto de Pods.</li>
+<li><strong>Pod</strong>: es donde realmente se ejecutan los contenedores de la aplicación.</li>
+</ul>
+<p>Sin embargo, desde el punto de vista del usuario, normalmente se trabaja con Deployments y no directamente con ReplicaSets.</p>
+<p>Si alguno de los Pods desaparece, Kubernetes detectará la diferencia respecto al estado deseado y creará automáticamente uno nuevo para recuperar la situación esperada.</p>
+<hr />
+<h1 id="etiquetas-y-selectores">Etiquetas y selectores</h1>
+<p>Kubernetes relaciona muchos de sus recursos mediante etiquetas.</p>
+<p>Las etiquetas permiten identificar y clasificar recursos mediante pares clave-valor.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>app=web
+entorno=desarrollo
+</code></pre></div>
+<p>Los <strong>selectores</strong> permiten localizar recursos a partir de esas etiquetas.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>app=web
+</code></pre></div>
+<p>puede utilizarse para localizar todos los recursos asociados a una determinada aplicación.</p>
+<p>Muchos componentes de Kubernetes utilizan etiquetas y selectores para relacionarse entre sí.</p>
+<p>Por este motivo suele decirse que constituyen el pegamento que conecta los distintos recursos de la plataforma.</p>
+<p>Más adelante veremos ejemplos prácticos de este mecanismo cuando estudiemos otros componentes de OpenShift.</p>
+<hr />
+<h1 id="service-un-punto-de-acceso-estable">Service: un punto de acceso estable</h1>
+<p>Los Pods son recursos efímeros.</p>
+<p>Pueden desaparecer y volver a crearse en cualquier momento.</p>
+<p>Cuando eso ocurre, también puede cambiar su dirección IP.</p>
+<p>Para evitar depender de direcciones IP concretas, Kubernetes utiliza un recurso denominado <strong>Service</strong>.</p>
+<p>Un Service proporciona un punto de acceso estable para acceder a una aplicación, independientemente de los Pods concretos que existan en cada momento.</p>
+<div class="highlight"><pre><span></span><code>              Service
+                  │
+                  ▼
+       ┌──────┬──────┬──────┐
+       ▼      ▼      ▼
+     Pod    Pod    Pod
+</code></pre></div>
+<p>De esta forma las aplicaciones acceden al Service y Kubernetes se encarga de dirigir las peticiones hacia los Pods disponibles.</p>
+<p>Además, Kubernetes registra automáticamente un nombre DNS interno asociado al Service.</p>
+<p>Esto permite que otras aplicaciones del clúster puedan comunicarse utilizando un nombre estable, sin necesidad de conocer las direcciones IP concretas de los Pods que están ejecutándose en cada momento.</p>
+<hr />
+<h1 id="ideas-clave-para-recordar">Ideas clave para recordar</h1>
+<ul>
+<li>Kubernetes es una plataforma de orquestación de contenedores.</li>
+<li>Su función principal es automatizar la operación de aplicaciones basadas en contenedores.</li>
+<li>Resuelve tres necesidades fundamentales: despliegue, escalado y recuperación ante fallos.</li>
+<li>Kubernetes trabaja continuamente para hacer coincidir el estado real con el estado deseado.</li>
+<li>Este comportamiento se implementa mediante el bucle de reconciliación.</li>
+<li>Los usuarios trabajan habitualmente con Deployments para definir cómo debe ejecutarse una aplicación.</li>
+<li>Kubernetes utiliza ReplicaSets para mantener el número de Pods solicitado.</li>
+<li>Los Pods son la unidad donde realmente se ejecutan los contenedores.</li>
+<li>Muchos recursos de Kubernetes se relacionan mediante etiquetas y selectores.</li>
+<li>Los Services proporcionan un punto de acceso estable a las aplicaciones.</li>
+<li>Kubernetes asigna automáticamente nombres DNS internos a los Services para facilitar la comunicación entre aplicaciones.</li>
+<li>OpenShift utiliza Kubernetes como motor de orquestación y amplía sus capacidades.</li>
+</ul>
+<h1 id="14-que-anade-openshift">1.4 Qué añade OpenShift</h1>
+<h2 id="objetivos-de-aprendizaje_2">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender que OpenShift se construye sobre Kubernetes y añade capacidades adicionales.</li>
+<li>Identificar algunos de los recursos más característicos de OpenShift.</li>
+<li>Comprender la diferencia entre Project y Namespace.</li>
+<li>Entender el propósito de las Routes.</li>
+<li>Comprender el objetivo de las Security Context Constraints (SCC).</li>
+<li>Reconocer la existencia de BuildConfig como mecanismo de construcción de imágenes.</li>
+<li>Entender qué es un operador y por qué es un concepto fundamental en OpenShift.</li>
+<li>Comprender el papel de OperatorHub como mecanismo de extensión de la plataforma.</li>
+</ul>
+<hr />
+<h1 id="kubernetes-y-openshift-relacion-entre-ambos">Kubernetes y OpenShift: relación entre ambos</h1>
+<p>En el apartado anterior hemos estudiado Kubernetes como plataforma de orquestación de contenedores.</p>
+<p>OpenShift no sustituye Kubernetes.</p>
+<p>OpenShift utiliza Kubernetes como base y añade un conjunto de componentes y funcionalidades orientadas a facilitar la construcción, operación y administración de plataformas empresariales.</p>
+<p>Podemos representarlo de forma simplificada de la siguiente manera:</p>
+<div class="highlight"><pre><span></span><code>Aplicaciones
+      ↓
+OpenShift
+      ↓
+Kubernetes
+      ↓
+Contenedores
+      ↓
+Sistema operativo
+</code></pre></div>
+<p>Todos los conceptos fundamentales que hemos visto hasta ahora siguen existiendo:</p>
+<ul>
+<li>Pods.</li>
+<li>Deployments.</li>
+<li>Services.</li>
+<li>Namespaces.</li>
+<li>ConfigMaps.</li>
+<li>Secrets.</li>
+</ul>
+<p>Sin embargo, OpenShift incorpora además recursos y capacidades adicionales que simplifican tareas habituales relacionadas con la seguridad, el ciclo de vida de las aplicaciones y la operación de la plataforma.</p>
+<p>A continuación veremos algunas de las más representativas.</p>
+<hr />
+<h1 id="projects-el-espacio-de-trabajo-habitual">Projects: el espacio de trabajo habitual</h1>
+<p>En Kubernetes existe el concepto de Namespace.</p>
+<p>Un namespace permite organizar y separar recursos dentro de un clúster.</p>
+<p>OpenShift introduce el concepto de <strong>Project</strong>.</p>
+<p>Desde el punto de vista técnico, un Project se apoya sobre un namespace de Kubernetes, pero añade funcionalidades relacionadas con la gestión de usuarios, permisos y experiencia de uso.</p>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>OpenShift
+ Project
+    ↓
+Kubernetes
+ Namespace
+</code></pre></div>
+<p>Por este motivo, cuando trabajamos en OpenShift normalmente hablamos de proyectos y no de namespaces.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>equipo-a-dev
+equipo-a-test
+equipo-a-prod
+</code></pre></div>
+<p>Cada proyecto contiene sus propios recursos:</p>
+<ul>
+<li>Pods.</li>
+<li>Deployments.</li>
+<li>Services.</li>
+<li>Routes.</li>
+<li>ConfigMaps.</li>
+<li>Secrets.</li>
+</ul>
+<p>Esto permite separar aplicaciones, equipos y entornos dentro de una misma plataforma.</p>
+<p>Durante las prácticas del curso cada alumno trabajará habitualmente dentro de su propio proyecto.</p>
+<hr />
+<h1 id="routes-publicar-aplicaciones-fuera-del-cluster">Routes: publicar aplicaciones fuera del clúster</h1>
+<p>En el apartado anterior vimos que un Service proporciona acceso estable a una aplicación dentro del clúster.</p>
+<p>Sin embargo, normalmente también necesitamos acceder desde el exterior.</p>
+<p>Para resolver esta necesidad OpenShift incorpora el recurso <strong>Route</strong>.</p>
+<p>Podemos visualizarlo así:</p>
+<div class="highlight"><pre><span></span><code>Usuario
+    ↓
+Route
+    ↓
+Service
+    ↓
+Pods
+</code></pre></div>
+<p>La Route proporciona un nombre DNS accesible desde fuera de la plataforma y dirige las peticiones hacia el Service correspondiente.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>https://mi-aplicacion.apps.empresa.com
+</code></pre></div>
+<p>Gracias a las Routes, las aplicaciones pueden publicarse de forma sencilla para ser utilizadas por otros usuarios o sistemas.</p>
+<p>Más adelante veremos este mecanismo con mayor detalle.</p>
+<p>Por ahora basta con recordar una idea:</p>
+<p><strong>Service resuelve el acceso interno.</strong></p>
+<p><strong>Route resuelve el acceso externo.</strong></p>
+<hr />
+<h1 id="buildconfig-construccion-de-imagenes-en-openshift">BuildConfig: construcción de imágenes en OpenShift</h1>
+<p>OpenShift incorpora mecanismos para construir imágenes dentro de la propia plataforma.</p>
+<p>Uno de los recursos asociados a esta capacidad es <strong>BuildConfig</strong>.</p>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>Código fuente
+      +
+ Dockerfile
+      ↓
+ BuildConfig
+      ↓
+ Construcción
+      ↓
+ Imagen
+      ↓
+ Registro de imágenes
+</code></pre></div>
+<p>Un BuildConfig define cómo debe realizarse una construcción de imagen dentro de OpenShift.</p>
+<p>Habitualmente describe aspectos como:</p>
+<ul>
+<li>El origen del código fuente.</li>
+<li>La estrategia de construcción utilizada.</li>
+<li>El destino de la imagen resultante.</li>
+</ul>
+<p>BuildConfig no sustituye al Dockerfile. El Dockerfile sigue describiendo cómo se construye la imagen, mientras que BuildConfig define y coordina el proceso de construcción dentro de la plataforma.</p>
+<p>Más adelante veremos este mecanismo con mayor detalle cuando estudiemos la construcción y despliegue de aplicaciones.</p>
+<p>Por ahora basta con recordar una idea:</p>
+<blockquote>
+<p>BuildConfig es un mecanismo de construcción de imágenes proporcionado por OpenShift.</p>
+</blockquote>
+<hr />
+<h1 id="scc-una-capa-adicional-de-seguridad">SCC: una capa adicional de seguridad</h1>
+<p>Uno de los aspectos donde OpenShift más se diferencia de una instalación básica de Kubernetes es la seguridad.</p>
+<p>Para ello incorpora un mecanismo denominado <strong>Security Context Constraints (SCC)</strong>.</p>
+<p>Las SCC definen qué puede hacer un contenedor cuando se ejecuta.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Qué usuario puede utilizar.</li>
+<li>Qué privilegios están permitidos.</li>
+<li>Qué capacidades del sistema puede solicitar.</li>
+<li>Qué configuraciones se consideran aceptables.</li>
+</ul>
+<p>Podemos visualizarlo de la siguiente manera:</p>
+<div class="highlight"><pre><span></span><code>Pod solicitado
+       ↓
+ Validación SCC
+       ↓
+Permitido o rechazado
+</code></pre></div>
+<p>Las SCC constituyen una capa adicional de protección que ayuda a reducir riesgos y a mantener políticas de seguridad homogéneas dentro de la plataforma.</p>
+<p>Durante el segundo día del curso veremos este mecanismo con más detalle.</p>
+<p>Por ahora es suficiente recordar que OpenShift incorpora controles de seguridad adicionales sobre las cargas de trabajo que se ejecutan en el clúster.</p>
+<hr />
+<h1 id="el-concepto-de-operador">El concepto de operador</h1>
+<p>Hasta ahora hemos hablado de recursos utilizados para desplegar aplicaciones.</p>
+<p>Sin embargo, OpenShift utiliza también un concepto fundamental: los <strong>operadores</strong>.</p>
+<p>Un operador es un componente software, basado en capacidades nativas de Kubernetes, encargado de instalar, configurar, mantener y actualizar otro componente software.</p>
+<p>Podemos pensar en él como un administrador automatizado.</p>
+<p>Tradicionalmente muchas tareas requerían intervención manual:</p>
+<ul>
+<li>Instalar un producto.</li>
+<li>Configurarlo.</li>
+<li>Actualizarlo.</li>
+<li>Supervisarlo.</li>
+<li>Resolver incidencias habituales.</li>
+</ul>
+<p>Con un operador gran parte de estas tareas quedan automatizadas.</p>
+<div class="highlight"><pre><span></span><code>Administrador humano
+         ↓
+     Operador
+         ↓
+ Componente gestionado
+</code></pre></div>
+<p>Los operadores utilizan el mismo principio de reconciliación que hemos visto anteriormente en Kubernetes.</p>
+<p>El operador conoce cómo debe ser un componente y trabaja continuamente para mantenerlo en el estado deseado.</p>
+<hr />
+<h1 id="el-cluster-esta-hecho-de-operadores">El clúster está hecho de operadores</h1>
+<p>Esta es una de las ideas más importantes de todo el curso.</p>
+<p>Cuando observamos OpenShift desde fuera podemos pensar que estamos utilizando una única plataforma.</p>
+<p>Sin embargo, internamente OpenShift está formado por numerosos componentes especializados.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Consola web.</li>
+<li>Red de clúster.</li>
+<li>Acceso externo.</li>
+<li>Registro interno de imágenes.</li>
+<li>Monitorización.</li>
+<li>Gestión de certificados.</li>
+<li>Autenticación.</li>
+<li>Almacenamiento.</li>
+<li>Y muchos otros.</li>
+</ul>
+<p>Gran parte de estos componentes están gestionados mediante operadores.</p>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>OpenShift
+    │
+    ├─ Operador
+    ├─ Operador
+    ├─ Operador
+    ├─ Operador
+    └─ ...
+</code></pre></div>
+<p>Por este motivo suele decirse que:</p>
+<blockquote>
+<p>OpenShift es una plataforma construida sobre operadores.</p>
+</blockquote>
+<p>Más adelante veremos que incluso el estado de salud de la plataforma está estrechamente relacionado con el estado de sus operadores.</p>
+<hr />
+<h1 id="operatorhub-ampliar-la-plataforma">OperatorHub: ampliar la plataforma</h1>
+<p>Si los operadores gestionan componentes, surge una pregunta natural:</p>
+<p>¿Cómo se incorporan nuevos operadores a la plataforma?</p>
+<p>OpenShift proporciona un catálogo denominado <strong>OperatorHub</strong>.</p>
+<p>OperatorHub permite localizar e instalar operadores adicionales que amplían las capacidades del clúster.</p>
+<p>De forma conceptual:</p>
+<div class="highlight"><pre><span></span><code>OperatorHub
+      ↓
+Seleccionar operador
+      ↓
+Instalar
+      ↓
+Nueva funcionalidad disponible
+</code></pre></div>
+<p>Gracias a este mecanismo es posible incorporar nuevos servicios y herramientas sin realizar instalaciones complejas de forma manual.</p>
+<p>Más adelante dedicaremos un apartado específico a comprender con detalle cómo funcionan los operadores y cómo se gestionan.</p>
+<hr />
+<h1 id="demostracion-instalacion-del-operador-web-terminal">Demostración: instalación del operador Web Terminal</h1>
+<p>Para ilustrar el funcionamiento de OperatorHub veremos una demostración sencilla realizada por el instructor.</p>
+<p>El objetivo de la demostración no es aprender los pasos de instalación ni memorizar opciones de configuración.</p>
+<p>Lo importante es comprender el mecanismo general:</p>
+<div class="highlight"><pre><span></span><code>OperatorHub
+      ↓
+Instalación de un operador
+      ↓
+Despliegue automático
+      ↓
+Nueva funcionalidad disponible
+</code></pre></div>
+<p>Como ejemplo se instalará el operador <strong>Web Terminal</strong>.</p>
+<p>Tras la instalación aparecerá una nueva capacidad integrada en la plataforma que permitirá abrir terminales directamente desde la consola web.</p>
+<p>No es necesario memorizar los pasos de instalación. Lo importante es comprender que OpenShift puede ampliarse mediante operadores.</p>
+<p>La idea fundamental que debemos recordar es la siguiente:</p>
+<blockquote>
+<p>Muchas funcionalidades de OpenShift se incorporan y mantienen mediante operadores.</p>
+</blockquote>
+<hr />
+<h1 id="ideas-clave-para-recordar_1">Ideas clave para recordar</h1>
+<ul>
+<li>OpenShift utiliza Kubernetes como base y añade funcionalidades adicionales.</li>
+<li>Un Project es la forma habitual de trabajar con namespaces en OpenShift.</li>
+<li>Las Routes permiten publicar aplicaciones fuera del clúster.</li>
+<li>BuildConfig es un mecanismo de construcción de imágenes proporcionado por OpenShift.</li>
+<li>BuildConfig no sustituye al Dockerfile; ambos colaboran en el proceso de construcción.</li>
+<li>Las SCC añaden controles de seguridad sobre las cargas de trabajo.</li>
+<li>Un operador automatiza la instalación, configuración, mantenimiento y actualización de otros componentes.</li>
+<li>Los operadores se apoyan en capacidades nativas de Kubernetes.</li>
+<li>Gran parte de OpenShift está construida mediante operadores.</li>
+<li>OperatorHub permite ampliar la plataforma mediante la instalación de operadores.</li>
+<li>El operador Web Terminal es un ejemplo de extensión de OpenShift mediante OperatorHub.</li>
+<li>Comprender los operadores es fundamental para entender cómo funciona OpenShift internamente.</li>
+</ul>
+<h1 id="15-arquitectura-de-un-cluster-openshift-4x">1.5 Arquitectura de un clúster OpenShift 4.x</h1>
+<h2 id="objetivos-de-aprendizaje_3">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Identificar los principales componentes de un clúster OpenShift.</li>
+<li>Comprender la diferencia entre control plane, nodos worker y nodos de infraestructura.</li>
+<li>Entender el papel del API Server dentro del clúster.</li>
+<li>Entender el papel de etcd dentro del clúster.</li>
+<li>Comprender cómo OpenShift utiliza operadores para gestionar la plataforma.</li>
+<li>Entender qué es el Cluster Version Operator (CVO).</li>
+<li>Seguir de forma conceptual el recorrido de una petición hasta una aplicación.</li>
+<li>Comprender que OpenShift incorpora mecanismos propios de actualización.</li>
+<li>Conocer, a nivel básico, cómo influye la arquitectura del clúster en el licenciamiento.</li>
+</ul>
+<hr />
+<h1 id="del-concepto-a-la-plataforma-real">Del concepto a la plataforma real</h1>
+<p>Hasta ahora hemos visto:</p>
+<ul>
+<li>Contenedores.</li>
+<li>Kubernetes.</li>
+<li>OpenShift y sus capacidades adicionales.</li>
+</ul>
+<p>La siguiente pregunta es natural:</p>
+<p><strong>¿Cómo está construido realmente un clúster OpenShift?</strong></p>
+<p>Aunque desde el punto de vista del usuario vemos una única plataforma, internamente OpenShift está formado por varios servidores que colaboran entre sí para ofrecer un entorno común de ejecución.</p>
+<p>De forma simplificada, un clúster OpenShift está formado por:</p>
+<ul>
+<li>Control Plane.</li>
+<li>Nodos Worker.</li>
+<li>Nodos de Infraestructura (opcionales).</li>
+</ul>
+<p>No todos los clústeres disponen necesariamente de nodos de infraestructura dedicados. En entornos pequeños o de laboratorio es habitual que determinados servicios de plataforma se ejecuten sobre los propios workers.</p>
+<p>Para trabajar con OpenShift no es necesario conocer todos los detalles internos, pero sí entender el papel de cada uno de estos elementos.</p>
+<hr />
+<h1 id="que-es-un-nodo">Qué es un nodo</h1>
+<p>Un nodo es una máquina que forma parte del clúster.</p>
+<p>Dependiendo del entorno, puede tratarse de:</p>
+<ul>
+<li>Un servidor físico.</li>
+<li>Una máquina virtual.</li>
+<li>Una instancia en una nube pública.</li>
+</ul>
+<p>Desde la perspectiva de OpenShift, todos ellos son simplemente nodos que colaboran para ejecutar y administrar la plataforma.</p>
+<p>Todos los nodos de un clúster no tienen necesariamente el mismo papel.</p>
+<p>Dependiendo de su función, podemos encontrar:</p>
+<ul>
+<li>Nodos de control (<em>control plane</em>).</li>
+<li>Nodos de trabajo (<em>workers</em>).</li>
+<li>Nodos de infraestructura (<em>infra</em>).</li>
+</ul>
+<hr />
+<h1 id="el-control-plane">El control plane</h1>
+<p>El control plane puede considerarse el cerebro del clúster.</p>
+<p>Su función es coordinar y gobernar la plataforma.</p>
+<p>Entre sus responsabilidades se encuentran:</p>
+<ul>
+<li>Mantener el estado del clúster.</li>
+<li>Procesar las peticiones realizadas por usuarios y herramientas.</li>
+<li>Decidir dónde se ejecutarán los Pods.</li>
+<li>Coordinar los diferentes componentes del sistema.</li>
+<li>Aplicar el estado deseado definido por Kubernetes.</li>
+</ul>
+<p>Las aplicaciones de usuario normalmente no se ejecutan en los nodos del control plane.</p>
+<p>Su función principal es gestionar el clúster.</p>
+<hr />
+<h1 id="el-api-server-la-puerta-de-entrada-al-cluster">El API Server: la puerta de entrada al clúster</h1>
+<p>Uno de los componentes más importantes del control plane es el <strong>API Server</strong>.</p>
+<p>El API Server actúa como puerta de entrada al clúster.</p>
+<p>Todas las operaciones realizadas por los usuarios y las herramientas pasan por él.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Cuando ejecutamos un <code>oc login</code>.</li>
+<li>Cuando creamos un Deployment.</li>
+<li>Cuando consultamos un Pod.</li>
+<li>Cuando utilizamos la consola web.</li>
+<li>Cuando una herramienta automatizada interactúa con OpenShift.</li>
+</ul>
+<p>Todas estas acciones terminan convirtiéndose en llamadas al API Server.</p>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>Usuario
+  ↓
+oc / Consola Web
+  ↓
+API Server
+  ↓
+Componentes del clúster
+</code></pre></div>
+<p>Esto significa que tanto la consola web como el cliente <code>oc</code> utilizan la misma API y trabajan sobre los mismos recursos.</p>
+<p>Cuando un usuario crea una aplicación, la petición llega primero al control plane a través del API Server.</p>
+<div class="highlight"><pre><span></span><code>Usuario
+  ↓
+API Server
+  ↓
+Control Plane
+  ↓
+Worker seleccionado
+</code></pre></div>
+<hr />
+<h1 id="los-nodos-worker">Los nodos worker</h1>
+<p>Los nodos worker son los encargados de ejecutar las cargas de trabajo de los usuarios.</p>
+<p>Aquí encontraremos habitualmente:</p>
+<ul>
+<li>Pods.</li>
+<li>Deployments.</li>
+<li>Aplicaciones corporativas.</li>
+<li>Procesos de construcción.</li>
+<li>Tareas programadas.</li>
+</ul>
+<p>Podemos resumirlo de una forma sencilla:</p>
+<div class="highlight"><pre><span></span><code>Control Plane = coordina
+
+Workers = ejecutan
+</code></pre></div>
+<p>Cuando desplegamos una aplicación en OpenShift, los contenedores acaban ejecutándose sobre uno o varios nodos worker.</p>
+<hr />
+<h1 id="los-nodos-de-infraestructura">Los nodos de infraestructura</h1>
+<p>En algunos entornos existen nodos dedicados específicamente a ejecutar componentes de la propia plataforma OpenShift.</p>
+<p>Estos nodos se conocen habitualmente como <strong>nodos de infraestructura</strong>.</p>
+<p>Algunos ejemplos habituales son:</p>
+<ul>
+<li>Router o Ingress Controller.</li>
+<li>Registro interno de imágenes.</li>
+<li>Monitorización.</li>
+<li>Logging.</li>
+<li>Componentes de observabilidad.</li>
+<li>Servicios compartidos de la propia plataforma.</li>
+</ul>
+<p>Es importante entender que estos componentes también se ejecutan como contenedores, igual que las aplicaciones de usuario.</p>
+<p>La diferencia es que prestan servicio al conjunto del clúster y no a un proyecto concreto.</p>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>Aplicaciones de negocio
+  ↓
+Workers
+
+Servicios de plataforma
+  ↓
+Infraestructura
+</code></pre></div>
+<p>No todos los clústeres disponen de nodos de infraestructura dedicados.</p>
+<p>Su uso es más habitual en entornos empresariales donde se desea separar las aplicaciones de negocio de los servicios necesarios para operar la plataforma.</p>
+<hr />
+<h1 id="consideracion-basica-sobre-licenciamiento">Consideración básica sobre licenciamiento</h1>
+<p>Los detalles completos de licenciamiento quedan fuera del alcance de este curso, pero conviene conocer una idea general.</p>
+<p>En OpenShift, las suscripciones están asociadas principalmente a la capacidad de cómputo utilizada para ejecutar cargas de trabajo de usuario.</p>
+<p>Por este motivo, cuando se dimensiona un clúster suele prestarse especial atención a los nodos worker y a la capacidad de CPU disponible en ellos.</p>
+<p>Los nodos de control forman parte de la infraestructura necesaria para operar el clúster.</p>
+<p>De forma similar, los nodos dedicados exclusivamente a funciones de infraestructura pueden tener un tratamiento específico de licenciamiento cuando se utilizan para alojar únicamente componentes de plataforma y no aplicaciones de usuario.</p>
+<p>Para este curso basta con recordar una idea sencilla:</p>
+<div class="highlight"><pre><span></span><code>Aplicaciones de usuario
+  ↓
+Workers
+  ↓
+Principal impacto en
+capacidad y licenciamiento
+</code></pre></div>
+<hr />
+<h1 id="etcd-la-memoria-del-cluster">etcd: la memoria del clúster</h1>
+<p>Existe un componente especialmente importante dentro de Kubernetes y OpenShift: <strong>etcd</strong>.</p>
+<p>Podemos imaginarlo como la base de datos del clúster.</p>
+<p>En él se almacena información crítica como:</p>
+<ul>
+<li>Configuración del clúster.</li>
+<li>Recursos creados.</li>
+<li>Estado de los objetos.</li>
+<li>Definiciones de aplicaciones.</li>
+<li>Información necesaria para la operación de la plataforma.</li>
+</ul>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>Usuario crea un Deployment
+  ↓
+API Server
+  ↓
+etcd
+</code></pre></div>
+<p>Cuando Kubernetes necesita conocer el estado deseado del sistema, utiliza la información almacenada en etcd.</p>
+<p>Por este motivo, etcd es uno de los componentes más importantes y sensibles de todo el clúster.</p>
+<p>Más adelante estudiaremos las copias de seguridad de etcd y comprenderemos por qué son un elemento fundamental en cualquier estrategia de recuperación ante desastres.</p>
+<hr />
+<h1 id="una-plataforma-construida-mediante-operadores">Una plataforma construida mediante operadores</h1>
+<p>En el apartado anterior vimos que OpenShift utiliza operadores para instalar, configurar y mantener componentes software.</p>
+<p>Ahora podemos completar esa idea.</p>
+<p>Buena parte de OpenShift está gestionada mediante operadores.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Red del clúster.</li>
+<li>Consola web.</li>
+<li>Monitorización.</li>
+<li>Autenticación.</li>
+<li>Certificados.</li>
+<li>Registro interno.</li>
+<li>Ingreso de tráfico.</li>
+</ul>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>OpenShift
+ ├─ Operador de red
+ ├─ Operador de consola
+ ├─ Operador de monitorización
+ ├─ Operador de autenticación
+ └─ ...
+</code></pre></div>
+<p>Por este motivo, el estado de los operadores es uno de los principales indicadores de salud de la plataforma.</p>
+<p>Posteriormente aprenderemos a localizar los <strong>Cluster Operators</strong> desde la consola web y a interpretar su estado.</p>
+<hr />
+<h1 id="un-cluster-gestionado">Un clúster gestionado</h1>
+<p>Una de las características más importantes de OpenShift 4 es que gran parte de la propia plataforma se encuentra autogestionada.</p>
+<p>Muchos componentes internos son desplegados, configurados, supervisados y actualizados mediante operadores.</p>
+<p>Esto significa que el administrador no tiene que instalar o actualizar manualmente cada componente por separado. En su lugar, OpenShift utiliza operadores para mantener el estado esperado de la plataforma y corregir automáticamente determinadas desviaciones cuando se producen.</p>
+<p>De forma simplificada:</p>
+<ul>
+<li>El administrador define lo que necesita.</li>
+<li>OpenShift supervisa el estado del clúster.</li>
+<li>Los operadores realizan las acciones necesarias para mantener ese estado.</li>
+</ul>
+<p>Este modelo reduce las tareas operativas y ayuda a mantener una plataforma más consistente.</p>
+<hr />
+<h1 id="el-cluster-version-operator-cvo">El Cluster Version Operator (CVO)</h1>
+<p>Entre todos los operadores existe uno especialmente importante: el <strong>Cluster Version Operator (CVO)</strong>.</p>
+<p>Su responsabilidad es coordinar la versión global de OpenShift.</p>
+<p>Podemos verlo como el componente encargado de dirigir las actualizaciones de la plataforma.</p>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>Nueva versión disponible
+  ↓
+CVO
+  ↓
+Actualización coordinada
+  ↓
+Clúster actualizado
+</code></pre></div>
+<p>El administrador no necesita actualizar manualmente cada componente por separado.</p>
+<p>El CVO se encarga de coordinar el proceso para mantener la coherencia de la plataforma.</p>
+<hr />
+<h1 id="recorrido-de-una-peticion">Recorrido de una petición</h1>
+<p>Hasta ahora hemos visto que una aplicación suele estar formada por Pods, Services y Routes.</p>
+<p>Cuando un usuario accede a una aplicación desde su navegador, la petición atraviesa varios componentes antes de llegar al contenedor que ejecuta la aplicación.</p>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>Usuario
+  ↓
+Route
+  ↓
+Service
+  ↓
+Pod
+</code></pre></div>
+<p>Recordemos:</p>
+<ul>
+<li>La Route publica la aplicación al exterior.</li>
+<li>El Service proporciona un punto de acceso estable.</li>
+<li>El Pod ejecuta realmente la aplicación.</li>
+</ul>
+<p>Aunque internamente intervienen más componentes, esta visión es suficiente para comprender el flujo general de una petición.</p>
+<hr />
+<h1 id="el-cluster-tambien-se-actualiza">El clúster también se actualiza</h1>
+<p>Cuando se empieza a trabajar con OpenShift es habitual pensar únicamente en la actualización de las aplicaciones.</p>
+<p>Sin embargo, la propia plataforma también evoluciona.</p>
+<p>OpenShift publica periódicamente nuevas versiones que incorporan:</p>
+<ul>
+<li>Correcciones de errores.</li>
+<li>Mejoras funcionales.</li>
+<li>Actualizaciones de seguridad.</li>
+<li>Compatibilidad con nuevas capacidades.</li>
+</ul>
+<p>Por tanto, un clúster OpenShift no es un sistema estático.</p>
+<p>También forma parte de su operación habitual mantener la plataforma actualizada.</p>
+<hr />
+<h1 id="canales-de-actualizacion">Canales de actualización</h1>
+<p>OpenShift permite configurar canales de actualización que determinan qué versiones aparecerán como candidatas para actualizar el clúster.</p>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>Canal de actualización
+  ↓
+Versiones disponibles
+  ↓
+Proceso gestionado por OpenShift
+</code></pre></div>
+<p>No estudiaremos los procedimientos de actualización en este curso.</p>
+<p>Lo importante es comprender que OpenShift incorpora mecanismos nativos para gestionar su propio ciclo de vida.</p>
+<hr />
+<h1 id="compatibilidad-de-operadores">Compatibilidad de operadores</h1>
+<p>Existe una última idea que conviene recordar.</p>
+<p>Si OpenShift está compuesto por numerosos operadores, al actualizar la plataforma también debemos tener en cuenta dichos operadores.</p>
+<p>Antes de una actualización es habitual verificar:</p>
+<ul>
+<li>El estado del clúster.</li>
+<li>La versión actual.</li>
+<li>La versión objetivo.</li>
+<li>Los operadores instalados.</li>
+<li>La compatibilidad de esos operadores con la nueva versión.</li>
+</ul>
+<p>No profundizaremos en este proceso, pero es importante conocer que forma parte de la administración habitual de una plataforma OpenShift.</p>
+<hr />
+<h1 id="ideas-clave-para-recordar_2">Ideas clave para recordar</h1>
+<ul>
+<li>Un clúster OpenShift está formado por múltiples nodos que trabajan de forma coordinada.</li>
+<li>El control plane gobierna y coordina la plataforma.</li>
+<li>El API Server es la puerta de entrada al clúster.</li>
+<li>Tanto la consola web como el cliente <code>oc</code> utilizan la API del clúster.</li>
+<li>Los nodos worker ejecutan las aplicaciones de usuario.</li>
+<li>Los nodos de infraestructura pueden alojar componentes propios de la plataforma.</li>
+<li>etcd almacena la información crítica del clúster.</li>
+<li>Las copias de seguridad de etcd son fundamentales para la recuperación de la plataforma.</li>
+<li>OpenShift está compuesto por numerosos operadores.</li>
+<li>Los Cluster Operators son un indicador importante de la salud del clúster.</li>
+<li>OpenShift 4 incorpora capacidades de autogestión mediante operadores.</li>
+<li>El Cluster Version Operator coordina las actualizaciones de la plataforma.</li>
+<li>Una petición suele recorrer la cadena Route → Service → Pod.</li>
+<li>OpenShift incorpora mecanismos integrados de actualización.</li>
+<li>Los workers son habitualmente el elemento más relevante desde el punto de vista de capacidad y licenciamiento.</li>
+<li>La compatibilidad de los operadores debe considerarse durante el ciclo de vida del clúster.</li>
+</ul>
+<h1 id="16-la-consola-web-de-openshift">1.6 La consola web de OpenShift</h1>
+<h2 id="objetivos-de-aprendizaje_4">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender el papel de la consola web dentro de OpenShift.</li>
+<li>Diferenciar la perspectiva de administración y la perspectiva de desarrollo.</li>
+<li>Identificar qué tipo de información muestra cada una.</li>
+<li>Entender qué tareas suelen realizarse desde cada perspectiva.</li>
+<li>Reconocer cuándo resulta más adecuada una u otra vista.</li>
+</ul>
+<hr />
+<h1 id="la-puerta-de-entrada-a-openshift">La puerta de entrada a OpenShift</h1>
+<p>Una de las características más valoradas de OpenShift es su consola web.</p>
+<p>Aunque muchas tareas pueden realizarse desde línea de comandos mediante la herramienta <code>oc</code>, la consola proporciona una interfaz gráfica que facilita enormemente la visualización y gestión de los recursos de la plataforma.</p>
+<p>Para un usuario que se inicia en OpenShift, la consola permite comprender mejor cómo se organizan las aplicaciones y cómo se relacionan entre sí los distintos componentes.</p>
+<p>Sin embargo, al acceder por primera vez puede surgir una duda:</p>
+<p>¿Por qué existen dos perspectivas diferentes?</p>
+<p>La respuesta es sencilla: no todos los usuarios necesitan ver la misma información.</p>
+<p>Un administrador de plataforma tiene responsabilidades distintas a las de un desarrollador de aplicaciones. Por este motivo OpenShift adapta la interfaz para mostrar primero aquello que resulta más relevante para cada perfil.</p>
+<hr />
+<h1 id="dos-formas-de-ver-la-misma-plataforma">Dos formas de ver la misma plataforma</h1>
+<p>Es importante entender que no existen dos OpenShift diferentes.</p>
+<p>La plataforma es la misma.</p>
+<p>Lo que cambia es la forma en que se presenta la información al usuario.</p>
+<p>Las dos perspectivas principales son:</p>
+<ul>
+<li><strong>Administrator</strong></li>
+<li><strong>Developer</strong></li>
+</ul>
+<hr />
+<h1 id="perspectiva-de-administracion">Perspectiva de administración</h1>
+<p>La perspectiva de administración está orientada a la gestión de la plataforma.</p>
+<p>Su objetivo es facilitar el trabajo de los equipos responsables del funcionamiento global de OpenShift.</p>
+<p>Desde esta perspectiva es habitual encontrar información relacionada con:</p>
+<ul>
+<li>Nodos del clúster.</li>
+<li>Operadores instalados.</li>
+<li>Redes.</li>
+<li>Almacenamiento.</li>
+<li>Usuarios y permisos.</li>
+<li>Proyectos.</li>
+<li>Cuotas y límites de recursos.</li>
+<li>Estado general de la plataforma.</li>
+</ul>
+<p>La pregunta que intenta responder esta vista es:</p>
+<blockquote>
+<p>¿Cómo se encuentra la plataforma y cómo está configurada?</p>
+</blockquote>
+<p>Por este motivo suele presentar una visión más cercana a la infraestructura que a las aplicaciones.</p>
+<hr />
+<h2 id="quien-utiliza-esta-perspectiva">¿Quién utiliza esta perspectiva?</h2>
+<p>Normalmente:</p>
+<ul>
+<li>Administradores de OpenShift.</li>
+<li>Equipos de plataforma.</li>
+<li>Equipos de operación.</li>
+<li>Personal de soporte avanzado.</li>
+</ul>
+<p>No significa que un desarrollador no pueda acceder a ella, pero gran parte de la información mostrada puede resultar innecesaria para las tareas habituales de desarrollo.</p>
+<hr />
+<h1 id="perspectiva-de-desarrollo">Perspectiva de desarrollo</h1>
+<p>La perspectiva de desarrollo está orientada a las aplicaciones.</p>
+<p>Su diseño busca que un desarrollador encuentre rápidamente los recursos relacionados con su proyecto sin necesidad de navegar por elementos de infraestructura que normalmente no necesita gestionar.</p>
+<p>Desde esta perspectiva es habitual trabajar con:</p>
+<ul>
+<li>Aplicaciones.</li>
+<li>Pods.</li>
+<li>Deployments.</li>
+<li>Services.</li>
+<li>Routes.</li>
+<li>Builds.</li>
+<li>Imágenes de contenedor.</li>
+<li>Logs.</li>
+</ul>
+<p>La pregunta que intenta responder esta vista es:</p>
+<blockquote>
+<p>¿Cómo se encuentra mi aplicación?</p>
+</blockquote>
+<p>Por este motivo toda la experiencia está orientada a simplificar el trabajo diario sobre las aplicaciones desplegadas.</p>
+<hr />
+<h2 id="la-vista-topology">La vista Topology</h2>
+<p>Una de las vistas más características de la perspectiva de desarrollo es <strong>Topology</strong>.</p>
+<p>Esta vista representa gráficamente los principales componentes de una aplicación y las relaciones existentes entre ellos.</p>
+<p>Para un usuario que comienza a trabajar con OpenShift resulta especialmente útil porque permite obtener una visión general del proyecto sin necesidad de navegar por múltiples menús.</p>
+<p>En lugar de revisar los recursos uno por uno, la topología permite entender rápidamente qué componentes forman parte de una aplicación y cómo se conectan entre sí.</p>
+<hr />
+<h1 id="la-importancia-de-los-permisos">La importancia de los permisos</h1>
+<p>No todos los usuarios ven exactamente lo mismo en la consola.</p>
+<p>OpenShift aplica un modelo de control de acceso basado en permisos.</p>
+<p>Esto significa que dos usuarios pueden acceder a la misma plataforma y encontrar opciones diferentes.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Un administrador puede visualizar recursos de todo el clúster.</li>
+<li>Un desarrollador normalmente trabajará únicamente sobre los proyectos a los que tiene acceso.</li>
+</ul>
+<p>Por tanto, es completamente normal que la apariencia de la consola varíe de un usuario a otro.</p>
+<hr />
+<h1 id="consola-web-y-linea-de-comandos">Consola web y línea de comandos</h1>
+<p>La consola web y la herramienta <code>oc</code> no son alternativas excluyentes.</p>
+<p>Ambas permiten trabajar sobre los mismos recursos.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Un pod puede consultarse desde la consola.</li>
+<li>El mismo pod puede consultarse mediante <code>oc</code>.</li>
+<li>Los logs pueden visualizarse desde la consola.</li>
+<li>Los mismos logs pueden obtenerse mediante línea de comandos.</li>
+</ul>
+<p>La diferencia está principalmente en la forma de interactuar con la plataforma.</p>
+<p>La consola facilita la visualización y el aprendizaje inicial, mientras que la línea de comandos aporta rapidez, automatización y repetibilidad.</p>
+<p>A lo largo del curso utilizaremos ambos enfoques de manera complementaria.</p>
+<hr />
+<h1 id="ideas-clave-para-recordar_3">Ideas clave para recordar</h1>
+<ul>
+<li>La consola web es una de las principales formas de interactuar con OpenShift.</li>
+<li>OpenShift presenta la información mediante distintas perspectivas.</li>
+<li>La perspectiva <strong>Administrator</strong> está orientada a la gestión de la plataforma.</li>
+<li>La perspectiva <strong>Developer</strong> está orientada a las aplicaciones.</li>
+<li>Ambas perspectivas muestran recursos de la misma plataforma.</li>
+<li>Los permisos del usuario determinan qué información puede visualizarse.</li>
+<li>La vista <strong>Topology</strong> facilita comprender la estructura de una aplicación.</li>
+<li>La consola web y la herramienta <code>oc</code> trabajan sobre los mismos recursos.</li>
+</ul>
+<hr />
+<h1 id="17-el-cliente-oc">1.7 El cliente <code>oc</code></h1>
+<h2 id="objetivos-de-aprendizaje_5">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender qué es la herramienta <code>oc</code>.</li>
+<li>Conectarte a un clúster OpenShift mediante <code>oc login</code>.</li>
+<li>Identificar dónde se almacena la configuración de acceso.</li>
+<li>Entender qué es un contexto y por qué resulta importante.</li>
+<li>Utilizar <code>oc project</code> para cambiar de proyecto de trabajo.</li>
+<li>Diferenciar OpenShift CLI (<code>oc</code>) de Kubernetes CLI (<code>kubectl</code>).</li>
+<li>Consultar información básica sobre recursos mediante <code>get</code>, <code>describe</code> y <code>logs</code>.</li>
+<li>Utilizar <code>oc explain</code> para descubrir recursos y atributos sin depender de documentación externa.</li>
+</ul>
+<hr />
+<h2 id="que-es-oc">¿Qué es <code>oc</code>?</h2>
+<p>Hasta ahora hemos visto la consola web como una de las principales formas de interactuar con OpenShift.</p>
+<p>La segunda herramienta fundamental es el cliente de línea de comandos <strong>oc</strong>.</p>
+<p>Podemos pensar en él como el equivalente a una consola de administración para OpenShift.</p>
+<p>Desde <code>oc</code> es posible:</p>
+<ul>
+<li>Consultar recursos.</li>
+<li>Desplegar aplicaciones.</li>
+<li>Obtener logs.</li>
+<li>Escalar aplicaciones.</li>
+<li>Gestionar configuraciones.</li>
+<li>Automatizar tareas mediante scripts.</li>
+</ul>
+<p>De hecho, prácticamente cualquier acción realizada desde la consola web termina convirtiéndose en llamadas a la API del clúster. <code>oc</code> utiliza esa misma API.</p>
+<p>Por este motivo, aprender algunos comandos básicos proporciona una enorme autonomía al trabajar con OpenShift.</p>
+<hr />
+<h2 id="conectarse-al-cluster-oc-login">Conectarse al clúster: <code>oc login</code></h2>
+<p>Antes de poder trabajar es necesario autenticarse.</p>
+<p>El comando básico es:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>login<span class="w"> </span>https://api.cluster.ejemplo.com:6443
+</code></pre></div>
+<p>Tras ejecutarlo, OpenShift solicitará las credenciales correspondientes.</p>
+<p>En algunos entornos también es posible utilizar un token:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>login<span class="w"> </span>--token<span class="o">=</span>&lt;TOKEN&gt;<span class="w"> </span>--server<span class="o">=</span>https://api.cluster.ejemplo.com:6443
+</code></pre></div>
+<p>Una vez autenticados podremos empezar a consultar recursos y ejecutar operaciones sobre aquellos proyectos para los que tengamos permisos.</p>
+<h3 id="tengo-que-hacer-login-cada-vez">¿Tengo que hacer login cada vez?</h3>
+<p>Normalmente no.</p>
+<p>Tras autenticarse correctamente, el cliente guarda la información necesaria para reutilizar la sesión en futuras ejecuciones.</p>
+<p>Por eso, en el trabajo diario, lo habitual es realizar el login una vez y reutilizar la configuración almacenada localmente.</p>
+<hr />
+<h2 id="el-fichero-kubeconfig">El fichero kubeconfig</h2>
+<p>Cuando se realiza un <code>oc login</code>, la configuración se almacena en un fichero denominado <strong>kubeconfig</strong>.</p>
+<p>Este fichero contiene información como:</p>
+<ul>
+<li>Clústeres conocidos.</li>
+<li>Usuarios.</li>
+<li>Tokens o mecanismos de autenticación.</li>
+<li>Contextos.</li>
+<li>Proyecto activo.</li>
+</ul>
+<p>En sistemas Linux y macOS suele encontrarse en:</p>
+<div class="highlight"><pre><span></span><code>~/.kube/config
+</code></pre></div>
+<p>En Windows:</p>
+<div class="highlight"><pre><span></span><code>%USERPROFILE%\.kube\config
+</code></pre></div>
+<p>Es importante entender que este fichero no contiene la plataforma OpenShift ni ninguna copia local de los recursos.</p>
+<p>Simplemente almacena la información necesaria para conectar con el clúster.</p>
+<p>Podemos imaginarlo como la agenda de conexiones del usuario.</p>
+<hr />
+<h2 id="que-es-un-contexto">¿Qué es un contexto?</h2>
+<p>A medida que una organización crece, es habitual trabajar con varios entornos:</p>
+<ul>
+<li>Desarrollo.</li>
+<li>Integración.</li>
+<li>Preproducción.</li>
+<li>Producción.</li>
+</ul>
+<p>Incluso pueden existir varios clústeres OpenShift independientes.</p>
+<p>El concepto de <strong>contexto</strong> permite indicar:</p>
+<ul>
+<li>Con qué clúster trabajamos.</li>
+<li>Con qué usuario.</li>
+<li>En qué proyecto nos encontramos.</li>
+</ul>
+<p>Podemos consultar el contexto actual:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>config<span class="w"> </span>current-context
+</code></pre></div>
+<p>Y listar los disponibles:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>config<span class="w"> </span>get-contexts
+</code></pre></div>
+<p>Una forma sencilla de entenderlo es pensar que el contexto representa la combinación:</p>
+<div class="highlight"><pre><span></span><code>Usuario + Clúster + Proyecto
+</code></pre></div>
+<p>Cuando ejecutamos un comando, OpenShift utilizará el contexto activo en ese momento.</p>
+<p>Por este motivo, antes de realizar cambios importantes conviene comprobar siempre dónde estamos trabajando.</p>
+<hr />
+<h2 id="trabajar-con-proyectos-oc-project">Trabajar con proyectos: <code>oc project</code></h2>
+<p>Uno de los primeros comandos que utilizaremos habitualmente es:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>project
+</code></pre></div>
+<p>Permite consultar el proyecto activo.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>project
+</code></pre></div>
+<p>Salida aproximada:</p>
+<div class="highlight"><pre><span></span><code>Using project "curso-openshift".
+</code></pre></div>
+<p>También permite cambiar de proyecto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>project<span class="w"> </span>desarrollo
+</code></pre></div>
+<h3 id="lo-que-suele-confundirse-al-principio">Lo que suele confundirse al principio</h3>
+<p>Muchos alumnos interpretan <code>oc project</code> como si fuese un:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>directorio
+</code></pre></div>
+<p>Pero no es correcto.</p>
+<p>Cuando ejecutamos:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/tmp
+</code></pre></div>
+<p>cambiamos de carpeta en nuestro equipo local.</p>
+<p>Cuando ejecutamos:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>project<span class="w"> </span>desarrollo
+</code></pre></div>
+<p>no estamos cambiando de carpeta.</p>
+<p>Estamos indicando a OpenShift que los comandos posteriores actuarán sobre otro proyecto.</p>
+<p>Es más parecido a cambiar de espacio de trabajo dentro de la plataforma que a cambiar de directorio en Linux.</p>
+<hr />
+<h2 id="oc-y-kubectl"><code>oc</code> y <code>kubectl</code></h2>
+<p>Una pregunta habitual es:</p>
+<blockquote>
+<p>Si OpenShift está basado en Kubernetes, ¿por qué existe <code>oc</code>?</p>
+</blockquote>
+<p>La respuesta es que OpenShift añade capacidades propias sobre Kubernetes.</p>
+<p>Por eso Red Hat proporciona el cliente <code>oc</code>.</p>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>kubectl = Kubernetes
+oc      = Kubernetes + OpenShift
+</code></pre></div>
+<p>Por ejemplo:</p>
+<ul>
+<li><code>kubectl</code> entiende recursos Kubernetes estándar.</li>
+<li><code>oc</code> entiende recursos Kubernetes estándar.</li>
+<li><code>oc</code> entiende además recursos específicos de OpenShift.</li>
+</ul>
+<p>Entre ellos:</p>
+<ul>
+<li>Projects.</li>
+<li>Routes.</li>
+<li>ImageStreams.</li>
+<li>BuildConfigs.</li>
+<li>Recursos relacionados con operadores y funcionalidades propias de OpenShift.</li>
+</ul>
+<p>En la práctica, muchos comandos básicos son equivalentes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<p>Sin embargo, cuando trabajamos en OpenShift, lo habitual es utilizar siempre <code>oc</code>.</p>
+<p>Así tenemos acceso tanto a Kubernetes como a las capacidades adicionales de la plataforma.</p>
+<hr />
+<h2 id="consultar-recursos-con-oc-get">Consultar recursos con <code>oc get</code></h2>
+<p>El comando más utilizado de toda la CLI probablemente sea:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get
+</code></pre></div>
+<p>Permite listar recursos.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>deployments
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>services
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>routes
+</code></pre></div>
+<p>Salida típica:</p>
+<div class="highlight"><pre><span></span><code>NAME                    READY   STATUS    RESTARTS   AGE
+mi-aplicacion-1-abcde   1/1     Running   0          5m
+</code></pre></div>
+<p>La idea es sencilla:</p>
+<p><strong>get muestra qué existe y en qué estado general se encuentra.</strong></p>
+<p>Es el primer comando que suele ejecutarse para orientarse dentro de un proyecto.</p>
+<hr />
+<h2 id="obtener-mas-detalle-con-oc-describe">Obtener más detalle con <code>oc describe</code></h2>
+<p>Cuando <code>get</code> no es suficiente, utilizamos:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe
+</code></pre></div>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>mi-aplicacion-1-abcde
+</code></pre></div>
+<p>Mientras que <code>get</code> ofrece una vista resumida, <code>describe</code> proporciona mucha más información:</p>
+<ul>
+<li>Etiquetas.</li>
+<li>Imágenes utilizadas.</li>
+<li>Estado de los contenedores.</li>
+<li>Eventos recientes.</li>
+<li>Configuración asociada.</li>
+</ul>
+<p>Una forma práctica de recordarlo es:</p>
+<div class="highlight"><pre><span></span><code>get      → resumen
+describe → detalle
+</code></pre></div>
+<p>En los apartados dedicados al diagnóstico veremos que <code>describe</code> es una de las herramientas más utilizadas para investigar problemas.</p>
+<hr />
+<h2 id="consultar-logs-con-oc-logs">Consultar logs con <code>oc logs</code></h2>
+<p>Si una aplicación no se comporta como esperamos, normalmente el siguiente paso consiste en revisar sus logs.</p>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>mi-aplicacion-1-abcde
+</code></pre></div>
+<p>El comando devuelve la salida generada por la aplicación.</p>
+<p>Muchos problemas iniciales pueden identificarse únicamente leyendo los logs:</p>
+<ul>
+<li>Error de configuración.</li>
+<li>Puerto incorrecto.</li>
+<li>Dependencia no disponible.</li>
+<li>Fallos de conexión.</li>
+<li>Excepciones de la aplicación.</li>
+</ul>
+<p>En OpenShift existe una regla práctica que veremos repetidamente durante el curso:</p>
+<blockquote>
+<p>Si algo no funciona, los logs son uno de los primeros lugares donde mirar.</p>
+</blockquote>
+<hr />
+<h2 id="la-herramienta-mas-infravalorada-oc-explain">La herramienta más infravalorada: <code>oc explain</code></h2>
+<p>Cuando un alumno empieza a trabajar con OpenShift suele surgir una necesidad constante:</p>
+<blockquote>
+<p>¿Cómo se llama este atributo?</p>
+<p>¿Qué significa este campo?</p>
+<p>¿Cómo es la estructura de este recurso?</p>
+</blockquote>
+<p>Aquí entra en juego uno de los comandos más útiles de toda la plataforma:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>explain
+</code></pre></div>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>explain<span class="w"> </span>deployment
+</code></pre></div>
+<p>También podemos profundizar:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>explain<span class="w"> </span>deployment.spec
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>explain<span class="w"> </span>deployment.spec.template
+</code></pre></div>
+<p>La idea es que OpenShift puede describir sus propios objetos desde la línea de comandos.</p>
+<p>No es necesario memorizar todos los campos ni acudir constantemente a Internet.</p>
+<h3 id="una-analogia-util">Una analogía útil</h3>
+<p>Si <code>oc get</code> responde:</p>
+<blockquote>
+<p>¿Qué existe?</p>
+</blockquote>
+<p>Y <code>oc describe</code> responde:</p>
+<blockquote>
+<p>¿Cómo está configurado?</p>
+</blockquote>
+<p>Entonces <code>oc explain</code> responde:</p>
+<blockquote>
+<p>¿Qué significa cada cosa y cómo debería escribirse?</p>
+</blockquote>
+<p>Por este motivo, muchos administradores y desarrolladores experimentados lo consideran una herramienta imprescindible.</p>
+<p>Además, nos ayuda a ganar autonomía y a depender menos de ejemplos copiados de terceros.</p>
+<hr />
+<h2 id="consola-web-y-cli-dos-vistas-del-mismo-mundo">Consola web y CLI: dos vistas del mismo mundo</h2>
+<p>A estas alturas ya hemos visto dos formas de trabajar con OpenShift:</p>
+<ul>
+<li>Consola web.</li>
+<li>Cliente <code>oc</code>.</li>
+</ul>
+<p>No son herramientas competidoras.</p>
+<p>Son complementarias.</p>
+<p>La consola facilita la exploración visual de la plataforma.</p>
+<p>La CLI aporta:</p>
+<ul>
+<li>Rapidez.</li>
+<li>Repetibilidad.</li>
+<li>Automatización.</li>
+<li>Mayor capacidad de diagnóstico.</li>
+</ul>
+<p>A lo largo del curso alternaremos continuamente entre ambos enfoques para entender que, en realidad, estamos trabajando sobre los mismos recursos desde perspectivas diferentes.</p>
+<hr />
+<h2 id="ideas-clave-para-recordar_4">Ideas clave para recordar</h2>
+<ul>
+<li><code>oc</code> es el cliente de línea de comandos de OpenShift.</li>
+<li><code>oc login</code> permite autenticarse contra un clúster.</li>
+<li>La configuración de conexión se almacena en el fichero <code>kubeconfig</code>.</li>
+<li>Un contexto define con qué usuario, clúster y proyecto estamos trabajando.</li>
+<li><code>oc project</code> cambia el proyecto activo, pero no equivale a un <code>cd</code>.</li>
+<li><code>oc</code> incluye todas las capacidades habituales de Kubernetes y además las extensiones propias de OpenShift.</li>
+<li><code>oc get</code> muestra un resumen de los recursos.</li>
+<li><code>oc describe</code> proporciona información detallada.</li>
+<li><code>oc logs</code> permite consultar la salida de una aplicación.</li>
+<li><code>oc explain</code> ayuda a comprender la estructura y significado de los recursos.</li>
+<li>Aprender a utilizar <code>oc explain</code> es una de las mejores formas de ganar autonomía en OpenShift.</li>
+</ul>
+<h1 id="18-practica-de-la-imagen-al-cluster-y-comprobacion-de-la-reconciliacion-de-kubernetes">1.8 Práctica: de la imagen al clúster y comprobación de la reconciliación de Kubernetes</h1>
+<h2 id="objetivos-de-aprendizaje_6">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender el recorrido completo desde una aplicación hasta su ejecución en OpenShift.</li>
+<li>Relacionar los conceptos de imagen, contenedor, Pod y Deployment.</li>
+<li>Entender cómo una imagen construida localmente puede desplegarse en un clúster.</li>
+<li>Observar el funcionamiento práctico del estado deseado de Kubernetes.</li>
+<li>Comprobar cómo actúa el bucle de reconciliación cuando desaparece un Pod.</li>
+<li>Verificar que Kubernetes mantiene automáticamente el número de réplicas solicitado.</li>
+</ul>
+<hr />
+<h2 id="del-dockerfile-al-cluster">Del Dockerfile al clúster</h2>
+<p>A lo largo de esta primera sesión hemos estudiado varios conceptos de forma separada:</p>
+<ul>
+<li>Imagen.</li>
+<li>Contenedor.</li>
+<li>Pod.</li>
+<li>Deployment.</li>
+<li>Estado deseado.</li>
+<li>Bucle de reconciliación.</li>
+</ul>
+<p>Ahora vamos a unir todas las piezas en una demostración completa.</p>
+<p>El objetivo no es aprender a desarrollar aplicaciones, sino visualizar cómo una aplicación sencilla recorre el camino completo desde una imagen de contenedor hasta su ejecución dentro de OpenShift.</p>
+<p>Partiremos de una página HTML muy simple.</p>
+<h3 id="aplicacion-de-ejemplo">Aplicación de ejemplo</h3>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">"UTF-8"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Curso OpenShift<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Curso OpenShift<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Demostración de Kubernetes<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Mi primera imagen construida con Podman.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Esta página no tiene ninguna lógica especial.</p>
+<p>Su único objetivo es servir como contenido visible para comprobar que el proceso funciona correctamente.</p>
+<hr />
+<h2 id="construccion-de-la-imagen">Construcción de la imagen</h2>
+<p>Para empaquetar la aplicación utilizaremos el siguiente Dockerfile:</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">nginx:latest</span>
+
+<span class="k">COPY</span><span class="w"> </span>demo-formacion.html<span class="w"> </span>/usr/share/nginx/html/index.html
+
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">80</span>
+</code></pre></div>
+<p>Recordemos qué hace cada línea:</p>
+<ul>
+<li><code>FROM</code> indica la imagen base.</li>
+<li><code>COPY</code> incorpora nuestra página HTML a la imagen.</li>
+<li><code>EXPOSE</code> documenta el puerto utilizado por la aplicación.</li>
+</ul>
+<p>De forma simplificada:</p>
+<div class="highlight"><pre><span></span><code>Imagen base nginx
+        +
+Página HTML
+        +
+Dockerfile
+        ↓
+Imagen de contenedor
+</code></pre></div>
+<hr />
+<h2 id="demostracion-construccion-y-ejecucion-local-con-podman">Demostración: construcción y ejecución local con Podman</h2>
+<p>El instructor mostrará cómo construir y ejecutar la imagen localmente.</p>
+<h3 id="construccion-de-la-imagen_1">Construcción de la imagen</h3>
+<div class="highlight"><pre><span></span><code>podman<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>demo-formacion:v1<span class="w"> </span>.
+</code></pre></div>
+<p>Comprobación de la imagen generada:</p>
+<div class="highlight"><pre><span></span><code>podman<span class="w"> </span>images
+</code></pre></div>
+<h3 id="ejecucion-local">Ejecución local</h3>
+<div class="highlight"><pre><span></span><code>podman<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>demo-formacion<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:80<span class="w"> </span>demo-formacion:v1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>podman<span class="w"> </span>ps
+</code></pre></div>
+<p>Acceso desde navegador:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:8080
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>Dockerfile
+     ↓
+Imagen
+demo-formacion:v1
+     ↓
+Contenedor
+demo-formacion
+</code></pre></div>
+<hr />
+<h2 id="publicacion-de-la-imagen-en-un-registro">Publicación de la imagen en un registro</h2>
+<p>La imagen ha sido publicada previamente en Docker Hub con la siguiente referencia:</p>
+<div class="highlight"><pre><span></span><code>docker.io/ieftraining/demo-formacion:v1
+</code></pre></div>
+<p>La imagen utilizada en OpenShift es exactamente la misma que hemos probado localmente.</p>
+<div class="highlight"><pre><span></span><code>Construir una vez
+        ↓
+Publicar
+        ↓
+Desplegar en distintos entornos
+</code></pre></div>
+<hr />
+<h2 id="despliegue-de-la-imagen-en-openshift">Despliegue de la imagen en OpenShift</h2>
+<p>Ejemplo con <code>oc</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>new-app<span class="w"> </span>docker.io/ieftraining/demo-formacion:v1
+</code></pre></div>
+<p>Comprobación de recursos:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>all
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>Deployment
+     ↓
+ReplicaSet
+     ↓
+Pod
+</code></pre></div>
+<p>Además se crea un Service para proporcionar acceso estable a la aplicación.</p>
+<hr />
+<h2 id="comprobacion-del-estado-de-la-aplicacion">Comprobación del estado de la aplicación</h2>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>NAME                               READY   STATUS
+demo-formacion-7f6b7b8c6d-abcde    1/1     Running
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>deployments
+</code></pre></div>
+<p>También puede visualizarse desde la vista Topology de OpenShift.</p>
+<hr />
+<h1 id="el-experimento-importante-comprobar-la-reconciliacion">El experimento importante: comprobar la reconciliación</h1>
+<blockquote>
+<p>Kubernetes trabaja continuamente para que el estado real coincida con el estado deseado.</p>
+</blockquote>
+<h3 id="paso-1-verificar-las-replicas-actuales">Paso 1. Verificar las réplicas actuales</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>demo-formacion
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>NAME             READY   UP-TO-DATE   AVAILABLE
+demo-formacion   1/1     1            1
+</code></pre></div>
+<p>Estado deseado:</p>
+<div class="highlight"><pre><span></span><code>1 réplica
+</code></pre></div>
+<hr />
+<h3 id="paso-2-escalar-la-aplicacion">Paso 2. Escalar la aplicación</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>scale<span class="w"> </span>deployment/demo-formacion<span class="w"> </span>--replicas<span class="o">=</span><span class="m">3</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>demo-formacion-xxxxx
+demo-formacion-yyyyy
+demo-formacion-zzzzz
+</code></pre></div>
+<p>Ahora el estado deseado es de 3 Pods.</p>
+<hr />
+<h3 id="paso-3-eliminar-un-pod-manualmente">Paso 3. Eliminar un Pod manualmente</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>&lt;nombre-del-pod&gt;
+</code></pre></div>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>demo-formacion-xxxxx
+</code></pre></div>
+<p>El Deployment sigue definiendo tres réplicas como estado deseado.</p>
+<hr />
+<h3 id="paso-4-observar-que-ocurre">Paso 4. Observar qué ocurre</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>Pod eliminado
+        ↓
+Quedan 2 Pods
+        ↓
+Kubernetes detecta la diferencia
+        ↓
+Se crea un nuevo Pod
+        ↓
+Vuelven a existir 3 Pods
+</code></pre></div>
+<p>El nuevo Pod tendrá un nombre diferente al eliminado.</p>
+<p>Kubernetes no recupera el Pod antiguo; recupera el estado deseado.</p>
+<hr />
+<h2 id="que-acabamos-de-demostrar">¿Qué acabamos de demostrar?</h2>
+<div class="highlight"><pre><span></span><code>Estado deseado: 3 Pods
+        ↓
+Estado real: 2 Pods
+        ↓
+Reconciliación
+        ↓
+Estado real: 3 Pods
+</code></pre></div>
+<p>Este mecanismo constituye la base de la recuperación automática ante muchos tipos de fallos.</p>
+<hr />
+<h2 id="relacion-con-los-conceptos-estudiados">Relación con los conceptos estudiados</h2>
+<div class="highlight"><pre><span></span><code>Página HTML
+      ↓
+Dockerfile
+      ↓
+Imagen
+      ↓
+Contenedor
+      ↓
+Pod
+      ↓
+Deployment
+      ↓
+Kubernetes mantiene el estado deseado
+</code></pre></div>
+<p>Comprender esta cadena es fundamental para entender el funcionamiento de OpenShift.</p>
+<hr />
+<h2 id="ideas-clave-para-recordar_5">Ideas clave para recordar</h2>
+<ul>
+<li>Una imagen puede construirse localmente con Podman y reutilizarse posteriormente en OpenShift.</li>
+<li>La imagen utilizada en desarrollo y en OpenShift puede ser exactamente la misma.</li>
+<li>Un Deployment define cómo debe ejecutarse una aplicación.</li>
+<li>Kubernetes mantiene el número de réplicas solicitado por el Deployment.</li>
+<li>Los Pods son recursos efímeros y pueden desaparecer en cualquier momento.</li>
+<li>Eliminar un Pod no implica necesariamente que la aplicación deje de funcionar.</li>
+<li>Kubernetes detecta desviaciones entre estado real y estado deseado.</li>
+<li>El bucle de reconciliación es uno de los mecanismos fundamentales de Kubernetes.</li>
+<li>OpenShift hereda este comportamiento porque utiliza Kubernetes como motor de orquestación.</li>
+</ul>
+<h1 id="19-cierre-y-que-veremos-manana">1.9 Cierre y qué veremos mañana</h1>
+<h2 id="resumen-de-la-sesion">Resumen de la sesión</h2>
+<p>A lo largo de esta primera jornada hemos construido los conceptos fundamentales necesarios para comprender OpenShift y Kubernetes.</p>
+<p>Hemos comenzado analizando la evolución desde los despliegues tradicionales hacia los modelos basados en contenedores, entendiendo las limitaciones de las infraestructuras clásicas y los beneficios que aporta la contenerización.</p>
+<p>Posteriormente hemos estudiado los conceptos básicos que forman la base de cualquier plataforma cloud-native:</p>
+<ul>
+<li>Imágenes.</li>
+<li>Imágenes base.</li>
+<li>Contenedores.</li>
+<li>Dockerfile.</li>
+<li>Registros de imágenes.</li>
+<li>Construcción y ejecución de contenedores.</li>
+</ul>
+<p>También hemos conocido la arquitectura general de OpenShift y los componentes principales que forman un clúster:</p>
+<ul>
+<li>Nodos de control (Control Plane).</li>
+<li>Nodos de trabajo (Workers).</li>
+<li>Nodos de infraestructura (Infra).</li>
+<li>API Server.</li>
+<li>Operadores.</li>
+<li>Servicios internos de la plataforma.</li>
+</ul>
+<p>Finalmente hemos visto cómo OpenShift aprovecha la reconciliación continua de Kubernetes para mantener el estado deseado de las aplicaciones y de la propia plataforma.</p>
+<p>A estas alturas ya deberíamos ser capaces de responder preguntas como:</p>
+<ul>
+<li>¿Qué es un contenedor?</li>
+<li>¿Qué diferencia existe entre una imagen y un contenedor?</li>
+<li>¿Cómo se construye una imagen?</li>
+<li>¿Qué papel desempeña un Dockerfile?</li>
+<li>¿Por qué Kubernetes necesita reconciliación continua?</li>
+<li>¿Qué función tienen los distintos tipos de nodos dentro del clúster?</li>
+</ul>
+<hr />
+<h2 id="ideas-clave-para-recordar_6">Ideas clave para recordar</h2>
+<p>Antes de continuar con el resto del curso conviene consolidar algunos conceptos esenciales:</p>
+<h3 id="una-imagen-es-una-plantilla">Una imagen es una plantilla</h3>
+<p>La imagen contiene todo lo necesario para ejecutar una aplicación:</p>
+<ul>
+<li>Código.</li>
+<li>Librerías.</li>
+<li>Dependencias.</li>
+<li>Configuración básica.</li>
+</ul>
+<p>La imagen por sí sola no ejecuta nada.</p>
+<h3 id="un-contenedor-es-una-instancia-en-ejecucion">Un contenedor es una instancia en ejecución</h3>
+<p>Cuando arrancamos una imagen obtenemos un contenedor.</p>
+<p>Podemos tener:</p>
+<ul>
+<li>Una imagen.</li>
+<li>Diez contenedores distintos creados a partir de esa misma imagen.</li>
+</ul>
+<h3 id="kubernetes-trabaja-declarativamente">Kubernetes trabaja declarativamente</h3>
+<p>No describimos paso a paso cómo ejecutar una aplicación.</p>
+<p>Indicamos:</p>
+<blockquote>
+<p>Quiero que existan tres instancias de esta aplicación.</p>
+</blockquote>
+<p>Kubernetes se encarga de conseguirlo y mantenerlo.</p>
+<h3 id="openshift-es-mucho-mas-que-kubernetes">OpenShift es mucho más que Kubernetes</h3>
+<p>OpenShift incorpora capacidades adicionales que simplifican el ciclo completo de desarrollo y operación:</p>
+<ul>
+<li>Gestión de usuarios.</li>
+<li>Seguridad integrada.</li>
+<li>Registro de imágenes.</li>
+<li>Consola web.</li>
+<li>Pipelines CI/CD.</li>
+<li>Observabilidad.</li>
+<li>Operación automatizada mediante operadores.</li>
+</ul>
+<hr />
+<h2 id="que-veremos-manana">Qué veremos mañana</h2>
+<p>En la siguiente sesión comenzaremos a trabajar con los recursos que se utilizan diariamente para desplegar aplicaciones en OpenShift.</p>
+<p>Nos centraremos especialmente en comprender:</p>
+<h3 id="proyectos-y-espacios-de-trabajo">Proyectos y espacios de trabajo</h3>
+<p>Aprenderemos cómo OpenShift organiza los recursos mediante proyectos (namespaces) y cómo aislar aplicaciones y equipos dentro de un mismo clúster.</p>
+<h3 id="aplicaciones-y-carga-de-trabajo">Aplicaciones y carga de trabajo</h3>
+<p>Veremos los objetos más habituales utilizados para ejecutar aplicaciones:</p>
+<ul>
+<li>Pods.</li>
+<li>ReplicaSets.</li>
+<li>Deployments.</li>
+</ul>
+<p>Entenderemos la relación existente entre ellos y cómo colaboran para mantener las aplicaciones disponibles.</p>
+<h3 id="exposicion-de-servicios">Exposición de servicios</h3>
+<p>Una aplicación no aporta valor si no puede ser consumida.</p>
+<p>Por ello estudiaremos:</p>
+<ul>
+<li>Services.</li>
+<li>Routes.</li>
+<li>Acceso interno y externo.</li>
+</ul>
+<h3 id="escalado-y-alta-disponibilidad">Escalado y alta disponibilidad</h3>
+<p>Analizaremos cómo Kubernetes distribuye las cargas de trabajo entre nodos y cómo mantiene las aplicaciones disponibles ante incidencias.</p>
+<h3 id="primeros-despliegues-en-openshift">Primeros despliegues en OpenShift</h3>
+<p>Comenzaremos a desplegar aplicaciones sencillas utilizando la consola web y la interfaz de línea de comandos.</p>
+<hr />
+<h2 id="objetivo-de-la-proxima-sesion">Objetivo de la próxima sesión</h2>
+<p>El objetivo será dar el salto desde los conceptos básicos vistos hoy hacia el despliegue real de aplicaciones.</p>
+<p>Si en esta jornada hemos aprendido:</p>
+<p><strong>Imagen → Contenedor → Clúster</strong></p>
+<p>En la siguiente veremos:</p>
+<p><strong>Aplicación → Deployment → Service → Route</strong></p>
+<p>Es decir, pasaremos de comprender los componentes fundamentales a utilizarlos para publicar aplicaciones dentro de OpenShift de forma controlada y reproducible.</p>
+<hr />
+<h2 id="conclusion">Conclusión</h2>
+<p>La plataforma OpenShift puede parecer compleja cuando se observa por primera vez, pero en realidad se apoya en un conjunto reducido de conceptos fundamentales.</p>
+<p>Comprender correctamente la relación entre imágenes, contenedores, Kubernetes y OpenShift constituye la base sobre la que construiremos todo el resto del curso.</p>
+<p>A partir de la próxima sesión comenzaremos a trabajar directamente con los recursos que utilizan los equipos de desarrollo y operaciones en su día a día, acercándonos progresivamente a escenarios reales de despliegue de aplicaciones empresariales.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.top"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

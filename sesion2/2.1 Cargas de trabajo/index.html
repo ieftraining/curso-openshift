@@ -1,0 +1,2000 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../sesion1/1.9%20cierre/">
+      
+      
+        <link rel="next" href="../2.2%20Exponer%20aplicaciones/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2.1 Cargas de trabajo - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#21-cargas-de-trabajo-deployment-statefulset-job-y-cronjob" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.1 Cargas de trabajo
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-una-carga-de-trabajo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es una carga de trabajo?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#del-despliegue-de-una-aplicacion-al-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del despliegue de una aplicación al Deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-la-carga-de-trabajo-mas-utilizada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment: la carga de trabajo más utilizada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment: la carga de trabajo más utilizada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#un-primer-manifiesto-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un primer manifiesto Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desplegar-el-manifiesto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desplegar el manifiesto
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desplegar el manifiesto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-la-consola-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobando-el-despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobando el despliegue
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#statefulset-aplicaciones-con-estado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StatefulSet: aplicaciones con estado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#job-y-cronjob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Job y CronJob
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Job y CronJob">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#job" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Job
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cronjob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CronJob
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actualizacion-a-la-version-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actualización a la versión v2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actualización a la versión v2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registrando-la-causa-del-cambio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registrando la causa del cambio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registrando la causa del cambio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobando-el-despliegue_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobando el despliegue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultando-el-historico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultando el histórico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollingupdate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RollingUpdate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recreate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recreate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#por-que-un-pvc-rwo-suele-requerir-recreate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué un PVC RWO suele requerir Recreate?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supervisar-un-despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supervisar un despliegue
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historial-de-revisiones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Historial de revisiones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deshacer-una-actualizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deshacer una actualización
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuantas-revisiones-conservar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Cuántas revisiones conservar?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-una-carga-de-trabajo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es una carga de trabajo?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#del-despliegue-de-una-aplicacion-al-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del despliegue de una aplicación al Deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-la-carga-de-trabajo-mas-utilizada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment: la carga de trabajo más utilizada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment: la carga de trabajo más utilizada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#un-primer-manifiesto-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un primer manifiesto Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desplegar-el-manifiesto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desplegar el manifiesto
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desplegar el manifiesto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-la-consola-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobando-el-despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobando el despliegue
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#statefulset-aplicaciones-con-estado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StatefulSet: aplicaciones con estado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#job-y-cronjob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Job y CronJob
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Job y CronJob">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#job" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Job
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cronjob" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CronJob
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actualizacion-a-la-version-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actualización a la versión v2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actualización a la versión v2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registrando-la-causa-del-cambio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registrando la causa del cambio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registrando la causa del cambio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobando-el-despliegue_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobando el despliegue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultando-el-historico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultando el histórico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollingupdate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RollingUpdate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recreate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recreate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#por-que-un-pvc-rwo-suele-requerir-recreate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué un PVC RWO suele requerir Recreate?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supervisar-un-despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supervisar un despliegue
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historial-de-revisiones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Historial de revisiones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deshacer-una-actualizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deshacer una actualización
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuantas-revisiones-conservar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Cuántas revisiones conservar?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="21-cargas-de-trabajo-deployment-statefulset-job-y-cronjob">2.1 Cargas de trabajo: Deployment, StatefulSet, Job y CronJob</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender qué es una carga de trabajo en Kubernetes y OpenShift.</li>
+<li>Identificar cuándo utilizar Deployment, StatefulSet, Job o CronJob.</li>
+<li>Entender las diferencias entre las estrategias RollingUpdate y Recreate.</li>
+<li>Comprender por qué determinadas aplicaciones con almacenamiento persistente suelen requerir una estrategia Recreate.</li>
+<li>Supervisar el estado de una actualización mediante <code>oc rollout status</code>.</li>
+<li>Consultar el historial de revisiones de un Deployment.</li>
+<li>Deshacer una actualización utilizando <code>oc rollout undo</code>.</li>
+<li>Conocer cómo se controla la retención de revisiones anteriores.</li>
+</ul>
+<hr />
+<h2 id="que-es-una-carga-de-trabajo">¿Qué es una carga de trabajo?</h2>
+<p>En los apartados anteriores hemos visto cómo OpenShift ejecuta aplicaciones mediante Pods. Sin embargo, en entornos reales rara vez trabajaremos creando Pods directamente.</p>
+<p>Un Pod es una unidad de ejecución relativamente efímera. Si se elimina o falla, necesitaremos algún mecanismo que garantice su recuperación automática.</p>
+<p>Para resolver este problema, Kubernetes proporciona distintos recursos denominados <strong>cargas de trabajo</strong> (<em>Workloads</em>), cuya función es crear, gestionar y supervisar Pods.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Workloads]
+    --&gt; B[Deployment]
+    A --&gt; C[StatefulSet]
+    A --&gt; D[Job]
+    A --&gt; E[CronJob]</code></pre>
+<p>Cada tipo de carga de trabajo está pensado para un escenario diferente.</p>
+<div class="admonition tip">
+<p class="admonition-title">Idea clave</p>
+<p>En Kubernetes normalmente no gestionamos Pods directamente. Gestionamos recursos que crean y mantienen Pods por nosotros.</p>
+</div>
+<hr />
+<h2 id="del-despliegue-de-una-aplicacion-al-deployment">Del despliegue de una aplicación al Deployment</h2>
+<p>En la sesión anterior desplegamos nuestra primera aplicación en OpenShift.</p>
+<p>Aunque el proceso de despliegue resultó sencillo, internamente OpenShift creó diversos recursos Kubernetes para ejecutar y mantener la aplicación.</p>
+<p>Podemos comprobarlo mediante:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>deployment
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+demo-formacion    1/1     1            1           5m
+</code></pre></div>
+<p>Entre los recursos creados encontraremos un <strong>Deployment</strong>, que será la carga de trabajo principal utilizada a lo largo del curso.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Muchas herramientas y asistentes de OpenShift generan Deployments automáticamente. Sin embargo, comprender su funcionamiento resulta esencial para administrar aplicaciones en entornos reales.</p>
+</div>
+<hr />
+<h2 id="deployment-la-carga-de-trabajo-mas-utilizada">Deployment: la carga de trabajo más utilizada</h2>
+<p>El recurso más habitual en OpenShift es <strong>Deployment</strong>.</p>
+<p>Un Deployment permite definir cómo debe ejecutarse una aplicación y garantiza que exista siempre el número de réplicas configurado.</p>
+<p>Entre otras funciones, un Deployment permite:</p>
+<ul>
+<li>Crear Pods automáticamente.</li>
+<li>Recuperar Pods que fallen.</li>
+<li>Escalar aplicaciones.</li>
+<li>Actualizar versiones.</li>
+<li>Realizar rollback a versiones anteriores.</li>
+</ul>
+<pre class="mermaid"><code>flowchart TD
+    A[Deployment]
+    --&gt; B[ReplicaSet]
+
+    B --&gt; C[Pod]
+    B --&gt; D[Pod]
+    B --&gt; E[Pod]</code></pre>
+<p>La aplicación que desplegamos en la sesión anterior es un ejemplo típico de uso de Deployment.</p>
+<p>A lo largo del curso, la mayoría de las aplicaciones que desplegaremos utilizarán este tipo de recurso, ya que proporciona los mecanismos necesarios para gestionar su ciclo de vida completo: despliegue, escalado, actualización y recuperación ante fallos.</p>
+<p>Por este motivo, Deployment es la carga de trabajo más utilizada en OpenShift.</p>
+<hr />
+<h3 id="un-primer-manifiesto-deployment">Un primer manifiesto Deployment</h3>
+<p>Aunque OpenShift puede generar Deployments automáticamente, también es habitual definirlos mediante manifiestos YAML.</p>
+<p>El siguiente ejemplo muestra un Deployment simplificado para nuestra aplicación de demostración, incluyendo la anotación de la causa de creación inicial para que quede registrada en la <strong>Revisión 1</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Creacion</span><span class="nv"> </span><span class="s">inicial</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">la</span><span class="nv"> </span><span class="s">aplicacion</span><span class="nv"> </span><span class="s">v1."</span>
+
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v1</span>
+<span class="w">        </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+</code></pre></div>
+<p>Por ahora basta con identificar algunos elementos importantes:</p>
+<ul>
+<li><code>replicas</code>: número de Pods que deben mantenerse en ejecución.</li>
+<li><code>image</code>: imagen utilizada para crear los Pods.</li>
+<li><code>imagePullPolicy</code>: política utilizada para obtener la imagen.</li>
+<li><code>containerPort</code>: puerto expuesto por la aplicación.</li>
+<li><code>metadata.annotations</code>: contiene <code>kubernetes.io/change-cause</code>, que permite registrar en el historial la razón de la creación o modificación del Deployment.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Los Deployments generados automáticamente por OpenShift pueden incluir configuraciones adicionales, como ImageStreams o triggers de imagen. Para facilitar el aprendizaje utilizaremos inicialmente una definición simplificada.</p>
+</div>
+<hr />
+<h3 id="desplegar-el-manifiesto">Desplegar el manifiesto</h3>
+<p>A continuación desplegaremos una segunda copia de la aplicación, gestionada completamente mediante manifiestos Kubernetes.</p>
+<h4 id="opcion-1-mediante-yaml">Opción 1: mediante YAML</h4>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h4 id="opcion-2-desde-la-consola-web">Opción 2: desde la consola web</h4>
+<ul>
+<li>Crear o importar el manifiesto.</li>
+<li>Revisar la configuración.</li>
+<li>Crear el recurso.</li>
+</ul>
+<p>En ambos casos el resultado será el mismo: OpenShift creará un nuevo Deployment a partir de la definición proporcionada.</p>
+<h4 id="comprobando-el-despliegue">Comprobando el despliegue</h4>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>deployment
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>En este punto nos centraremos únicamente en la creación y ejecución del Pod. Más adelante estudiaremos cómo exponer la aplicación mediante Services y Routes para acceder a ella desde el exterior del clúster.</p>
+</div>
+<hr />
+<h2 id="statefulset-aplicaciones-con-estado">StatefulSet: aplicaciones con estado</h2>
+<p>Algunas aplicaciones requieren algo más que simplemente ejecutar Pods.</p>
+<p>Las bases de datos, por ejemplo, necesitan conservar información y mantener una identidad estable para cada instancia.</p>
+<p>Para estos escenarios existe <strong>StatefulSet</strong>.</p>
+<p>Sus características principales son:</p>
+<ul>
+<li>Identidad persistente para cada Pod.</li>
+<li>Nombres estables.</li>
+<li>Almacenamiento asociado a cada instancia.</li>
+<li>Arranque y parada ordenados.</li>
+</ul>
+<pre class="mermaid"><code>flowchart TD
+    A[StatefulSet]
+    --&gt; B[db-0]
+    --&gt; C[db-1]
+
+    B --&gt; D[PVC]
+    C --&gt; E[PVC]</code></pre>
+<p>Los StatefulSet suelen utilizarse para:</p>
+<ul>
+<li>PostgreSQL</li>
+<li>MySQL</li>
+<li>MongoDB</li>
+<li>Redis persistente</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Una aplicación web convencional normalmente utilizará Deployment y no StatefulSet.</p>
+</div>
+<hr />
+<h2 id="job-y-cronjob">Job y CronJob</h2>
+<p>No todas las tareas deben ejecutarse permanentemente.</p>
+<p>Kubernetes proporciona recursos específicos para tareas temporales o planificadas.</p>
+<h3 id="job">Job</h3>
+<p>Un Job ejecuta una tarea y finaliza cuando ésta termina correctamente.</p>
+<p>Ejemplos habituales:</p>
+<ul>
+<li>Migraciones de bases de datos.</li>
+<li>Scripts administrativos.</li>
+<li>Procesos de importación.</li>
+<li>Generación de informes.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    A[Job]
+    --&gt; B[Pod]
+    --&gt; C[Tarea completada]</code></pre>
+<h3 id="cronjob">CronJob</h3>
+<p>Un CronJob permite ejecutar Jobs de forma programada.</p>
+<p>Su funcionamiento es equivalente al clásico servicio <code>cron</code> presente en sistemas Linux.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>Copias de seguridad nocturnas.</li>
+<li>Limpieza de registros.</li>
+<li>Sincronizaciones periódicas.</li>
+<li>Informes diarios.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    A[CronJob]
+    --&gt; B[Job]
+    --&gt; C[Pod]</code></pre>
+<hr />
+<h2 id="actualizacion-a-la-version-v2">Actualización a la versión v2</h2>
+<p>Hasta este momento estamos trabajando con la versión v1 de la aplicación. Para demostrar las actualizaciones de imagen, rollouts y rollbacks, vamos a desplegar una nueva versión.</p>
+<p>La versión v2 incorpora modificaciones funcionales sobre la aplicación.</p>
+<h3 id="registrando-la-causa-del-cambio">Registrando la causa del cambio</h3>
+<p>Para actualizar el Deployment a la versión <code>v2</code> y garantizar que la nueva revisión refleje correctamente su motivo sin modificar la descripción de la revisión anterior, actualizamos la anotación <code>kubernetes.io/change-cause</code> al mismo tiempo que cambiamos la versión de la imagen.</p>
+<h4 id="opcion-1-mediante-yaml-recomendado">Opción 1: mediante YAML (Recomendado)</h4>
+<p>Modificar el archivo <code>deployment.yaml</code> para actualizar la imagen a <code>v2</code> y actualizar la anotación <code>kubernetes.io/change-cause</code> dentro del bloque <code>metadata</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Actualizacion</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">v2.</span><span class="nv"> </span><span class="s">Nueva</span><span class="nv"> </span><span class="s">version</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">la</span><span class="nv"> </span><span class="s">aplicacion</span><span class="nv"> </span><span class="s">para</span><span class="nv"> </span><span class="s">demostracion</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">actualizaciones</span><span class="nv"> </span><span class="s">y</span><span class="nv"> </span><span class="s">rollback."</span>
+
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v2</span>
+<span class="w">        </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+</code></pre></div>
+<p>Y aplicar los cambios:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h4 id="opcion-2-desde-linea-de-comandos">Opción 2: desde línea de comandos</h4>
+<p>Podemos actualizar la imagen y registrar la causa del cambio directamente en la nueva revisión ejecutando:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">set</span><span class="w"> </span>image<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>demo-formacion<span class="o">=</span>docker.io/ieftraining/demo-formacion:v2
+
+oc<span class="w"> </span>annotate<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>kubernetes.io/change-cause<span class="o">=</span><span class="s2">"Actualizacion a v2. Nueva version de la aplicacion para demostracion de actualizaciones y rollback."</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--overwrite
+</code></pre></div>
+<h4 id="opcion-3-desde-la-consola-web">Opción 3: desde la consola web</h4>
+<ul>
+<li>Abrir el Deployment.</li>
+<li>Seleccionar <strong>Actions → Edit Deployment</strong>.</li>
+<li>Modificar la imagen del contenedor a <code>docker.io/ieftraining/demo-formacion:v2</code>.</li>
+<li>Modificar la anotación <code>kubernetes.io/change-cause</code> dentro del bloque <code>metadata.annotations</code>.</li>
+<li>Guardar los cambios.</li>
+</ul>
+<p>OpenShift iniciará automáticamente un nuevo rollout.</p>
+<h3 id="comprobando-el-despliegue_1">Comprobando el despliegue</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<p>o bien:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
+</code></pre></div>
+<h3 id="consultando-el-historico">Consultando el histórico</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<p>Ejemplo de resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>REVISION  CHANGE-CAUSE
+1         Creacion inicial de la aplicacion v1.
+2         Actualizacion a v2. Nueva version de la aplicacion para demostracion de actualizaciones y rollback.
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Buenas prácticas de versionado</p>
+<p>Es recomendable publicar cada versión de una imagen con una etiqueta distinta (<code>v1</code>, <code>v2</code>, <code>v3</code>, etc.).</p>
+<p>Reutilizar una misma etiqueta para imágenes diferentes puede dificultar el diagnóstico de incidencias y provocar comportamientos inesperados durante las actualizaciones.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Tanto una modificación realizada mediante consola web, mediante <code>oc set image</code> o mediante <code>oc apply</code> terminan produciendo el mismo resultado: una nueva revisión del Deployment y el inicio de un rollout.</p>
+</div>
+<hr />
+<h3 id="rollingupdate">RollingUpdate</h3>
+<p>RollingUpdate es la estrategia predeterminada de los Deployments.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Pods v1]
+    --&gt; B[Pods v1 y v2]
+    --&gt; C[Pods v2]</code></pre>
+<p>Ventajas:</p>
+<ul>
+<li>Minimiza interrupciones.</li>
+<li>Permite actualizaciones graduales.</li>
+<li>Reduce el impacto sobre los usuarios.</li>
+</ul>
+<hr />
+<h3 id="recreate">Recreate</h3>
+<p>La estrategia Recreate elimina primero la versión existente y posteriormente crea la nueva.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Pods v1]
+    --&gt; B[Eliminación completa]
+    --&gt; C[Pods v2]</code></pre>
+<p>Esta estrategia provoca una interrupción temporal del servicio, pero evita que ambas versiones convivan simultáneamente.</p>
+<hr />
+<h2 id="por-que-un-pvc-rwo-suele-requerir-recreate">¿Por qué un PVC RWO suele requerir Recreate?</h2>
+<p>Un volumen con modo de acceso:</p>
+<div class="highlight"><pre><span></span><code>ReadWriteOnce (RWO)
+</code></pre></div>
+<p>solo puede ser utilizado en lectura y escritura por una única instancia.</p>
+<p>Con RollingUpdate pueden coexistir temporalmente:</p>
+<ul>
+<li>El Pod antiguo.</li>
+<li>El Pod nuevo.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    A[Pod antiguo]
+    --&gt; C[PVC RWO]
+
+    B[Pod nuevo]
+    --&gt; C</code></pre>
+<p>Esto puede provocar conflictos de acceso al almacenamiento.</p>
+<p>Por este motivo suele utilizarse:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">strategy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Recreate</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Aplicaciones con almacenamiento persistente</p>
+<p>Cuando una aplicación comparte un único PVC RWO, Recreate suele ser la estrategia más segura.</p>
+</div>
+<hr />
+<h2 id="supervisar-un-despliegue">Supervisar un despliegue</h2>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>deployment "demo-formacion-yaml" successfully rolled out
+</code></pre></div>
+<p>Este comando permite comprobar el progreso de una actualización.</p>
+<hr />
+<h2 id="historial-de-revisiones">Historial de revisiones</h2>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>REVISION  CHANGE-CAUSE
+1         Creacion inicial de la aplicacion v1.
+2         Actualizacion a v2. Nueva version de la aplicacion para demostracion de actualizaciones y rollback.
+</code></pre></div>
+<p>Cada revisión representa un estado anterior del Deployment.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Los números de revisión mostrados por <code>oc rollout history</code> dependen de los cambios realizados sobre el Deployment. En entornos reales es habitual observar numeraciones diferentes a las utilizadas en estos ejemplos.</p>
+</div>
+<hr />
+<h2 id="deshacer-una-actualizacion">Deshacer una actualización</h2>
+<p>Si una nueva versión presenta problemas, Kubernetes permite volver rápidamente a una revisión anterior.</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>undo<span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<p>También es posible volver explíciamente a una revisión concreta:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>undo<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--to-revision<span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<pre class="mermaid"><code>flowchart LR
+    A[v1]
+    --&gt; B[v2]
+
+    B --&gt; C[Rollback]
+
+    C --&gt; A</code></pre>
+<p>Tras ejecutar el rollback:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<hr />
+<h2 id="cuantas-revisiones-conservar">¿Cuántas revisiones conservar?</h2>
+<p>Los Deployments conservan información sobre revisiones anteriores para permitir operaciones de rollback.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">revisionHistoryLimit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</code></pre></div>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">revisionHistoryLimit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</code></pre></div>
+<p>Cuando se supera este límite, Kubernetes elimina automáticamente las revisiones más antiguas.</p>
+<p>En la mayoría de entornos, conservar diez revisiones suele ser una configuración razonable.</p>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>Las cargas de trabajo crean y gestionan Pods.</li>
+<li>Deployment es la carga de trabajo más utilizada en OpenShift.</li>
+<li>Un Deployment puede definirse mediante manifiestos YAML.</li>
+<li>StatefulSet se utiliza para aplicaciones con estado.</li>
+<li>Job ejecuta tareas puntuales.</li>
+<li>CronJob ejecuta tareas programadas.</li>
+<li>RollingUpdate es la estrategia de actualización predeterminada.</li>
+<li>Recreate suele emplearse con PVC RWO.</li>
+<li><code>oc rollout status</code> permite supervisar una actualización.</li>
+<li><code>oc rollout history</code> permite consultar revisiones anteriores.</li>
+<li><code>oc rollout undo</code> permite volver rápidamente a una versión estable.</li>
+<li><code>revisionHistoryLimit</code> controla cuántas revisiones conserva Kubernetes.</li>
+<li>Es recomendable utilizar etiquetas de imagen diferentes (<code>v1</code>, <code>v2</code>, <code>v3</code>, etc.) para facilitar el seguimiento de cambios y las operaciones de rollback.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1837 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2.1%20Cargas%20de%20trabajo/">
+      
+      
+        <link rel="next" href="../2.3%20Salud%20recursos%20y%20escalado/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2.2 Exponer aplicaciones - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#22-exponer-aplicaciones-service-y-route" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.2 Exponer aplicaciones
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#del-pod-al-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del Pod al usuario
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-un-punto-de-acceso-estable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service: un punto de acceso estable
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Service: un punto de acceso estable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#como-sabe-el-service-a-que-pods-enviar-el-trafico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Cómo sabe el Service a qué Pods enviar el tráfico?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crear-el-service-para-la-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crear el Service para la aplicación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Crear el Service para la aplicación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desplegando-el-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desplegando el Service
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desplegando el Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobando-el-estado-del-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobando el estado del Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-problema-del-acceso-externo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El problema del acceso externo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#route-frente-a-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Route frente a Ingress
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crear-una-route" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crear una Route
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Crear una Route">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desplegando-la-route" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desplegando la Route
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desplegando la Route">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobando-la-url-generada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobando la URL generada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tls-y-https" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLS y HTTPS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TLS y HTTPS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#edge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#re-encrypt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Re-encrypt
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuando-el-navegador-no-confia-en-el-certificado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuando el navegador no confía en el certificado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#del-pod-al-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del Pod al usuario
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-un-punto-de-acceso-estable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service: un punto de acceso estable
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Service: un punto de acceso estable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#como-sabe-el-service-a-que-pods-enviar-el-trafico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Cómo sabe el Service a qué Pods enviar el tráfico?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crear-el-service-para-la-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crear el Service para la aplicación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Crear el Service para la aplicación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desplegando-el-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desplegando el Service
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desplegando el Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobando-el-estado-del-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobando el estado del Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-problema-del-acceso-externo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El problema del acceso externo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#route-frente-a-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Route frente a Ingress
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crear-una-route" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crear una Route
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Crear una Route">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desplegando-la-route" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desplegando la Route
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desplegando la Route">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobando-la-url-generada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobando la URL generada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tls-y-https" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLS y HTTPS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TLS y HTTPS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#edge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#re-encrypt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Re-encrypt
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuando-el-navegador-no-confia-en-el-certificado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuando el navegador no confía en el certificado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="22-exponer-aplicaciones-service-y-route">2.2 Exponer aplicaciones: Service y Route</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender por qué un Pod no debe exponerse directamente a los usuarios.</li>
+<li>Entender la función de un Service dentro de Kubernetes.</li>
+<li>Comprender la diferencia entre Service y Route.</li>
+<li>Entender la diferencia entre Route e Ingress.</li>
+<li>Conocer las terminaciones TLS más habituales.</li>
+<li>Identificar por qué un navegador puede mostrar advertencias relacionadas con certificados.</li>
+<li>Publicar una aplicación mediante un Service y una Route.</li>
+<li>Acceder a una aplicación desde una URL externa.</li>
+</ul>
+<hr />
+<h2 id="del-pod-al-usuario">Del Pod al usuario</h2>
+<p>En el apartado anterior desplegamos nuestra aplicación y demostramos el flujo de actualización hacia la versión <code>v2</code>.</p>
+<p>Podemos comprobar que la nueva revisión de la aplicación se encuentra en ejecución:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<p>Ejemplo de resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>NAME                         READY   STATUS
+demo-formacion-yaml-xxxxx    1/1     Running
+</code></pre></div>
+<p>Sin embargo, aunque la aplicación esté funcionando correctamente con la versión actualizada, todavía existe un problema importante:</p>
+<p><strong>Los usuarios no tienen forma de acceder a ella desde fuera del clúster.</strong></p>
+<p>Además, los Pods son recursos efímeros. Si un Pod falla o si actualizamos la imagen del Deployment a una nueva versión, Kubernetes eliminará los Pods antiguos y creará otros nuevos con direcciones IP internas totalmente diferentes.</p>
+<pre class="mermaid"><code>flowchart LR
+    U[Usuario]
+    P[Pod]
+
+    U --&gt; P
+
+    style P fill:#ffdddd</code></pre>
+<p>Si el acceso dependiera directamente de la IP de un Pod concreto, cualquier actualización o sustitución rompería la conectividad de los usuarios.</p>
+<p>Por este motivo, Kubernetes introduce una capa intermedia denominada <strong>Service</strong>.</p>
+<hr />
+<h2 id="service-un-punto-de-acceso-estable">Service: un punto de acceso estable</h2>
+<p>Un Service proporciona un mecanismo estable para acceder a una aplicación independientemente de las actualizaciones de imagen o del número de Pods concretos que la estén ejecutando en cada momento.</p>
+<p>En lugar de conectarse directamente a un Pod, los clientes se conectan al Service.</p>
+<pre class="mermaid"><code>flowchart LR
+    C[Cliente]
+    S[Service]
+
+    S --&gt; P1[Pod v2]
+    S --&gt; P2[Pod v2]
+    S --&gt; P3[Pod v2]
+
+    C --&gt; S</code></pre>
+<p>De esta forma:</p>
+<ul>
+<li>Los Pods pueden actualizarse de versión o recrearse automáticamente.</li>
+<li>Las direcciones IP internas de los Pods pueden cambiar.</li>
+<li>El Service mantiene un punto de acceso y un nombre DNS estables dentro del clúster.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Idea clave</p>
+<p>Un Service no ejecuta aplicaciones.</p>
+<p>Su función consiste en localizar los Pods que forman parte de una aplicación (independientemente de su versión) y dirigir las peticiones hacia ellos.</p>
+</div>
+<hr />
+<h3 id="como-sabe-el-service-a-que-pods-enviar-el-trafico">¿Cómo sabe el Service a qué Pods enviar el tráfico?</h3>
+<p>La asociación se realiza mediante etiquetas (<em>labels</em>) y selectores (<em>selectors</em>).</p>
+<p>En el manifiesto del Deployment definimos la etiqueta:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">labels</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+</code></pre></div>
+<p>El Service utilizará un selector con el mismo valor:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">selector</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+</code></pre></div>
+<p>Gracias a esta coincidencia de etiquetas, aunque actualicemos la versión de la imagen en el Deployment (de <code>v1</code> a <code>v2</code> o posteriores), los nuevos Pods mantendrán la misma etiqueta y el Service continuará redirigiendo el tráfico hacia ellos automáticamente.</p>
+<pre class="mermaid"><code>flowchart LR
+    S[Service]
+
+    L[label app=demo-formacion-yaml]
+
+    P1[Pod v2]
+    P2[Pod v2]
+
+    S --&gt; L
+    L --&gt; P1
+    L --&gt; P2</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Si el selector del Service no coincide exactamente con las etiquetas definidas en la plantilla del Pod dentro del Deployment, el Service existirá, pero no tendrá ningún destino al que enviar las peticiones.</p>
+</div>
+<hr />
+<h2 id="crear-el-service-para-la-aplicacion">Crear el Service para la aplicación</h2>
+<p>Nuestra aplicación de formación escucha internamente en el puerto <code>8080</code>.</p>
+<p>Podemos definir y desplegar un Service que exponga la aplicación dentro del clúster mediante el siguiente manifiesto YAML completo:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+<span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="w">      </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+</code></pre></div>
+<p>Observa tres elementos importantes:</p>
+<ul>
+<li><code>selector</code>: identifica los Pods asociados al Service mediante sus etiquetas (<code>app: demo-formacion-yaml</code>).</li>
+<li><code>port</code>: puerto expuesto internamente por el Service (puerto 80).</li>
+<li><code>targetPort</code>: puerto real en el que escucha el contenedor dentro del Pod (puerto 8080).</li>
+</ul>
+<h3 id="desplegando-el-service">Desplegando el Service</h3>
+<h4 id="opcion-1-mediante-yaml-recomendado">Opción 1: mediante YAML (Recomendado)</h4>
+<p>Guardar la definición anterior en <code>service.yaml</code> y aplicar:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>service.yaml
+</code></pre></div>
+<h4 id="opcion-2-desde-linea-de-comandos">Opción 2: desde línea de comandos</h4>
+<p>También es posible exponer el Deployment directamente generando un Service automático:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>expose<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span>--port<span class="o">=</span><span class="m">80</span><span class="w"> </span>--target-port<span class="o">=</span><span class="m">8080</span>
+</code></pre></div>
+<h4 id="opcion-3-desde-la-consola-web">Opción 3: desde la consola web</h4>
+<ul>
+<li>Abrir el apartado <strong>Networking → Services</strong>.</li>
+<li>Seleccionar <strong>Create Service</strong>.</li>
+<li>Pegar o configurar el manifiesto YAML completo y guardar los cambios.</li>
+</ul>
+<h4 id="comprobando-el-estado-del-service">Comprobando el estado del Service</h4>
+<p>Podemos verificar la creación del punto de acceso estable con:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>svc
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>NAME                   TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
+demo-formacion-yaml    ClusterIP   172.30.x.x    &lt;none&gt;        80/TCP    1m
+</code></pre></div>
+<p>La aplicación ya dispone de una IP virtual interna y un punto de acceso estable dentro del clúster.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Kubernetes dispone de distintos tipos de Service para distintos escenarios. En OpenShift el flujo estándar para publicar aplicaciones HTTP/HTTPS hacia el exterior se basa en la combinación <strong>Service + Route</strong>.</p>
+</div>
+<hr />
+<h2 id="el-problema-del-acceso-externo">El problema del acceso externo</h2>
+<p>Aunque ya disponemos de un Service, la aplicación sigue siendo accesible únicamente dentro de la red interna del clúster de OpenShift.</p>
+<p>Necesitamos un mecanismo que permita publicar la aplicación para que los usuarios puedan consumirla desde un navegador web externo.</p>
+<pre class="mermaid"><code>flowchart LR
+    U[Usuario]
+
+    S[Service]
+
+    P[Pod]
+
+    S --&gt; P
+
+    style U fill:#ffdddd</code></pre>
+<p>Aquí es donde entra en juego la <strong>Route</strong>.</p>
+<hr />
+<h2 id="route-frente-a-ingress">Route frente a Ingress</h2>
+<p>En Kubernetes estándar existe un recurso denominado <strong>Ingress</strong> cuya función es publicar aplicaciones HTTP y HTTPS hacia el exterior.</p>
+<pre class="mermaid"><code>flowchart LR
+    U[Usuario]
+    I[Ingress]
+    S[Service]
+    P[Pod]
+
+    U --&gt; I
+    I --&gt; S
+    S --&gt; P</code></pre>
+<p>OpenShift incorpora una funcionalidad equivalente y más avanzada denominada <strong>Route</strong>.</p>
+<pre class="mermaid"><code>flowchart LR
+    U[Usuario]
+    R[Route]
+    S[Service]
+    P[Pod]
+
+    U --&gt; R
+    R --&gt; S
+    S --&gt; P</code></pre>
+<p>Ambos recursos persiguen el mismo objetivo: <strong>permitir que una aplicación sea accesible desde fuera del clúster.</strong></p>
+<p>La principal diferencia es que:</p>
+<ul>
+<li><strong>Ingress</strong> forma parte del API estándar de Kubernetes.</li>
+<li><strong>Route</strong> es un recurso nativo e integrado de OpenShift que incluye gestión simplificada de dominios DNS y TLS.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">¿Qué utilizaremos en el curso?</p>
+<p>Trabajaremos con Routes por ser la herramienta nativa de OpenShift para la publicación de aplicaciones web.</p>
+</div>
+<hr />
+<h2 id="crear-una-route">Crear una Route</h2>
+<p>Una Route siempre apunta a un Service (el cual a su vez dirige el tráfico a los Pods). No se conecta nunca directamente con los Pods.</p>
+<p>Podemos definir la Route completa mediante un manifiesto YAML:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">route.openshift.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Route</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">to</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+</code></pre></div>
+<h3 id="desplegando-la-route">Desplegando la Route</h3>
+<h4 id="opcion-1-mediante-yaml-recomendado_1">Opción 1: mediante YAML (Recomendado)</h4>
+<p>Guardar el contenido en <code>route.yaml</code> y aplicar:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>route.yaml
+</code></pre></div>
+<h4 id="opcion-2-desde-linea-de-comandos_1">Opción 2: desde línea de comandos</h4>
+<p>Podemos crear la Route rápidamente a partir del Service existente:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>expose<span class="w"> </span>service/demo-formacion-yaml
+</code></pre></div>
+<h4 id="opcion-3-desde-la-consola-web_1">Opción 3: desde la consola web</h4>
+<ul>
+<li>Abrir el Service <code>demo-formacion-yaml</code>.</li>
+<li>En la esquina superior seleccionar <strong>Actions → Create Route</strong>.</li>
+<li>Revisar la configuración YAML generada y guardar.</li>
+</ul>
+<h4 id="comprobando-la-url-generada">Comprobando la URL generada</h4>
+<p>Podemos consultar la URL pública asignada automáticamente por el Ingress Router de OpenShift:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>route
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>NAME                   HOST/PORT                                  SERVICES              PORT   TERMINATION   WILDCARD
+demo-formacion-yaml    demo-formacion-yaml.apps.cluster.domain    demo-formacion-yaml   8080                 None
+</code></pre></div>
+<p>El flujo completo de conectividad pasa a ser el siguiente:</p>
+<pre class="mermaid"><code>flowchart LR
+    U[Usuario]
+    R[Route]
+    S[Service]
+    P[Pod v2]
+
+    U --&gt; R
+    R --&gt; S
+    S --&gt; P</code></pre>
+<p>A partir de este momento, cualquier actualización sobre la aplicación en el Deployment será completamente transparente para los usuarios que accedan a través de la URL de la Route.</p>
+<hr />
+<h2 id="tls-y-https">TLS y HTTPS</h2>
+<p>En entornos de producción es imprescindible que las aplicaciones se publiquen mediante conexiones cifradas HTTPS.</p>
+<p>OpenShift permite que la propia Route gestione el cifrado TLS sin necesidad de modificar el código de la aplicación.</p>
+<p>Conceptualmente, el flujo de cifrado es:</p>
+<pre class="mermaid"><code>flowchart LR
+    U[Navegador]
+    R[Route TLS]
+    S[Service]
+    A[Aplicación]
+
+    U --&gt; R
+    R --&gt; S
+    S --&gt; A</code></pre>
+<p>OpenShift soporta tres modos principales de terminación TLS en las Routes:</p>
+<h3 id="edge">Edge</h3>
+<p>La conexión HTTPS finaliza en la Route (Ingress Router). El tráfico entre la Route y el Pod viaja en HTTP sin cifrar por la red interna del clúster.</p>
+<div class="highlight"><pre><span></span><code>Navegador -- HTTPS --&gt; Route -- HTTP --&gt; Aplicación
+</code></pre></div>
+<p>Es la modalidad más habitual, eficiente y sencilla de configurar.</p>
+<h3 id="passthrough">Passthrough</h3>
+<p>La Route reenvía las peticiones cifradas directamente al Pod sin descifrarlas.</p>
+<div class="highlight"><pre><span></span><code>Navegador -- HTTPS --&gt; Aplicación
+</code></pre></div>
+<p>La gestión de los certificados y el descifrado recae por completo sobre la propia aplicación.</p>
+<h3 id="re-encrypt">Re-encrypt</h3>
+<p>La conexión se descifra en la Route para inspección o enrutamiento y se vuelve a cifrar antes de enviarla al Pod.</p>
+<div class="highlight"><pre><span></span><code>Navegador -- HTTPS --&gt; Route -- HTTPS --&gt; Aplicación
+</code></pre></div>
+<p>Se utiliza en entornos que exigen cifrado estricto de extremo a extremo (<em>End-to-End Encryption</em>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Para la mayoría de los laboratorios y ejercicios de este curso utilizaremos la terminación de tipo <strong>Edge</strong>.</p>
+</div>
+<hr />
+<h2 id="cuando-el-navegador-no-confia-en-el-certificado">Cuando el navegador no confía en el certificado</h2>
+<p>En entornos de formación, laboratorios o redes corporativas privadas es habitual observar advertencias en el navegador al acceder a la URL HTTPS:</p>
+<div class="highlight"><pre><span></span><code>La conexión no es privada
+</code></pre></div>
+<p>o bien:</p>
+<div class="highlight"><pre><span></span><code>El certificado no es de confianza (NET::ERR_CERT_AUTHORITY_INVALID)
+</code></pre></div>
+<p>En la mayoría de los casos esto no indica que la aplicación o el despliegue en OpenShift hayan fallado.</p>
+<p>La causa habitual es que el clúster utiliza certificados autofirmados (<em>self-signed</em>) o emitidos por una Autoridad de Certificación (CA) interna de la organización que el navegador del usuario no tiene registrada en su almacén de confianza.</p>
+<pre class="mermaid"><code>flowchart LR
+    N[Navegador]
+    CA[CA interna / Autofirmada]
+
+    N --&gt; CA</code></pre>
+<p>Esta situación es completamente habitual en:</p>
+<ul>
+<li>Entornos de laboratorio y aprendizaje.</li>
+<li>Plataformas de desarrollo y staging.</li>
+<li>Redes corporativas tras proxies o cortafuegos.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Aviso sobre certificados</p>
+<p>Una advertencia de certificado en el navegador no implica un fallo en el Deployment, Service o Route. Indica únicamente que el cliente no puede validar la entidad emisora del certificado TLS de la plataforma.</p>
+</div>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>Un Pod no debe exponerse directamente a los usuarios debido a su naturaleza efímera.</li>
+<li>Un Service proporciona un punto de acceso de red y nombre DNS estable dentro del clúster.</li>
+<li>Los Services localizan los Pods activos mediante el uso de etiquetas (<code>labels</code>) y selectores (<code>selectors</code>).</li>
+<li>Las actualizaciones de versión en los Deployments no afectan al Service ni a la Route.</li>
+<li>Una Route es el recurso nativo de OpenShift que publica un Service hacia el exterior del clúster.</li>
+<li>El flujo de tráfico completo es: <strong>Usuario → Route → Service → Pod</strong>.</li>
+<li>La terminación TLS en la Route permite ofrecer HTTPS de forma centralizada sin modificar la aplicación.</li>
+<li>Las advertencias de certificado en el navegador suelen deberse al uso de CAs internas o autofirmadas en el clúster.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

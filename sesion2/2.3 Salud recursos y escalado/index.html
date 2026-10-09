@@ -1,0 +1,3225 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2.2%20Exponer%20aplicaciones/">
+      
+      
+        <link rel="next" href="../2.4%20Configuracion%20fuera%20de%20la%20imagen/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2.3 Salud recursos y escalado - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#23-salud-recursos-y-escalado" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.3 Salud recursos y escalado
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actualizacion-a-la-version-v3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actualización a la versión v3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actualización a la versión v3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registrando-la-causa-del-cambio-y-actualizando-la-imagen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registrando la causa del cambio y actualizando la imagen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registrando la causa del cambio y actualizando la imagen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobando-el-despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobando el despliegue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultando-el-historico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultando el histórico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificando-la-nueva-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificando la nueva versión
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supervision-de-aplicaciones-en-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supervisión de aplicaciones en OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-version-v3-de-nuestra-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La versión v3 de nuestra aplicación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#probando-los-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probando los endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulacion-de-un-arranque-lento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulación de un arranque lento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simulación de un arranque lento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-hemos-hecho-esto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué hemos hecho esto?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#readiness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Readiness Probe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anadiendo-una-readiness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Añadiendo una Readiness Probe
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Añadiendo una Readiness Probe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manifiesto-deploymentyaml-completo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifiesto deployment.yaml completo:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-acabamos-de-anadir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué acabamos de añadir?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aplicacion-de-los-cambios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicación de los cambios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Aplicación de los cambios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#observando-el-comportamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observando el comportamiento
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#idea-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Idea clave
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-debe-comprobar-una-readiness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué debe comprobar una Readiness Probe?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#liveness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Liveness Probe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anadiendo-una-liveness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Añadiendo una Liveness Probe
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Añadiendo una Liveness Probe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manifiesto-deploymentyaml-completo_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifiesto deployment.yaml completo:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-hace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué hace?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aplicacion-de-los-cambios_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicación de los cambios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Aplicación de los cambios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-debe-comprobar-una-liveness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué debe comprobar una Liveness Probe?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#readiness-y-liveness-no-son-intercambiables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Readiness y Liveness no son intercambiables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Readiness y Liveness no son intercambiables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#readiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Readiness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#liveness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Liveness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-practico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo práctico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#startup-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup Probe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anadiendo-startup-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Añadiendo Startup Probe
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Añadiendo Startup Probe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manifiesto-deploymentyaml-completo-con-las-tres-sondas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifiesto deployment.yaml completo con las tres sondas:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-hace_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué hace?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aplicacion-de-los-cambios_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicación de los cambios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Aplicación de los cambios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#buenas-practicas-para-las-probes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buenas prácticas para las probes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requests-y-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requests y Limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anadiendo-requests-y-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Añadiendo Requests y Limits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Añadiendo Requests y Limits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manifiesto-deploymentyaml-completo-integrando-la-gestion-de-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifiesto deployment.yaml completo integrando la gestión de recursos:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aplicacion-de-los-cambios_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicación de los cambios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Aplicación de los cambios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comprobacion-de-recursos-asignados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobación de recursos asignados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comprobacion-del-consumo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobación del consumo real
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comprobación del consumo real">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#idea-clave_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Idea clave
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#buenas-practicas-para-requests-y-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buenas prácticas para requests y limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escalado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escalado
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Escalado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aplicando-el-escalado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicando el escalado
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Aplicando el escalado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#horizontal-pod-autoscaler-hpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horizontal Pod Autoscaler (HPA)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Horizontal Pod Autoscaler (HPA)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nota-sobre-entornos-reales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nota sobre entornos reales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actualizacion-a-la-version-v3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actualización a la versión v3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actualización a la versión v3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registrando-la-causa-del-cambio-y-actualizando-la-imagen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registrando la causa del cambio y actualizando la imagen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registrando la causa del cambio y actualizando la imagen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobando-el-despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobando el despliegue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultando-el-historico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultando el histórico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificando-la-nueva-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificando la nueva versión
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supervision-de-aplicaciones-en-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supervisión de aplicaciones en OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-version-v3-de-nuestra-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La versión v3 de nuestra aplicación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#probando-los-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probando los endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulacion-de-un-arranque-lento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulación de un arranque lento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simulación de un arranque lento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-hemos-hecho-esto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué hemos hecho esto?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#readiness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Readiness Probe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anadiendo-una-readiness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Añadiendo una Readiness Probe
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Añadiendo una Readiness Probe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manifiesto-deploymentyaml-completo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifiesto deployment.yaml completo:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-acabamos-de-anadir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué acabamos de añadir?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aplicacion-de-los-cambios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicación de los cambios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Aplicación de los cambios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#observando-el-comportamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observando el comportamiento
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#idea-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Idea clave
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-debe-comprobar-una-readiness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué debe comprobar una Readiness Probe?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#liveness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Liveness Probe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anadiendo-una-liveness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Añadiendo una Liveness Probe
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Añadiendo una Liveness Probe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manifiesto-deploymentyaml-completo_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifiesto deployment.yaml completo:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-hace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué hace?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aplicacion-de-los-cambios_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicación de los cambios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Aplicación de los cambios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-debe-comprobar-una-liveness-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué debe comprobar una Liveness Probe?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#readiness-y-liveness-no-son-intercambiables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Readiness y Liveness no son intercambiables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Readiness y Liveness no son intercambiables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#readiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Readiness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#liveness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Liveness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-practico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo práctico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#startup-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup Probe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anadiendo-startup-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Añadiendo Startup Probe
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Añadiendo Startup Probe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manifiesto-deploymentyaml-completo-con-las-tres-sondas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifiesto deployment.yaml completo con las tres sondas:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-hace_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué hace?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aplicacion-de-los-cambios_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicación de los cambios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Aplicación de los cambios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#buenas-practicas-para-las-probes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buenas prácticas para las probes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requests-y-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requests y Limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anadiendo-requests-y-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Añadiendo Requests y Limits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Añadiendo Requests y Limits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manifiesto-deploymentyaml-completo-integrando-la-gestion-de-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifiesto deployment.yaml completo integrando la gestión de recursos:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aplicacion-de-los-cambios_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicación de los cambios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Aplicación de los cambios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml-recomendado_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML (Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comprobacion-de-recursos-asignados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobación de recursos asignados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comprobacion-del-consumo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobación del consumo real
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comprobación del consumo real">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#idea-clave_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Idea clave
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#buenas-practicas-para-requests-y-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buenas prácticas para requests y limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escalado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escalado
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Escalado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aplicando-el-escalado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aplicando el escalado
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Aplicando el escalado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcion-1-mediante-yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 1: mediante YAML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-2-desde-linea-de-comandos_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 2: desde línea de comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcion-3-desde-la-consola-web_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opción 3: desde la consola web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#horizontal-pod-autoscaler-hpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horizontal Pod Autoscaler (HPA)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Horizontal Pod Autoscaler (HPA)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nota-sobre-entornos-reales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nota sobre entornos reales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="23-salud-recursos-y-escalado">2.3 Salud, recursos y escalado</h1>
+<h2 id="objetivos">Objetivos</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender cómo OpenShift supervisa el estado de una aplicación.</li>
+<li>Diferenciar startupProbe, readinessProbe y livenessProbe.</li>
+<li>Entender por qué readiness y liveness tienen objetivos distintos.</li>
+<li>Configurar comprobaciones de salud mediante sondas HTTP.</li>
+<li>Definir requests y limits básicos.</li>
+<li>Comprender el funcionamiento general del autoescalado horizontal (HPA).</li>
+</ul>
+<hr />
+<h2 id="actualizacion-a-la-version-v3">Actualización a la versión v3</h2>
+<p>Hasta este momento estamos trabajando con la versión v2 de la aplicación, utilizada anteriormente para demostrar actualizaciones de imagen, rollouts y rollbacks.</p>
+<p>Para poder explicar las sondas de salud vamos a desplegar una nueva versión.</p>
+<p>La versión v3 incorpora varios endpoints específicamente diseñados para este propósito:</p>
+<div class="highlight"><pre><span></span><code>/version
+/live
+/ready
+</code></pre></div>
+<h3 id="registrando-la-causa-del-cambio-y-actualizando-la-imagen">Registrando la causa del cambio y actualizando la imagen</h3>
+<p>Para asegurar que la causa del cambio quede correctamente registrada en el historial de revisiones del Deployment, modificamos el archivo <code>deployment.yaml</code> actualizando la imagen a <code>v3</code> e incluyendo la anotación <code>kubernetes.io/change-cause</code> en la sección <code>metadata</code>.</p>
+<h4 id="opcion-1-mediante-yaml-recomendado">Opción 1: mediante YAML (Recomendado)</h4>
+<p>Modificar el manifiesto <code>deployment.yaml</code> completo:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Actualizacion</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">v3.</span><span class="nv"> </span><span class="s">Incorpora</span><span class="nv"> </span><span class="s">endpoints</span><span class="nv"> </span><span class="s">/version,</span><span class="nv"> </span><span class="s">/live</span><span class="nv"> </span><span class="s">y</span><span class="nv"> </span><span class="s">/ready</span><span class="nv"> </span><span class="s">para</span><span class="nv"> </span><span class="s">demostracion</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">probes."</span>
+
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v3</span>
+<span class="w">        </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+</code></pre></div>
+<p>Y aplicar los cambios:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h4 id="opcion-2-desde-linea-de-comandos">Opción 2: desde línea de comandos</h4>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">set</span><span class="w"> </span>image<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>demo-formacion<span class="o">=</span>docker.io/ieftraining/demo-formacion:v3
+
+oc<span class="w"> </span>annotate<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>kubernetes.io/change-cause<span class="o">=</span><span class="s2">"Actualizacion a v3. Incorpora endpoints /version, /live y /ready para demostracion de probes."</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--overwrite
+</code></pre></div>
+<h4 id="opcion-3-desde-la-consola-web">Opción 3: desde la consola web</h4>
+<ul>
+<li>Abrir el Deployment.</li>
+<li>Seleccionar <strong>Actions → Edit Deployment</strong>.</li>
+<li>Modificar la imagen del contenedor a <code>docker.io/ieftraining/demo-formacion:v3</code>.</li>
+<li>Actualizar la anotación <code>kubernetes.io/change-cause</code> dentro del bloque <code>metadata.annotations</code>.</li>
+<li>Guardar los cambios.</li>
+</ul>
+<p>OpenShift iniciará automáticamente un nuevo rollout.</p>
+<h3 id="comprobando-el-despliegue">Comprobando el despliegue</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<p>o bien:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
+</code></pre></div>
+<h3 id="consultando-el-historico">Consultando el histórico</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<p>Ejemplo de resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>REVISION  CHANGE-CAUSE
+1         Creacion inicial de la aplicacion v1.
+2         Actualizacion a v2. Nueva version de la aplicacion para demostracion de actualizaciones y rollback.
+3         Actualizacion a v3. Incorpora endpoints /version, /live y /ready para demostracion de probes.
+</code></pre></div>
+<p>Detalle de una revisión específica:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span><span class="nb">history</span><span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span>--revision<span class="o">=</span><span class="m">3</span>
+</code></pre></div>
+<h3 id="verificando-la-nueva-version">Verificando la nueva versión</h3>
+<p>Abrimos la URL de nuestra Route publicada en el navegador:</p>
+<div class="highlight"><pre><span></span><code>[https://demo-formacion-yaml.apps](https://demo-formacion-yaml.apps).../version
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v3"</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A partir de este momento podemos comenzar a estudiar cómo OpenShift supervisa la aplicación utilizando los endpoints <code>/live</code> y <code>/ready</code>.</p>
+<hr />
+<h2 id="supervision-de-aplicaciones-en-openshift">Supervisión de aplicaciones en OpenShift</h2>
+<p>En el apartado anterior hemos desplegado nuestra aplicación mediante un Deployment y la hemos publicado utilizando un Service y una Route.</p>
+<p>La aplicación es accesible desde el navegador:</p>
+<div class="highlight"><pre><span></span><code>[https://demo-formacion-yaml.apps](https://demo-formacion-yaml.apps)...
+</code></pre></div>
+<p>Sin embargo, OpenShift necesita responder continuamente a preguntas como:</p>
+<ul>
+<li>¿La aplicación sigue funcionando?</li>
+<li>¿Ha terminado de arrancar?</li>
+<li>¿Está preparada para recibir tráfico?</li>
+<li>¿Debo reiniciarla?</li>
+<li>¿Debo dejar temporalmente de enviarle peticiones?</li>
+</ul>
+<p>Para responder a estas preguntas Kubernetes utiliza las denominadas <strong>probes</strong> o <strong>sondas de salud</strong>.</p>
+<hr />
+<h2 id="la-version-v3-de-nuestra-aplicacion">La versión v3 de nuestra aplicación</h2>
+<p>La versión v3 incorpora varios endpoints específicos:</p>
+<div class="highlight"><pre><span></span><code>/version
+/live
+/ready
+</code></pre></div>
+<hr />
+<h2 id="probando-los-endpoints">Probando los endpoints</h2>
+<p>Podemos probar individualmente las rutas desde el navegador o mediante <code>curl</code>:</p>
+<div class="highlight"><pre><span></span><code>[https://demo-formacion-yaml.apps](https://demo-formacion-yaml.apps).../version
+[https://demo-formacion-yaml.apps](https://demo-formacion-yaml.apps).../live
+[https://demo-formacion-yaml.apps](https://demo-formacion-yaml.apps).../ready
+</code></pre></div>
+<p>La propia aplicación nos servirá para entender qué está comprobando OpenShift en cada momento.</p>
+<hr />
+<h2 id="simulacion-de-un-arranque-lento">Simulación de un arranque lento</h2>
+<p>Para facilitar la explicación de las probes hemos modificado la aplicación en su versión <code>v3</code>.</p>
+<p>Cuando el contenedor arranca:</p>
+<div class="highlight"><pre><span></span><code>/live  -&gt; OK (200)
+/ready -&gt; NOT READY (500)
+</code></pre></div>
+<p>durante aproximadamente 30 segundos.</p>
+<p>Pasado ese tiempo:</p>
+<div class="highlight"><pre><span></span><code>/live  -&gt; OK (200)
+/ready -&gt; READY (200)
+</code></pre></div>
+<h3 id="por-que-hemos-hecho-esto">¿Por qué hemos hecho esto?</h3>
+<p>Muchas aplicaciones necesitan un tiempo adicional para completar su inicialización.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Cargar configuración.</li>
+<li>Inicializar componentes internos.</li>
+<li>Construir cachés.</li>
+<li>Ejecutar migraciones.</li>
+<li>Conectar con servicios externos.</li>
+<li>Cargar información en memoria.</li>
+</ul>
+<p>Por tanto: <strong>una aplicación puede estar funcionando y, sin embargo, no estar todavía preparada para recibir peticiones.</strong></p>
+<p>Esta diferencia es precisamente la que intentan resolver readiness y liveness.</p>
+<hr />
+<h2 id="readiness-probe">Readiness Probe</h2>
+<p>La readiness probe responde a una única pregunta:</p>
+<p><strong>¿Puede este Pod recibir tráfico ahora mismo?</strong></p>
+<ul>
+<li>Si la respuesta es afirmativa: El Service enviará tráfico al Pod.</li>
+<li>Si la respuesta es negativa: El Pod continúa ejecutándose, pero se retira temporalmente de los endpoints del Service para dejar de recibir tráfico.</li>
+</ul>
+<hr />
+<h2 id="anadiendo-una-readiness-probe">Añadiendo una Readiness Probe</h2>
+<p>Partimos de nuestro Deployment <code>v3</code> y le incorporamos la configuración de la probe.</p>
+<h3 id="manifiesto-deploymentyaml-completo">Manifiesto <code>deployment.yaml</code> completo:</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Anadida</span><span class="nv"> </span><span class="s">readinessProbe</span><span class="nv"> </span><span class="s">en</span><span class="nv"> </span><span class="s">endpoint</span><span class="nv"> </span><span class="s">/ready"</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v3</span>
+<span class="w">          </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">          </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ready</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</code></pre></div>
+<h3 id="que-acabamos-de-anadir">¿Qué acabamos de añadir?</h3>
+<p>Únicamente el bloque:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ready</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">  </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</code></pre></div>
+<p>A partir de este momento OpenShift realizará peticiones periódicas cada 5 segundos contra <code>/ready</code> para decidir si el Pod puede o no recibir tráfico.</p>
+<hr />
+<h2 id="aplicacion-de-los-cambios">Aplicación de los cambios</h2>
+<h3 id="opcion-1-mediante-yaml-recomendado_1">Opción 1: mediante YAML (Recomendado)</h3>
+<p>Si disponemos del manifiesto actualizado:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h3 id="opcion-2-desde-linea-de-comandos_1">Opción 2: desde línea de comandos</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">set</span><span class="w"> </span>probe<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--readiness<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--get-url<span class="o">=</span>http://:8080/ready<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--period-seconds<span class="o">=</span><span class="m">5</span>
+</code></pre></div>
+<h3 id="opcion-3-desde-la-consola-web_1">Opción 3: desde la consola web</h3>
+<ul>
+<li>Abrir el Deployment <code>demo-formacion-yaml</code>.</li>
+<li>Seleccionar <strong>Actions → Edit Deployment</strong>.</li>
+<li>Añadir el bloque <code>readinessProbe</code> dentro del contenedor.</li>
+<li>Guardar los cambios.</li>
+</ul>
+<p>OpenShift generará automáticamente una nueva revisión del Deployment sin necesidad de detener ni eliminar el recurso previamente.</p>
+<hr />
+<h2 id="observando-el-comportamiento">Observando el comportamiento</h2>
+<p>Podemos monitorizar el estado del Pod mediante:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
+</code></pre></div>
+<p>Al arrancar una nueva revisión veremos algo parecido a:</p>
+<div class="highlight"><pre><span></span><code>NAME                                   READY   STATUS    RESTARTS   AGE
+demo-formacion-yaml-6d4b65b98b-x8z2p   0/1     Running   0          5s
+</code></pre></div>
+<p>Esto significa: <strong>El contenedor está ejecutándose (<code>Running</code>), pero la columna <code>READY</code> indica <code>0/1</code> (la aplicación todavía no está preparada).</strong></p>
+<p>Recordemos que <code>/live</code> responde OK pero <code>/ready</code> responde NOT READY durante los primeros 30 segundos.</p>
+<p>Pasados esos 30 segundos, la probe obtiene una respuesta correcta y observaremos:</p>
+<div class="highlight"><pre><span></span><code>NAME                                   READY   STATUS    RESTARTS   AGE
+demo-formacion-yaml-6d4b65b98b-x8z2p   1/1     Running   0          35s
+</code></pre></div>
+<p><code>1/1</code> indica que OpenShift ya considera que el Pod está listo y el Service empieza a enviarle tráfico.</p>
+<hr />
+<h2 id="idea-clave">Idea clave</h2>
+<p>Durante esos primeros 30 segundos, la aplicación ya estaba funcionando en memoria. Lo único que ocurría es que OpenShift no la consideraba preparada. Ésa es exactamente la misión de la <strong>readiness probe</strong>.</p>
+<hr />
+<h2 id="que-debe-comprobar-una-readiness-probe">¿Qué debe comprobar una Readiness Probe?</h2>
+<p>Todo aquello que determine si la aplicación puede atender peticiones correctamente.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>Configuración cargada.</li>
+<li>Dependencias inicializadas.</li>
+<li>Cachés preparadas.</li>
+<li>Base de datos accesible.</li>
+<li>Servicios críticos disponibles.</li>
+</ul>
+<p>La idea es: <strong>La aplicación sigue viva, pero todavía no está lista para prestar servicio.</strong></p>
+<hr />
+<h2 id="liveness-probe">Liveness Probe</h2>
+<p>La liveness probe responde a otra pregunta:</p>
+<p><strong>¿La aplicación sigue funcionando correctamente o se ha quedado bloqueada?</strong></p>
+<hr />
+<h2 id="anadiendo-una-liveness-probe">Añadiendo una Liveness Probe</h2>
+<p>Añadimos la comprobación de supervivencia sobre el endpoint <code>/live</code>.</p>
+<h3 id="manifiesto-deploymentyaml-completo_1">Manifiesto <code>deployment.yaml</code> completo:</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Configuradas</span><span class="nv"> </span><span class="s">readinessProbe</span><span class="nv"> </span><span class="s">y</span><span class="nv"> </span><span class="s">livenessProbe"</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v3</span>
+<span class="w">          </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">          </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ready</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">          </span><span class="nt">livenessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/live</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</code></pre></div>
+<h3 id="que-hace">¿Qué hace?</h3>
+<p>OpenShift ejecuta periódicamente <code>GET /live</code> cada 10 segundos.</p>
+<ul>
+<li>Si recibe una respuesta HTTP correcta (<code>200 OK</code>), no realiza ninguna acción.</li>
+<li>Si la comprobación falla repetidamente (error <code>500</code> o <code>timeout</code>), Kubernetes <strong>reiniciará automáticamente el contenedor</strong>.</li>
+</ul>
+<hr />
+<h2 id="aplicacion-de-los-cambios_1">Aplicación de los cambios</h2>
+<h3 id="opcion-1-mediante-yaml-recomendado_2">Opción 1: mediante YAML (Recomendado)</h3>
+<p>Guardar el archivo <code>deployment.yaml</code> con la nueva sonda y aplicar:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h3 id="opcion-2-desde-linea-de-comandos_2">Opción 2: desde línea de comandos</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">set</span><span class="w"> </span>probe<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--liveness<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--get-url<span class="o">=</span>http://:8080/live<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--period-seconds<span class="o">=</span><span class="m">10</span>
+</code></pre></div>
+<h3 id="opcion-3-desde-la-consola-web_2">Opción 3: desde la consola web</h3>
+<ul>
+<li>Abrir el Deployment <code>demo-formacion-yaml</code>.</li>
+<li>Seleccionar <strong>Actions → Edit Deployment</strong>.</li>
+<li>Añadir el bloque <code>livenessProbe</code> debajo de <code>readinessProbe</code>.</li>
+<li>Guardar los cambios.</li>
+</ul>
+<hr />
+<h2 id="que-debe-comprobar-una-liveness-probe">¿Qué debe comprobar una Liveness Probe?</h2>
+<p>Únicamente aquello que permita saber que el proceso de la aplicación no se ha bloqueado.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>El proceso principal sigue respondiendo.</li>
+<li>El servidor web o la API responde a peticiones básicas.</li>
+<li>No hay un bloqueo interno (<em>deadlock</em>).</li>
+</ul>
+<hr />
+<h2 id="readiness-y-liveness-no-son-intercambiables">Readiness y Liveness no son intercambiables</h2>
+<h3 id="readiness">Readiness</h3>
+<ul>
+<li><strong>Pregunta:</strong> ¿Puedo recibir tráfico?</li>
+<li><strong>Consecuencia de fallo:</strong> El Pod entra o sale de la lista de endpoints del Service.</li>
+</ul>
+<h3 id="liveness">Liveness</h3>
+<ul>
+<li><strong>Pregunta:</strong> ¿Sigo funcionando?</li>
+<li><strong>Consecuencia de fallo:</strong> Reinicio del contenedor por parte de Kubernetes.</li>
+</ul>
+<h3 id="ejemplo-practico">Ejemplo práctico</h3>
+<p>Supongamos que una base de datos externa deja de responder temporalmente:</p>
+<div class="highlight"><pre><span></span><code>/live  -&gt; OK
+/ready -&gt; ERROR
+</code></pre></div>
+<ul>
+<li><strong>Resultado correcto con Readiness:</strong> El Pod deja de recibir tráfico de los usuarios mientras la BD esté caída, pero el contenedor <strong>no se reinicia</strong>. Cuando la BD vuelve, <code>/ready</code> da OK y el tráfico se restaura solo.</li>
+<li><strong>Resultado incorrecto si usáramos solo Liveness:</strong> Si evaluáramos la BD en <code>/live</code>, Kubernetes reiniciaría el Pod una y otra vez en un bucle continuo (<em>CrashLoopBackOff</em>) sin resolver realmente el problema externo.</li>
+</ul>
+<hr />
+<h2 id="startup-probe">Startup Probe</h2>
+<p>Algunas aplicaciones empresariales (por ejemplo, Java/WildFly/Spring Boot) necesitan mucho tiempo para iniciar.</p>
+<p>Para evitar que la <code>livenessProbe</code> mate la aplicación antes de que termine de arrancar, se utiliza <strong>startupProbe</strong>.</p>
+<hr />
+<h2 id="anadiendo-startup-probe">Añadiendo Startup Probe</h2>
+<h3 id="manifiesto-deploymentyaml-completo-con-las-tres-sondas">Manifiesto <code>deployment.yaml</code> completo con las tres sondas:</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Configuradas</span><span class="nv"> </span><span class="s">startupProbe,</span><span class="nv"> </span><span class="s">readinessProbe</span><span class="nv"> </span><span class="s">y</span><span class="nv"> </span><span class="s">livenessProbe"</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v3</span>
+<span class="w">          </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">          </span><span class="nt">startupProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/live</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">          </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ready</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">          </span><span class="nt">livenessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/live</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</code></pre></div>
+<h3 id="que-hace_1">¿Qué hace?</h3>
+<p>Mientras la <code>startupProbe</code> no finalice correctamente (permite hasta 30 intentos × 1 segundo = 30 segundos de margen):</p>
+<ul>
+<li><strong>Readiness</strong> permanece inactiva.</li>
+<li><strong>Liveness</strong> permanece inactiva.</li>
+</ul>
+<p>Una vez que la <code>startupProbe</code> tiene éxito, se desactiva y da paso a la ejecución habitual de readiness y liveness.</p>
+<hr />
+<h2 id="aplicacion-de-los-cambios_2">Aplicación de los cambios</h2>
+<h3 id="opcion-1-mediante-yaml-recomendado_3">Opción 1: mediante YAML (Recomendado)</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h3 id="opcion-2-desde-linea-de-comandos_3">Opción 2: desde línea de comandos</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">set</span><span class="w"> </span>probe<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--startup<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--get-url<span class="o">=</span>http://:8080/live<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--failure-threshold<span class="o">=</span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--period-seconds<span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<h3 id="opcion-3-desde-la-consola-web_3">Opción 3: desde la consola web</h3>
+<ul>
+<li>Abrir el Deployment <code>demo-formacion-yaml</code>.</li>
+<li>Seleccionar <strong>Actions → Edit Deployment</strong>.</li>
+<li>Añadir el bloque <code>startupProbe</code> antes de <code>readinessProbe</code>.</li>
+<li>Guardar los cambios.</li>
+</ul>
+<hr />
+<h2 id="buenas-practicas-para-las-probes">Buenas prácticas para las probes</h2>
+<ul>
+<li>Utilizar endpoints dedicados e independientes (ej. <code>/live</code>, <code>/ready</code>).</li>
+<li>Evitar hacer comprobaciones pesadas o consultar la raíz <code>/</code>.</li>
+<li>Mantener las comprobaciones simples y rápidas.</li>
+<li>Separar claramente responsabilidades:</li>
+<li><code>/ready</code> -&gt; disponibilidad para recibir tráfico.</li>
+<li><code>/live</code> -&gt; supervivencia del proceso.</li>
+<li>Validar manualmente los endpoints mediante navegador o <code>curl</code> antes de configurar las sondas.</li>
+</ul>
+<hr />
+<h2 id="requests-y-limits">Requests y Limits</h2>
+<p>Además de la salud, Kubernetes necesita conocer los recursos de hardware (CPU y Memoria) que requieren los contenedores.</p>
+<hr />
+<h2 id="anadiendo-requests-y-limits">Añadiendo Requests y Limits</h2>
+<h3 id="manifiesto-deploymentyaml-completo-integrando-la-gestion-de-recursos">Manifiesto <code>deployment.yaml</code> completo integrando la gestión de recursos:</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Configurados</span><span class="nv"> </span><span class="s">recursos</span><span class="nv"> </span><span class="s">requests</span><span class="nv"> </span><span class="s">y</span><span class="nv"> </span><span class="s">limits"</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v3</span>
+<span class="w">          </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">          </span><span class="nt">startupProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/live</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">          </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ready</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">          </span><span class="nt">livenessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/live</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">          </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"100m"</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"128Mi"</span>
+<span class="w">            </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"500m"</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"512Mi"</span>
+</code></pre></div>
+<h3 id="requests">Requests</h3>
+<p>Representan los recursos mínimos garantizados que OpenShift reserva en un nodo para poder programar el Pod.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">requests</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"100m"</span><span class="w">      </span><span class="c1"># 100 millicores (0.1 CPU)</span>
+<span class="w">  </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"128Mi"</span><span class="w">  </span><span class="c1"># 128 Mebibytes</span>
+</code></pre></div>
+<h3 id="limits">Limits</h3>
+<p>Representan el consumo máximo permitido para el contenedor.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">limits</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"500m"</span><span class="w">      </span><span class="c1"># 500 millicores (0.5 CPU)</span>
+<span class="w">  </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"512Mi"</span><span class="w">  </span><span class="c1"># 512 Mebibytes</span>
+</code></pre></div>
+<hr />
+<h2 id="aplicacion-de-los-cambios_3">Aplicación de los cambios</h2>
+<h3 id="opcion-1-mediante-yaml-recomendado_4">Opción 1: mediante YAML (Recomendado)</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h3 id="opcion-2-desde-linea-de-comandos_4">Opción 2: desde línea de comandos</h3>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">set</span><span class="w"> </span>resources<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--requests<span class="o">=</span><span class="nv">cpu</span><span class="o">=</span>100m,memory<span class="o">=</span>128Mi<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--limits<span class="o">=</span><span class="nv">cpu</span><span class="o">=</span>500m,memory<span class="o">=</span>512Mi
+</code></pre></div>
+<h3 id="opcion-3-desde-la-consola-web_4">Opción 3: desde la consola web</h3>
+<ul>
+<li>Abrir el Deployment <code>demo-formacion-yaml</code>.</li>
+<li>Seleccionar <strong>Actions → Edit Resource Limits</strong> (o <strong>Edit Deployment</strong>).</li>
+<li>Especificar la CPU y Memoria para Requests y Limits.</li>
+<li>Guardar los cambios.</li>
+</ul>
+<hr />
+<h2 id="comprobacion-de-recursos-asignados">Comprobación de recursos asignados</h2>
+<p>Podemos verificar los recursos solicitados ejecutando:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nombre-pod&gt;
+</code></pre></div>
+<p>Salida típica esperada:</p>
+<div class="highlight"><pre><span></span><code>Containers:
+  demo-formacion:
+    Requests:
+      cpu:      100m
+      memory:   128Mi
+    Limits:
+      cpu:      500m
+      memory:   512Mi
+</code></pre></div>
+<hr />
+<h2 id="comprobacion-del-consumo-real">Comprobación del consumo real</h2>
+<p>Si el clúster dispone del servidor de métricas (<em>metrics-server</em>):</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>adm<span class="w"> </span>top<span class="w"> </span>pods
+</code></pre></div>
+<p>Ejemplo de salida:</p>
+<div class="highlight"><pre><span></span><code>NAME                                   CPU(cores)   MEMORY(bytes)
+demo-formacion-yaml-6d4b65b98b-x8z2p   3m           45Mi
+</code></pre></div>
+<p>Comparación:</p>
+<div class="highlight"><pre><span></span><code>Request CPU       = 100m
+Consumo real CPU  = 3m
+
+Request Memoria       = 128Mi
+Consumo real Memoria  = 45Mi
+</code></pre></div>
+<h3 id="idea-clave_1">Idea clave</h3>
+<ul>
+<li><strong>Requests:</strong> Recursos reservados en el nodo (sirven para planificar dónde colocar el Pod).</li>
+<li><strong>Limits:</strong> Límite máximo infranqueable (si se supera el límite de memoria, la aplicación sufre un error OOMKilled).</li>
+<li><strong>Consumo real:</strong> Uso efectivo detectado en tiempo de ejecución.</li>
+</ul>
+<hr />
+<h2 id="buenas-practicas-para-requests-y-limits">Buenas prácticas para requests y limits</h2>
+<ul>
+<li>Definir siempre límites y reservas de memoria.</li>
+<li>Ajustar las solicitudes al consumo real observado.</li>
+<li>Evitar sobredimensionar excesivamente los <code>requests</code> para no desperdiciar capacidad en el clúster.</li>
+<li>Revisar periódicamente las métricas de utilización.</li>
+</ul>
+<hr />
+<h2 id="escalado">Escalado</h2>
+<p>Podemos aumentar la capacidad de atención incrementando el número de réplicas en el manifiesto:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</code></pre></div>
+<h3 id="aplicando-el-escalado">Aplicando el escalado</h3>
+<h4 id="opcion-1-mediante-yaml">Opción 1: mediante YAML</h4>
+<p>Modificar <code>replicas: 3</code> en <code>deployment.yaml</code> y aplicar:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h4 id="opcion-2-desde-linea-de-comandos_5">Opción 2: desde línea de comandos</h4>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>scale<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span>--replicas<span class="o">=</span><span class="m">3</span>
+</code></pre></div>
+<h4 id="opcion-3-desde-la-consola-web_5">Opción 3: desde la consola web</h4>
+<ul>
+<li>Abrir el Deployment <code>demo-formacion-yaml</code>.</li>
+<li>Ajustar el contador de réplicas en la esquina superior derecha subiendo de 1 a 3.</li>
+</ul>
+<p>Al aplicar los cambios, OpenShift creará 3 Pods idénticos y el Service distribuirá el tráfico entre ellos de forma balanceada.</p>
+<hr />
+<h2 id="horizontal-pod-autoscaler-hpa">Horizontal Pod Autoscaler (HPA)</h2>
+<p>También es posible delegar el escalado en un componente automático denominado <strong>HPA</strong>:</p>
+<div class="highlight"><pre><span></span><code>Más carga de trabajo  -&gt; Más réplicas de Pods
+Menos carga de trabajo -&gt; Reducción de Pods
+</code></pre></div>
+<p>El HPA utiliza la métrica de consumo real en comparación con los <strong>requests</strong> definidos en el Deployment para decidir cuándo escalar.</p>
+<h3 id="nota-sobre-entornos-reales">Nota sobre entornos reales</h3>
+<p>Aunque OpenShift facilita la creación de un HPA, el ajuste fino del autoescalado suele requerir pruebas de carga, métricas históricas y un conocimiento detallado del comportamiento de la aplicación.</p>
+<p>Por este motivo, en esta formación introduciremos únicamente el concepto y su funcionamiento general.</p>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>Una aplicación puede estar viva y no estar preparada.</li>
+<li>Nuestra aplicación v3 simula esta situación mediante un retraso de 30 segundos en <code>/ready</code>.</li>
+<li>Readiness decide cuándo un Pod recibe tráfico del Service.</li>
+<li>Liveness decide cuándo debe reiniciarse un contenedor bloqueado.</li>
+<li>Startup protege aplicaciones con arranques largos desactivando temporalmente Liveness y Readiness.</li>
+<li>Requests reservan recursos mínimos para el agendamiento del Pod.</li>
+<li>Limits establecen consumos máximos permitidos.</li>
+<li>Requests, limits y consumo real son conceptos distintos.</li>
+<li>El HPA se apoya en unos requests correctamente definidos para calcular cuándo escalar.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
