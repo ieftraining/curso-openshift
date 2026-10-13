@@ -33,6 +33,7 @@ nav:
 
   - Sesión 3:
       - 3.1 Metricas y cuadros de mando: sesion3/3.1 Metricas y cuadros de mando.md
+      - 3.2 Alertas: sesion3/3.2 Alertas.md
       
 
 markdown_extensions:
