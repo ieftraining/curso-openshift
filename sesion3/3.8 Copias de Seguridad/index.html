@@ -1,0 +1,1984 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../3.7%20Operadores/">
+      
+      
+        <link rel="next" href="../3.9%20Cierre/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>3.8 Copias de Seguridad - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#38-copias-de-seguridad-que-entra-en-un-backup-y-que-no-oadp-y-velero-destino-programacion-y-retencion-backup-del-cluster-etcd-frente-a-backup-de-una-aplicacion-no-son-sustitutos" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.8 Copias de Seguridad
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dos-mundos-complementarios-backup-de-cluster-etcd-vs-backup-de-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dos mundos complementarios: Backup de Clúster (etcd) vs. Backup de Aplicación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dos mundos complementarios: Backup de Clúster (etcd) vs. Backup de Aplicación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-backup-del-cluster-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Backup del Clúster (etcd)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-backup-de-una-aplicacion-oadp-velero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Backup de una Aplicación (OADP / Velero)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matriz-comparativa-por-que-no-son-sustitutos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Matriz comparativa: ¿Por qué NO son sustitutos?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-de-aplicaciones-oadp-y-velero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup de Aplicaciones: OADP y Velero
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backup de Aplicaciones: OADP y Velero">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arquitectura-y-componentes-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arquitectura y componentes clave
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion-paso-a-paso-de-oadp-con-almacenamiento-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuración paso a paso de OADP con almacenamiento S3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuración paso a paso de OADP con almacenamiento S3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-secreto-de-credenciales-para-el-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Secreto de credenciales para el almacenamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-definicion-del-recurso-dataprotectionapplication-dpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Definición del recurso DataProtectionApplication (DPA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejecucion-de-backups-programacion-y-retencion-ttl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejecución de Backups, Programación y Retención (TTL)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejecución de Backups, Programación y Retención (TTL)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-creacion-de-un-backup-puntual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Creación de un Backup puntual
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-programacion-automatica-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Programación automática (Schedule)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-restauracion-de-un-respaldo-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Restauración de un respaldo (Restore)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-del-cluster-automatizacion-de-la-copia-de-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup del clúster: Automatización de la copia de etcd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backup del clúster: Automatización de la copia de etcd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manifiesto-del-cronjob-de-backup-de-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifiesto del CronJob de backup de etcd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manifiesto del CronJob de backup de etcd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#archivos-generados-en-cada-copia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archivos generados en cada copia:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dos-mundos-complementarios-backup-de-cluster-etcd-vs-backup-de-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dos mundos complementarios: Backup de Clúster (etcd) vs. Backup de Aplicación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dos mundos complementarios: Backup de Clúster (etcd) vs. Backup de Aplicación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-backup-del-cluster-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Backup del Clúster (etcd)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-backup-de-una-aplicacion-oadp-velero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Backup de una Aplicación (OADP / Velero)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matriz-comparativa-por-que-no-son-sustitutos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Matriz comparativa: ¿Por qué NO son sustitutos?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-de-aplicaciones-oadp-y-velero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup de Aplicaciones: OADP y Velero
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backup de Aplicaciones: OADP y Velero">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arquitectura-y-componentes-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arquitectura y componentes clave
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion-paso-a-paso-de-oadp-con-almacenamiento-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuración paso a paso de OADP con almacenamiento S3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuración paso a paso de OADP con almacenamiento S3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-secreto-de-credenciales-para-el-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Secreto de credenciales para el almacenamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-definicion-del-recurso-dataprotectionapplication-dpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Definición del recurso DataProtectionApplication (DPA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejecucion-de-backups-programacion-y-retencion-ttl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejecución de Backups, Programación y Retención (TTL)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejecución de Backups, Programación y Retención (TTL)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-creacion-de-un-backup-puntual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Creación de un Backup puntual
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-programacion-automatica-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Programación automática (Schedule)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-restauracion-de-un-respaldo-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Restauración de un respaldo (Restore)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-del-cluster-automatizacion-de-la-copia-de-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup del clúster: Automatización de la copia de etcd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backup del clúster: Automatización de la copia de etcd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manifiesto-del-cronjob-de-backup-de-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifiesto del CronJob de backup de etcd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manifiesto del CronJob de backup de etcd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#archivos-generados-en-cada-copia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archivos generados en cada copia:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="38-copias-de-seguridad-que-entra-en-un-backup-y-que-no-oadp-y-velero-destino-programacion-y-retencion-backup-del-cluster-etcd-frente-a-backup-de-una-aplicacion-no-son-sustitutos">3.8 Copias de seguridad: qué entra en un backup y qué no. OADP y Velero: destino, programación y retención. Backup del clúster (etcd) frente a backup de una aplicación — no son sustitutos ★</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender la diferencia fundamental entre el respaldo del estado global de la infraestructura del clúster (<code>etcd</code>) y el respaldo granular de aplicaciones (<em>workloads</em> y persistent volumes).</li>
+<li>Argumentar por qué las copias de seguridad de <code>etcd</code> y las de aplicaciones no son sustitutos, sino estrategias complementarias e indispensables.</li>
+<li>Conocer la arquitectura y componentes del operador <strong>OADP</strong> (<em>OpenShift API for Data Protection</em>) y su motor subyacente <strong>Velero</strong>.</li>
+<li>Identificar la necesidad de un almacenamiento de objetos compatible con la API S3 (ej. AWS S3, Ceph, NooBaa, MinIO) como destino principal de las copias de seguridad.</li>
+<li>Configurar y desplegar recursos personalizados de respaldo (<code>DataProtectionApplication</code>, <code>Backup</code>, <code>Restore</code>) definiendo destinos, programación (<em>schedules</em>) y políticas de retención (<em>TTL</em>).</li>
+<li>Automatizar las copias de seguridad del plano de control (<code>etcd</code>) mediante <em>CronJobs</em> con almacenamiento persistente en red (NFS/SAN).</li>
+</ul>
+<hr />
+<h2 id="dos-mundos-complementarios-backup-de-cluster-etcd-vs-backup-de-aplicacion">Dos mundos complementarios: Backup de Clúster (<code>etcd</code>) vs. Backup de Aplicación</h2>
+<p>En la gestión de entornos OpenShift, uno de los errores conceptuales más graves consiste en asumir que un único mecanismo de copia de seguridad cubre todas las necesidades de recuperación ante desastres.</p>
+<p>Es crucial entender que en una plataforma de contenedores existen dos planos de persistencia totalmente diferenciados:</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph ClusterLevel ["Plano de Infraestructura / Clúster"]
+        ETCD["etcd (Base de datos global)"]
+        ScriptETCD["Script de respaldo de etcd"]
+    end
+
+    subgraph AppLevel ["Plano de Aplicación / Namespace"]
+        K8sResources["Manifiestos y Recursos (Deployments, ConfigMaps)"]
+        PVData["Volúmenes Persistentes (PV/PVC)"]
+        OADP["OADP / Velero + Restic"]
+    end
+
+    ScriptETCD --&gt;|Respalda| ETCD
+    OADP --&gt;|Respalda metadatos| K8sResources
+    OADP --&gt;|Respalda datos| PVData</code></pre>
+<h3 id="1-backup-del-cluster-etcd">1. Backup del Clúster (<code>etcd</code>)</h3>
+<p>Imagina que un clúster de OpenShift es como una gran ciudad automatizada. Para que todo funcione, alguien tiene que apuntar absolutamente todo lo que ocurre: qué aplicaciones corren, qué usuarios tienen permisos, cuántos servidores hay y cómo están configurados. </p>
+<ul>
+<li><strong><code>etcd</code> es el cerebro y la memoria oficial del clúster.</strong> Es una base de datos ultrarrápida donde se guarda el estado entero de la plataforma.</li>
+<li><strong>Propósito:</strong> Recuperación ante un desastre catastrófico (<em>Disaster Recovery</em>). Si <code>etcd</code> se corrompe o se pierde, OpenShift olvida qué aplicaciones existían y el clúster deja de funcionar.</li>
+<li><strong>¿Qué NO cubre?</strong> No realiza copias de los datos internos contenidos en los discos o volúmenes de las aplicaciones de los usuarios.</li>
+</ul>
+<h3 id="2-backup-de-una-aplicacion-oadp-velero">2. Backup de una Aplicación (OADP / Velero)</h3>
+<p>Respalda el conjunto de recursos que componen un servicio de negocio dentro de un proyecto o namespace, junto con la información almacenada en sus volúmenes de datos.</p>
+<ul>
+<li><strong>Propósito:</strong> Recuperar una aplicación concreta borrada por error, migrar un proyecto entre clústeres o restaurar una base de datos a un punto anterior.</li>
+<li><strong>¿Qué NO cubre?</strong> No sirve para reconstruir la infraestructura base de OpenShift si los servidores principales colapsan.</li>
+</ul>
+<hr />
+<h2 id="matriz-comparativa-por-que-no-son-sustitutos">Matriz comparativa: ¿Por qué NO son sustitutos?</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Criterio</th>
+<th style="text-align: left;">Backup del clúster (<code>etcd</code>)</th>
+<th style="text-align: left;">Backup de aplicación (OADP / Velero)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Objeto respaldado</strong></td>
+<td style="text-align: left;">Base de datos <code>etcd</code> del plano de control.</td>
+<td style="text-align: left;">Objetos del namespace (Deployments, PVCs, Secrets) y datos de volúmenes.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Ámbito</strong></td>
+<td style="text-align: left;">Global (Todo el clúster).</td>
+<td style="text-align: left;">Granular (Proyectos/Namespaces seleccionados).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Respaldo de datos en PVCs</strong></td>
+<td style="text-align: left;"><strong>NO</strong> (Solo guarda los metadatos del PVC, no su contenido).</td>
+<td style="text-align: left;"><strong>SÍ</strong> (Mediante copias a nivel de archivos con Restic/Kopia).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Frecuencia típica</strong></td>
+<td style="text-align: left;">Diaria / Horaria (Automática).</td>
+<td style="text-align: left;">Según el RPO de cada aplicación de negocio.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Destino de almacenamiento</strong></td>
+<td style="text-align: left;">Almacenamiento externo en red (NFS, SAN).</td>
+<td style="text-align: left;">Almacenamiento de objetos compatible con S3.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Escenario de uso</strong></td>
+<td style="text-align: left;">Fallo total de los nodos principales (<em>masters</em>).</td>
+<td style="text-align: left;">Borrado accidental de un namespace o migración de app.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Principio fundamental de operación</p>
+<p>Un backup de <code>etcd</code> no te permitirá restaurar una tabla borrada por error en una base de datos de un desarrollador. </p>
+<p>Por su parte, un backup de OADP no te permitirá levantar un clúster desde cero si la infraestructura base colapsa. <strong>Ambos sistemas son indispensables y complementarios.</strong></p>
+</div>
+<hr />
+<h2 id="backup-de-aplicaciones-oadp-y-velero">Backup de Aplicaciones: OADP y Velero</h2>
+<p>Red Hat proporciona la solución <strong>OADP</strong> (<em>OpenShift API for Data Protection</em>), un operador certificado disponible en OperatorHub que empaqueta y extiende la herramienta de código abierto <strong>Velero</strong> junto con integraciones nativas para OpenShift.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph OpenShift ["OpenShift Cluster"]
+        OADPOp["OADP Operator"] --&gt; DPA["DataProtectionApplication"]
+        DPA --&gt; VeleroPod["Velero Pod"]
+        DPA --&gt; ResticDaemonSet["Restic DaemonSet"]
+    end
+
+    subgraph StorageBackend ["Destino Externo"]
+        S3["Object Storage compatible con S3&lt;br&gt;(AWS S3, Ceph, MinIO, etc.)"]
+    end
+
+    VeleroPod --&gt;|Exporta manifiestos YAML| S3
+    ResticDaemonSet --&gt;|Transfiere bloques de PVCs| S3</code></pre>
+<h3 id="arquitectura-y-componentes-clave">Arquitectura y componentes clave</h3>
+<ul>
+<li><strong>OADP Operator:</strong> Gestiona el ciclo de vida de las herramientas de respaldo en el clúster.</li>
+<li><strong>Velero:</strong> Componente central que interactúa con la API para capturar los metadatos y definiciones de los recursos.</li>
+<li><strong>Restic / Kopia:</strong> Agentes encargados de realizar copias de seguridad de los datos de los volúmenes persistentes a nivel de archivos.</li>
+<li><strong>Object Storage (S3):</strong> El destino obligatorio donde Velero y Restic depositan las copias. <em>(Nota: El protocolo subyacente debe ser compatible con la API <strong>S3</strong>, pudiendo utilizarse múltiples proveedores como AWS S3, Ceph, NooBaa o MinIO).</em></li>
+</ul>
+<hr />
+<h2 id="configuracion-paso-a-paso-de-oadp-con-almacenamiento-s3">Configuración paso a paso de OADP con almacenamiento S3</h2>
+<h3 id="1-secreto-de-credenciales-para-el-almacenamiento">1. Secreto de credenciales para el almacenamiento</h3>
+<p>Se registra un <code>Secret</code> en el namespace <code>openshift-adp</code> con las claves de acceso al almacenamiento de objetos:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud-credentials-s3</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift-adp</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="nt">stringData</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">[default]</span>
+<span class="w">    </span><span class="no">aws_access_key_id=s3-access-key</span>
+<span class="w">    </span><span class="no">aws_secret_access_key=s3-secret-key</span>
+</code></pre></div>
+<h3 id="2-definicion-del-recurso-dataprotectionapplication-dpa">2. Definición del recurso <code>DataProtectionApplication</code> (DPA)</h3>
+<p>El manifiesto <code>DPA</code> conecta Velero con el bucket S3 y activa Restic para los volúmenes:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oadp.openshift.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataProtectionApplication</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">velero-s3-config</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift-adp</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">backupLocations</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">velero</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">insecureSkipTLSVerify</span><span class="p">:</span><span class="w"> </span><span class="s">'false'</span>
+<span class="w">          </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">          </span><span class="nt">s3ForcePathStyle</span><span class="p">:</span><span class="w"> </span><span class="s">'true'</span>
+<span class="w">          </span><span class="nt">s3Url</span><span class="p">:</span><span class="w"> </span><span class="s">'[https://s3.eu-central-1.amazonaws.com](https://s3.eu-central-1.amazonaws.com)'</span>
+<span class="w">        </span><span class="nt">credential</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud-credentials-s3</span>
+<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">objectStorage</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bucket-backups-openshift</span>
+<span class="w">          </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">velero-data</span>
+<span class="w">        </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+<span class="w">  </span><span class="nt">configuration</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">restic</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">velero</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">defaultPlugins</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+</code></pre></div>
+<hr />
+<h2 id="ejecucion-de-backups-programacion-y-retencion-ttl">Ejecución de Backups, Programación y Retención (TTL)</h2>
+<p>Una vez configurado OADP, los respaldos y restauraciones se gestionan mediante recursos personalizados.</p>
+<h3 id="1-creacion-de-un-backup-puntual">1. Creación de un Backup puntual</h3>
+<p>Para respaldar un proyecto concreto (<code>test-app</code>) con un periodo de retención (<em>TTL</em>) de 30 días:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">velero.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Backup</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backup-test-app-v1</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift-adp</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">includedNamespaces</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-app</span>
+<span class="w">  </span><span class="nt">defaultVolumesToRestic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">snapshotVolumes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">storageLocation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">velero-s3-config-1</span>
+<span class="w">  </span><span class="nt">ttl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">720h0m0s</span>
+</code></pre></div>
+<h3 id="2-programacion-automatica-schedule">2. Programación automática (<em>Schedule</em>)</h3>
+<p>Para automatizar copias periódicas mediante sintaxis Cron:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">velero.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Schedule</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">schedule-diario-test-app</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift-adp</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s">"0</span><span class="nv"> </span><span class="s">2</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*"</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">includedNamespaces</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-app</span>
+<span class="w">    </span><span class="nt">defaultVolumesToRestic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">ttl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">168h0m0s</span>
+</code></pre></div>
+<h3 id="3-restauracion-de-un-respaldo-restore">3. Restauración de un respaldo (<em>Restore</em>)</h3>
+<p>Para recuperar un backup y opcionalmente moverlo a un nuevo namespace (<code>test-app-restaurado</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">velero.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Restore</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restore-test-app</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift-adp</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">backupName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backup-test-app-v1</span>
+<span class="w">  </span><span class="nt">includedNamespaces</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-app</span>
+<span class="w">  </span><span class="nt">namespaceMapping</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">test-app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-app-restaurado</span>
+<span class="w">  </span><span class="nt">restorePVs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<hr />
+<h2 id="backup-del-cluster-automatizacion-de-la-copia-de-etcd">Backup del clúster: Automatización de la copia de <code>etcd</code></h2>
+<p>Dado que <code>etcd</code> reside de forma interna en los servidores principales del clúster (<em>nodos master</em>), sus copias de seguridad no se realizan con Velero. En su lugar, OpenShift incluye de serie un <strong>script oficial de respaldo</strong> integrado en sus herramientas internas de administración.</p>
+<p>Para automatizar esta tarea sin intervención humana, la práctica habitual consiste en desplegar un <strong>CronJob</strong> con privilegios que ejecute dicho script periódicamente y guarde la instantánea resultante en un volumen de almacenamiento en red externo (NFS/SAN).</p>
+<pre class="mermaid"><code>flowchart TD
+    A["CronJob de etcd"] --&gt;|Ejecuta cada noche| B["Pod de Backup"]
+    B --&gt;|Conexión interna| C["Nodo Master de OpenShift"]
+    C --&gt;|Script oficial de respaldo| D["Genera Snapshot .db"]
+    D --&gt;|Mueve archivos| E["Volumen Externo NFS / SAN"]</code></pre>
+<h3 id="manifiesto-del-cronjob-de-backup-de-etcd">Manifiesto del <code>CronJob</code> de backup de <code>etcd</code></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">batch/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CronJob</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cronjob-etcd-backup</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift-etcd</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s">"0</span><span class="nv"> </span><span class="s">2</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*"</span>
+<span class="w">  </span><span class="nt">concurrencyPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Forbid</span>
+<span class="w">  </span><span class="nt">jobTemplate</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">nodeSelector</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">node-role.kubernetes.io/master</span><span class="p">:</span><span class="w"> </span><span class="s">''</span>
+<span class="w">          </span><span class="nt">restartPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OnFailure</span>
+<span class="w">          </span><span class="nt">serviceAccountName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">installer-sa</span>
+<span class="w">          </span><span class="nt">hostNetwork</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">          </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">etcd-backup</span>
+<span class="w">              </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.redhat.io/openshift4/ose-cli:latest</span>
+<span class="w">              </span><span class="nt">command</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/bin/bash</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'-c'</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">&gt;-</span>
+<span class="w">                  </span><span class="no">oc get no -l node-role.kubernetes.io/master --no-headers -o name | head -n 1 | xargs -I {} -- oc debug {} -- bash -c 'chroot /host sudo -E /usr/local/bin/cluster-backup.sh /home/core/backup' ;</span>
+<span class="w">                  </span><span class="no">mv /home/core/backup/* /etcd-backup/;</span>
+<span class="w">                  </span><span class="no">find /etcd-backup/ -type f -mtime +30 -exec rm {} \;</span>
+<span class="w">              </span><span class="nt">securityContext</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">privileged</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                </span><span class="nt">runAsUser</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">              </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host-backup</span>
+<span class="w">                  </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/core/backup</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">etcd-pvc-storage</span>
+<span class="w">                  </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etcd-backup</span>
+<span class="w">          </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host-backup</span>
+<span class="w">              </span><span class="nt">hostPath</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/core/backup</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">etcd-pvc-storage</span>
+<span class="w">              </span><span class="nt">persistentVolumeClaim</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">claimName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backup-etcd-pvc</span>
+</code></pre></div>
+<h4 id="archivos-generados-en-cada-copia">Archivos generados en cada copia:</h4>
+<ol>
+<li><code>snapshot_&lt;timestamp&gt;.db</code>: La instantánea binaria de la base de datos <code>etcd</code>.</li>
+<li><code>static_kuberesources_&lt;timestamp&gt;.tar.gz</code>: Manifiestos estáticos del plano de control necesarios para reconstruir el clúster.</li>
+</ol>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li><strong>No sustitución:</strong> El backup de <code>etcd</code> salva el cerebro y la memoria del clúster; OADP/Velero salva las aplicaciones de los usuarios y sus datos. Ambos son imprescindibles.</li>
+<li><strong>OADP</strong> es el operador de Red Hat que integra <strong>Velero</strong> y <strong>Restic</strong> para orquestar la copia de seguridad de proyectos de forma sencilla.</li>
+<li>OADP requiere un almacenamiento de objetos compatible con la API <strong>S3</strong> (como AWS S3, Ceph, NooBaa o MinIO).</li>
+<li>Los metadatos de las aplicaciones se guardan con Velero y los volúmenes persistentes se copian mediante Restic.</li>
+<li>El backup del clúster (<code>etcd</code>) se automatiza mediante un <strong>CronJob</strong> que ejecuta el script oficial de OpenShift y vuelca la instantánea en un almacenamiento externo seguro.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
