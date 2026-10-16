@@ -36,6 +36,7 @@ nav:
       - 3.2 Autoescalado: sesion3/3.2 Autoescalado.md
       - 3.3 Alertas: sesion3/3.3 Alertas.md
       - 3.4 Logs: sesion3/3.4 Logs.md
+      - 3.4 Diagnostico de incidencias: sesion3/3.5 Diagnostico de incidencias.md
       
 
 markdown_extensions:
