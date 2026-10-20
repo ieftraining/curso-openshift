@@ -41,6 +41,9 @@ nav:
       - 3.7 Operadores: sesion3/3.7 Operadores.md
       - 3.8 Copias de Seguridad: sesion3/3.8 Copias de Seguridad.md
       - 3.9 Cierre: sesion3/3.9 Cierre.md
+
+  - Sesión 4 - Industrializar y gobernar:
+      - 4.1 Proyectos y permisos: sesion3/4.1 Proyectos y permisos.md
       
 
 markdown_extensions:
