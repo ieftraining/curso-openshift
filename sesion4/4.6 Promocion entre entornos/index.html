@@ -1,0 +1,2381 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../4.5%20Construir%20en%20la%20plataforma/">
+      
+      
+        <link rel="next" href="../4.7%20Opciones%20de%20automatizacion/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>4.6 Promocion entre entornos - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#46-promocion-entre-entornos-principio-de-construir-una-vez-y-promover-el-artefacto-inmutable-gestion-de-configuracion-por-entorno-con-kustomize-base-y-superposiciones" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4.6 Promocion entre entornos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-principio-fundamental-construir-una-vez-promover-el-artefacto-inmutable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El principio fundamental: Construir una vez, promover el artefacto inmutable
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El principio fundamental: Construir una vez, promover el artefacto inmutable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-nunca-se-debe-reconstruir-una-imagen-para-produccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué NUNCA se debe reconstruir una imagen para producción?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestion-de-configuracion-por-entorno-con-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de configuración por entorno con Kustomize
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gestión de configuración por entorno con Kustomize">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es Kustomize?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-de-directorios-de-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estructura de directorios de Kustomize
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desglose-tecnico-de-componentes-base-y-overlays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desglose técnico de componentes: Base y Overlays
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desglose técnico de componentes: Base y Overlays">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-el-directorio-base-la-definicion-comun" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. El directorio base/ (La definición común)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. El directorio base/ (La definición común)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basekustomizationyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base/kustomization.yaml:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-el-directorio-overlays-ejemplo-simple-cambiar-replicas-y-etiquetas-por-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. El directorio overlays/ (Ejemplo simple: cambiar réplicas y etiquetas por entorno)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. El directorio overlays/ (Ejemplo simple: cambiar réplicas y etiquetas por entorno)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-1-entorno-de-desarrollo-overlaysdevkustomizationyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo 1: Entorno de Desarrollo (overlays/dev/kustomization.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-2-entorno-de-produccion-overlaysprokustomizationyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo 2: Entorno de Producción (overlays/pro/kustomization.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practica-n2-promocion-de-una-imagen-validada-a-produccion-utilizando-el-tag-commit-sha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Práctica N2: Promoción de una imagen validada a producción utilizando el Tag Commit SHA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Práctica N2: Promoción de una imagen validada a producción utilizando el Tag Commit SHA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-preparar-la-estructura-de-kustomize-en-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: Preparar la estructura de Kustomize en local
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paso 1: Preparar la estructura de Kustomize en local">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-crear-el-manifiesto-base-basedeploymentyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Crear el manifiesto base base/deployment.yaml:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-crear-el-servicio-base-baseserviceyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Crear el servicio base base/service.yaml:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-crear-la-ruta-base-baserouteyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Crear la ruta base base/route.yaml:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-crear-la-configuracion-base-basekustomizationyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Crear la configuración base base/kustomization.yaml:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-definir-el-overlay-de-produccion-con-la-imagen-inmutable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: Definir el Overlay de Producción con la imagen inmutable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-inspeccionar-la-transformacion-con-oc-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3: Inspeccionar la transformación con oc kustomize
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-desplegar-en-el-proyecto-de-produccion-oc-apply-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4: Desplegar en el proyecto de Producción (oc apply -k)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-principio-fundamental-construir-una-vez-promover-el-artefacto-inmutable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El principio fundamental: Construir una vez, promover el artefacto inmutable
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El principio fundamental: Construir una vez, promover el artefacto inmutable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-nunca-se-debe-reconstruir-una-imagen-para-produccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué NUNCA se debe reconstruir una imagen para producción?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestion-de-configuracion-por-entorno-con-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de configuración por entorno con Kustomize
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gestión de configuración por entorno con Kustomize">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es Kustomize?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-de-directorios-de-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estructura de directorios de Kustomize
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desglose-tecnico-de-componentes-base-y-overlays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desglose técnico de componentes: Base y Overlays
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desglose técnico de componentes: Base y Overlays">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-el-directorio-base-la-definicion-comun" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. El directorio base/ (La definición común)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. El directorio base/ (La definición común)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basekustomizationyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base/kustomization.yaml:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-el-directorio-overlays-ejemplo-simple-cambiar-replicas-y-etiquetas-por-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. El directorio overlays/ (Ejemplo simple: cambiar réplicas y etiquetas por entorno)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. El directorio overlays/ (Ejemplo simple: cambiar réplicas y etiquetas por entorno)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-1-entorno-de-desarrollo-overlaysdevkustomizationyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo 1: Entorno de Desarrollo (overlays/dev/kustomization.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-2-entorno-de-produccion-overlaysprokustomizationyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo 2: Entorno de Producción (overlays/pro/kustomization.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practica-n2-promocion-de-una-imagen-validada-a-produccion-utilizando-el-tag-commit-sha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Práctica N2: Promoción de una imagen validada a producción utilizando el Tag Commit SHA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Práctica N2: Promoción de una imagen validada a producción utilizando el Tag Commit SHA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-preparar-la-estructura-de-kustomize-en-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: Preparar la estructura de Kustomize en local
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paso 1: Preparar la estructura de Kustomize en local">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-crear-el-manifiesto-base-basedeploymentyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Crear el manifiesto base base/deployment.yaml:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-crear-el-servicio-base-baseserviceyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Crear el servicio base base/service.yaml:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-crear-la-ruta-base-baserouteyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Crear la ruta base base/route.yaml:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-crear-la-configuracion-base-basekustomizationyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Crear la configuración base base/kustomization.yaml:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-definir-el-overlay-de-produccion-con-la-imagen-inmutable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: Definir el Overlay de Producción con la imagen inmutable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-inspeccionar-la-transformacion-con-oc-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3: Inspeccionar la transformación con oc kustomize
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-desplegar-en-el-proyecto-de-produccion-oc-apply-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4: Desplegar en el proyecto de Producción (oc apply -k)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="46-promocion-entre-entornos-principio-de-construir-una-vez-y-promover-el-artefacto-inmutable-gestion-de-configuracion-por-entorno-con-kustomize-base-y-superposiciones">4.6 Promoción entre entornos: principio de construir una vez y promover el artefacto inmutable. Gestión de configuración por entorno con Kustomize (base y superposiciones) ★</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender el principio fundamental de la <strong>inmutabilidad del artefacto</strong>: construir la imagen una sola vez y promover exactamente el mismo binario validado entre entornos.</li>
+<li>Justificar técnicamente por qué reconstruir código en cada entorno invalida las pruebas de calidad y vulnera los principios de entrega continua en entornos corporativos.</li>
+<li>Comprender qué es <strong>Kustomize</strong> y cómo funciona su arquitectura de <strong>Base y Superposiciones (<em>Overlays</em>)</strong>.</li>
+<li>Diseñar manifiestos declarativos sencillos para adaptar variables de entorno, réplicas, espacios de nombres e imágenes por cada etapa del ciclo de vida (<code>dev</code>, <code>pre</code>, <code>pro</code>) sin duplicar código YAML.</li>
+<li>Ejecutar una práctica de promoción promoviendo exactamente la misma imagen validada por su tag inmutable de Git Commit SHA al entorno de producción utilizando Kustomize.</li>
+</ul>
+<hr />
+<h2 id="el-principio-fundamental-construir-una-vez-promover-el-artefacto-inmutable">El principio fundamental: Construir una vez, promover el artefacto inmutable</h2>
+<p>En la gestión de aplicaciones tradicional era habitual compilar el código fuente en cada entorno: una compilación para el servidor de desarrollo, otra para preproducción y una última compilación ejecutable en los servidores de producción.</p>
+<p>En la arquitectura de contenedores y plataformas como OpenShift, este comportamiento representa un antipatrón grave conocido como <strong>reconstrucción por entorno</strong>.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph ANTIPATRON ["ANTIPATRÓN: Reconstruir en cada entorno (Riesgo Alto)"]
+        A1[Código Git] --&gt;|Build 1| B1[Imagen DEV]
+        A2[Código Git] --&gt;|Build 2| B2[Imagen PRE]
+        A3[Código Git] --&gt;|Build 3| B3[Imagen PROD]
+    end
+
+    subgraph ESTANDAR ["ESTÁNDAR: Construir una vez y promover el artefacto inmutable"]
+        C[Código Git] --&gt;|Una única compilación BuildConfig / Pipeline| D[Imagen Inmutable: sha-&amp;lt;COMMIT-SHA&amp;gt;]
+        D --&gt;|1. Validar en| E[Entorno DEV]
+        D --&gt;|2. Promover la misma imagen a| F[Entorno PRE]
+        D --&gt;|3. Desplegar exactamente el mismo binario en| G[Entorno PROD]
+    end</code></pre>
+<h3 id="por-que-nunca-se-debe-reconstruir-una-imagen-para-produccion">¿Por qué NUNCA se debe reconstruir una imagen para producción?</h3>
+<ol>
+<li><strong>Falta de determinismo:</strong> Aunque utilices el mismo commit de Git, si la compilación ocurre en momentos diferentes, las dependencias de terceros (librerías npm, paquetes de lenguaje, imágenes base del sistema) pueden haber actualizado una versión menor o parche.</li>
+<li><strong>Invalidación de pruebas:</strong> La imagen que superó el control de calidad (<em>QA</em>) y las pruebas de rendimiento en preproducción <strong>no es técnicamente la misma</strong> que se ejecuta en producción si se ha vuelto a compilar.</li>
+<li><strong>Pérdida de trazabilidad y auditoría:</strong> Si surge un fallo crítico en el entorno productivo, no existe garantía absoluta de que el binario ejecutado corresponda exactamente con la versión homologada durante la fase de validación.</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Inmutabilidad del artefacto</p>
+<p>Un contenedor se empaqueta <strong>una sola vez</strong>. El artefacto binario resultante (la imagen identificada por su tag de <strong>Commit SHA</strong>) es <strong>inmutable</strong>. Lo que cambia de un entorno a otro no es la aplicación ni la imagen, sino la <strong>configuración externa</strong> que la acompaña (variables de entorno, bases de datos a las que se conecta, dominios y cuotas).</p>
+</div>
+<hr />
+<h2 id="gestion-de-configuracion-por-entorno-con-kustomize">Gestión de configuración por entorno con Kustomize</h2>
+<p>Si la imagen del contenedor es inmutable y no debe ser reconstruida para cada entorno, nos enfrentamos a un reto operativo: <em>¿Cómo adaptamos los puertos, el número de réplicas, las variables de entorno, las rutas DNS o las URLs de la base de datos para Desarrollo, Preproducción y Producción sin modificar la base común?</em></p>
+<p>La respuesta nativa en Kubernetes y OpenShift es <strong>Kustomize</strong>.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Estructura Kustomize
+        B[Base: Manifiestos Comunes&lt;br&gt;deployment.yaml, service.yaml, route.yaml]
+
+        subgraph Superposiciones / Overlays
+            O1[Overlay DEV&lt;br&gt;1 réplica, namespace dev]
+            O2[Overlay PRE&lt;br&gt;2 réplicas, namespace pre]
+            O3[Overlay PROD&lt;br&gt;3 réplicas, image tag SHA, namespace pro]
+        end
+    end
+
+    B --&gt;|Importado por| O1
+    B --&gt;|Importado por| O2
+    B --&gt;|Importado por| O3
+
+    O1 --&gt;|kustomize build| R1[YAML Final DEV]
+    O2 --&gt;|kustomize build| R2[YAML Final PRE]
+    O3 --&gt;|kustomize build| R3[YAML Final PROD]</code></pre>
+<h3 id="que-es-kustomize">¿Qué es Kustomize?</h3>
+<p>Kustomize es una herramienta de gestión de configuración declarativa integrada directamente en el cliente nativo <code>kubectl</code> y <code>oc</code> (a través del comando <code>oc apply -k</code>).</p>
+<p>A diferencia de otros gestores basados en plantillas con motores de sustitución de texto, Kustomize <strong>no utiliza plantillas ni marcadores de posición (<em>placeholders</em>)</strong>. En su lugar, utiliza el concepto de <strong>Base y Superposiciones (<em>Overlays</em>)</strong>:</p>
+<ol>
+<li><strong>Base:</strong> Contiene la definición pura y neutra de los recursos YAML de la aplicación (Deployment, Service, Route, ConfigMap), definidos una sola vez.</li>
+<li><strong>Superposiciones (<em>Overlays</em>):</strong> Contienen pequeñas reglas de modificación (parches) específicas para cada entorno (<code>dev</code>, <code>pre</code>, <code>pro</code>). Heredan el contenido de la <code>Base</code> y aplican únicamente las variaciones necesarias.</li>
+</ol>
+<hr />
+<h2 id="estructura-de-directorios-de-kustomize">Estructura de directorios de Kustomize</h2>
+<p>Un proyecto organizado con Kustomize utiliza una estructura de carpetas muy limpia donde se separan los recursos base de los overlays por entorno:</p>
+<div class="highlight"><pre><span></span><code>kustomize/
+├── base/
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   ├── route.yaml
+│   └── kustomization.yaml
+└── overlays/
+    ├── dev/
+    │   └── kustomization.yaml
+    ├── pre/
+    │   └── kustomization.yaml
+    └── pro/
+        └── kustomization.yaml
+</code></pre></div>
+<hr />
+<h2 id="desglose-tecnico-de-componentes-base-y-overlays">Desglose técnico de componentes: Base y Overlays</h2>
+<h3 id="1-el-directorio-base-la-definicion-comun">1. El directorio <code>base/</code> (La definición común)</h3>
+<p>La carpeta <code>base/</code> contiene los manifiestos YAML estándar de la aplicación escritos en su forma más limpia. No incluyen valores específicos de ningún entorno (sin <code>namespace</code> acoplado ni réplicas fijas de producción).</p>
+<h4 id="basekustomizationyaml"><code>base/kustomization.yaml</code>:</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+
+<span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deployment.yaml</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service.yaml</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">route.yaml</span>
+</code></pre></div>
+<hr />
+<h3 id="2-el-directorio-overlays-ejemplo-simple-cambiar-replicas-y-etiquetas-por-entorno">2. El directorio <code>overlays/</code> (Ejemplo simple: cambiar réplicas y etiquetas por entorno)</h3>
+<p>Cada subdirectorio dentro de <code>overlays/</code> importa la carpeta <code>base/</code> mediante una ruta relativa (<code>../../base</code>) y aplica únicamente las variaciones necesarias mediante parches declarativos sencillos.</p>
+<h4 id="ejemplo-1-entorno-de-desarrollo-overlaysdevkustomizationyaml">Ejemplo 1: Entorno de Desarrollo (<code>overlays/dev/kustomization.yaml</code>)</h4>
+<p>En desarrollo fijamos el espacio de nombres de pruebas y establecemos <strong>1 réplica</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+
+<span class="c1"># Asigna el namespace de desarrollo</span>
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">angel-cuaresma-alons-dev</span>
+
+<span class="c1"># Importa los archivos comunes de la base</span>
+<span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../base</span>
+
+<span class="nt">commonLabels</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">development</span>
+
+<span class="c1"># Parche sencillo: ajusta las réplicas a 1</span>
+<span class="nt">patches</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">target</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">    </span><span class="nt">patch</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
+<span class="w">      </span><span class="no">- op: replace</span>
+<span class="w">        </span><span class="no">path: /spec/replicas</span>
+<span class="w">        </span><span class="no">value: 1</span>
+</code></pre></div>
+<h4 id="ejemplo-2-entorno-de-produccion-overlaysprokustomizationyaml">Ejemplo 2: Entorno de Producción (<code>overlays/pro/kustomization.yaml</code>)</h4>
+<p>En producción asignamos el espacio de nombres de producción, subimos la disponibilidad a <strong>3 réplicas</strong> y sustituimos la imagen por el <strong>Git Commit SHA homologado</strong> (<code>&lt;COMMIT-SHA&gt;</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+
+<span class="c1"># Asigna el namespace de producción</span>
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">angel-cuaresma-alons-pro</span>
+
+<span class="c1"># Importa los archivos comunes de la base</span>
+<span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../base</span>
+
+<span class="nt">commonLabels</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
+
+<span class="c1"># Reemplaza la etiqueta de la imagen por el commit SHA inmutable correspondiente</span>
+<span class="nt">images</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion</span>
+<span class="w">    </span><span class="nt">newTag</span><span class="p">:</span><span class="w"> </span><span class="s">"&lt;COMMIT-SHA&gt;"</span>
+
+<span class="c1"># Parche sencillo: ajusta las réplicas a 3</span>
+<span class="nt">patches</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">target</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">    </span><span class="nt">patch</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
+<span class="w">      </span><span class="no">- op: replace</span>
+<span class="w">        </span><span class="no">path: /spec/replicas</span>
+<span class="w">        </span><span class="no">value: 3</span>
+</code></pre></div>
+<hr />
+<h2 id="practica-n2-promocion-de-una-imagen-validada-a-produccion-utilizando-el-tag-commit-sha">Práctica N2: Promoción de una imagen validada a producción utilizando el Tag Commit SHA</h2>
+<p>En esta práctica vamos a simular el flujo completo de promoción corporativa. Tomaremos la imagen de nuestra aplicación validada en el entorno de desarrollo, identificada por su hash inmutable de Git Commit SHA (<code>&lt;COMMIT-SHA&gt;</code>), y la promocionaremos al proyecto de producción <code>angel-cuaresma-alons-pro</code> <strong>sin volver a compilar el código fuente</strong> mediante Kustomize.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph "1. Validación en DEV"
+        DEV["Proyecto: angel-cuaresma-alons-dev&lt;br&gt;Imagen: demo-formacion:&amp;lt;COMMIT-SHA&amp;gt;"]
+    end
+
+    subgraph "2. Proceso de Promoción"
+        PROM["Promoción del Artefacto Inmutable&lt;br&gt;(Sin reconstruir la imagen)"]
+    end
+
+    subgraph "3. Despliegue en PRO"
+        PRO["Proyecto: angel-cuaresma-alons-pro&lt;br&gt;oc apply -k overlays/pro"]
+    end
+
+    DEV --&gt; PROM --&gt; PRO</code></pre>
+<hr />
+<h3 id="paso-1-preparar-la-estructura-de-kustomize-en-local">Paso 1: Preparar la estructura de Kustomize en local</h3>
+<p>Crea una carpeta de trabajo local en tu terminal con la siguiente estructura de archivos:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>promocion-app/base<span class="w"> </span>promocion-app/overlays/pro
+<span class="nb">cd</span><span class="w"> </span>promocion-app
+</code></pre></div>
+<h4 id="1-crear-el-manifiesto-base-basedeploymentyaml">1. Crear el manifiesto base <code>base/deployment.yaml</code>:</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:latest</span>
+<span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+</code></pre></div>
+<h4 id="2-crear-el-servicio-base-baseserviceyaml">2. Crear el servicio base <code>base/service.yaml</code>:</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">      </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+</code></pre></div>
+<h4 id="3-crear-la-ruta-base-baserouteyaml">3. Crear la ruta base <code>base/route.yaml</code>:</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">route.openshift.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Route</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">to</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+</code></pre></div>
+<h4 id="4-crear-la-configuracion-base-basekustomizationyaml">4. Crear la configuración base <code>base/kustomization.yaml</code>:</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+
+<span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deployment.yaml</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service.yaml</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">route.yaml</span>
+</code></pre></div>
+<hr />
+<h3 id="paso-2-definir-el-overlay-de-produccion-con-la-imagen-inmutable">Paso 2: Definir el Overlay de Producción con la imagen inmutable</h3>
+<p>Configuraremos el overlay de producción para que reemplace la etiqueta genérica por la etiqueta de commit SHA validada (<code>&lt;COMMIT-SHA&gt;</code>) y aumente el número de réplicas a 2.</p>
+<p>Crea el archivo <code>overlays/pro/kustomization.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">angel-cuaresma-alons-pro</span>
+
+<span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../base</span>
+
+<span class="c1"># Reemplaza dinámicamente la imagen base por la versión homologada por commit</span>
+<span class="nt">images</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion</span>
+<span class="w">    </span><span class="nt">newTag</span><span class="p">:</span><span class="w"> </span><span class="s">"&lt;COMMIT-SHA&gt;"</span>
+
+<span class="c1"># Inyecta parches para adaptar la disponibilidad en Producción</span>
+<span class="nt">patches</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">target</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">    </span><span class="nt">patch</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
+<span class="w">      </span><span class="no">- op: replace</span>
+<span class="w">        </span><span class="no">path: /spec/replicas</span>
+<span class="w">        </span><span class="no">value: 2</span>
+</code></pre></div>
+<hr />
+<h3 id="paso-3-inspeccionar-la-transformacion-con-oc-kustomize">Paso 3: Inspeccionar la transformación con <code>oc kustomize</code></h3>
+<p>Antes de aplicar los cambios en el clúster, podemos previsualizar el manifiesto YAML completo que generará Kustomize mediante el comando de inspección:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>kustomize<span class="w"> </span>overlays/pro
+</code></pre></div>
+<p><em>Verificación de la salida:</em> Comprueba que el YAML resultante asigna el namespace <code>angel-cuaresma-alons-pro</code>, define <code>replicas: 2</code>, incluye la definición del objeto Route y la imagen apunta exactamente a <code>docker.io/ieftraining/demo-formacion:&lt;COMMIT-SHA&gt;</code>.</p>
+<hr />
+<h3 id="paso-4-desplegar-en-el-proyecto-de-produccion-oc-apply-k">Paso 4: Desplegar en el proyecto de Producción (<code>oc apply -k</code>)</h3>
+<p>Despliega la aplicación configurada en el namespace productivo ejecutando el comando declarativo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-k<span class="w"> </span>overlays/pro
+</code></pre></div>
+<p>Salida esperada de la CLI:
+<div class="highlight"><pre><span></span><code>namespace/angel-cuaresma-alons-pro configured
+service/demo-formacion created
+route.route.openshift.io/demo-formacion created
+deployment.apps/demo-formacion created
+</code></pre></div></p>
+<p>Verificamos el progreso del despliegue en el entorno de producción:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/demo-formacion<span class="w"> </span>--namespace<span class="o">=</span>angel-cuaresma-alons-pro
+</code></pre></div>
+<p>Comprobamos los Pods en ejecución para validar que las réplicas están utilizando el tag SHA promovido:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>angel-cuaresma-alons-pro<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>demo-formacion<span class="w"> </span>-o<span class="w"> </span>wide
+</code></pre></div>
+<p>Comprobamos la ruta generada para acceder externamente a la aplicación:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>route<span class="w"> </span>demo-formacion<span class="w"> </span>-n<span class="w"> </span>angel-cuaresma-alons-pro
+</code></pre></div>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li><strong>Inmutabilidad del artefacto:</strong> La imagen del contenedor se construye una sola vez y se promueve entre entornos sin volver a compilar el código.</li>
+<li><strong>Prohibido reconstruir para producción:</strong> Reconstruir la imagen invalida las pruebas de calidad previas y rompe el determinismo del binario.</li>
+<li>Usa siempre el <strong>Git Commit SHA</strong> (<code>&lt;COMMIT-SHA&gt;</code>) como etiqueta inmutable para identificar las versiones homologadas que se promocionan a producción.</li>
+<li><strong>Kustomize</strong> gestiona las diferencias entre entornos separando los recursos comunes en una <strong>Base</strong> y aplicando modificaciones mediante <strong>Superposiciones (<em>Overlays</em>)</strong>, evitando la duplicación de código YAML.</li>
+<li>Los <strong>overlays</strong> (<code>dev</code>, <code>pre</code>, <code>pro</code>) heredan de la base e introducen parches específicos de configuración, namespace, réplicas y etiquetas.</li>
+<li>La directiva <strong><code>images</code></strong> dentro del <code>kustomization.yaml</code> de un overlay permite actualizar la versión del contenedor de forma declarativa sin alterar los manifiestos base.</li>
+<li>La ejecución de <strong><code>oc apply -k</code></strong> procesa la carpeta de Kustomize y aplica las transformaciones de forma atómica y declarativa sobre la API de OpenShift.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

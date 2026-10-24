@@ -1,0 +1,2022 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../3.1%20Metricas%20y%20cuadros%20de%20mando/">
+      
+      
+        <link rel="next" href="../3.3%20Alertas/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>3.2 Autoescalado - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#32-autoescalado-basado-en-metricas-del-hpa-estandar-por-cpumemoria-al-escalado-por-metricas-de-aplicacion" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.2 Autoescalado
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-el-autoescalado-horizontal-hpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es el autoescalado horizontal (HPA)?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-requisito-indispensable-la-importancia-de-los-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El requisito indispensable: la importancia de los requests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El requisito indispensable: la importancia de los requests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-ocurre-esto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué ocurre esto?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desplegar-y-probar-el-hpa-estandar-ciclo-de-vida-y-tiempos-de-reaccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desplegar y probar el HPA estándar: Ciclo de vida y tiempos de reacción
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desplegar y probar el HPA estándar: Ciclo de vida y tiempos de reacción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-creacion-del-hpa-con-oc-autoscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Creación del HPA con oc autoscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-monitorizacion-en-tiempo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Monitorización en tiempo real
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-simulacion-de-carga-local-mediante-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Simulación de carga local mediante PowerShell
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analisis-detallado-que-esta-pasando-en-cada-fase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Análisis detallado: ¿Qué está pasando en cada fase?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Análisis detallado: ¿Qué está pasando en cada fase?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fase-1-reposo-0-replicas-adicionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 1: Reposo (0 réplicas adicionales)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-2-inicio-del-bombardeo-de-peticiones-scale-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 2: Inicio del bombardeo de peticiones (Scale-Out)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-3-detencion-de-la-carga-y-periodo-de-estabilizacion-scale-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 3: Detención de la carga y período de estabilización (Scale-In)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mas-alla-de-la-cpu-el-concepto-de-metricas-de-aplicacion-y-negocio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Más allá de la CPU: el concepto de métricas de aplicación y negocio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Más allá de la CPU: el concepto de métricas de aplicación y negocio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#como-se-logra-esto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Cómo se logra esto?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-el-autoescalado-horizontal-hpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es el autoescalado horizontal (HPA)?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-requisito-indispensable-la-importancia-de-los-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El requisito indispensable: la importancia de los requests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El requisito indispensable: la importancia de los requests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-ocurre-esto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué ocurre esto?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desplegar-y-probar-el-hpa-estandar-ciclo-de-vida-y-tiempos-de-reaccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desplegar y probar el HPA estándar: Ciclo de vida y tiempos de reacción
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desplegar y probar el HPA estándar: Ciclo de vida y tiempos de reacción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-creacion-del-hpa-con-oc-autoscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Creación del HPA con oc autoscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-monitorizacion-en-tiempo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Monitorización en tiempo real
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-simulacion-de-carga-local-mediante-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Simulación de carga local mediante PowerShell
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analisis-detallado-que-esta-pasando-en-cada-fase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Análisis detallado: ¿Qué está pasando en cada fase?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Análisis detallado: ¿Qué está pasando en cada fase?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fase-1-reposo-0-replicas-adicionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 1: Reposo (0 réplicas adicionales)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-2-inicio-del-bombardeo-de-peticiones-scale-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 2: Inicio del bombardeo de peticiones (Scale-Out)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-3-detencion-de-la-carga-y-periodo-de-estabilizacion-scale-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 3: Detención de la carga y período de estabilización (Scale-In)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mas-alla-de-la-cpu-el-concepto-de-metricas-de-aplicacion-y-negocio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Más allá de la CPU: el concepto de métricas de aplicación y negocio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Más allá de la CPU: el concepto de métricas de aplicación y negocio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#como-se-logra-esto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Cómo se logra esto?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="32-autoescalado-basado-en-metricas-del-hpa-estandar-por-cpumemoria-al-escalado-por-metricas-de-aplicacion">3.2 Autoescalado basado en métricas: del HPA estándar por CPU/Memoria al escalado por métricas de aplicación</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender el concepto de autoescalado horizontal (<em>Horizontal Pod Autoscaler</em> o HPA) en OpenShift y su propósito operativo.</li>
+<li>Relacionar la monitorización de plataforma vista en el apartado 3.1 con la capacidad de respuesta automática del clúster.</li>
+<li>Entender cómo interactúa el controlador HPA con el <em>Metrics Server</em> de la plataforma para evaluar el consumo de recursos en tiempo real.</li>
+<li>Comprender la relación directa entre una correcta definición de <em>requests</em> (estudiada en la Sesión 2) y el correcto funcionamiento del autoescalado.</li>
+<li>Conocer los tiempos de reacción, las ventanas de estabilización y el comportamiento exacto del clúster tanto en el proceso de escalado hacia afuera (<em>scale-out</em>) como en el de reducción (<em>scale-in</em>).</li>
+<li>Configurar, desplegar y probar un HPA estándar mediante la línea de comandos sobre la aplicación de demostración de la Sesión 2 (<code>demo-formacion-yaml</code>).</li>
+<li>Interpretar paso a paso qué ocurre en el sistema durante cada fase de la prueba de carga.</li>
+</ul>
+<hr />
+<h2 id="que-es-el-autoescalado-horizontal-hpa">¿Qué es el autoescalado horizontal (HPA)?</h2>
+<p>En el apartado anterior (3.1) analizamos cómo la plataforma vigila de manera constante el estado de salud de los nodos, componentes y cargas de trabajo a través del stack de monitorización integrado. Sin embargo, saber que un componente está consumiendo más recursos o que la demanda aumenta es solo la mitad del camino; el siguiente paso lógico es reaccionar de forma automática.</p>
+<p>Hasta ahora hemos aprendido a escalar aplicaciones de forma manual modificando el número de réplicas en nuestro Deployment o ejecutando órdenes como <code>oc scale</code>.</p>
+<p>Sin embargo, en entornos corporativos reales, la demanda de los usuarios fluctúa de manera imprevisible a lo largo del día:</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Tráfico bajo&lt;br&gt;1 Réplica] --&gt;|Pico de demanda| B[Escalado automático&lt;br&gt;N Réplicas]
+    B --&gt;|Fin del pico| A</code></pre>
+<p>Para evitar que los administradores tengan que intervenir manualmente ante cada fluctuación de tráfico, Kubernetes y OpenShift proporcionan el recurso <strong>Horizontal Pod Autoscaler (HPA)</strong>.</p>
+<p>El HPA supervisa de forma continua el rendimiento de las cargas de trabajo y ajusta automáticamente el número de réplicas (<em>pods</em>) dentro de un rango predefinido:</p>
+<ul>
+<li><strong>Mínimo de réplicas:</strong> Garantiza la disponibilidad base del servicio (por ejemplo, 1 o 2 réplicas).</li>
+<li><strong>Máximo de réplicas:</strong> Establece un límite superior para evitar consumos descontrolados de infraestructura durante picos extremos de tráfico.</li>
+</ul>
+<hr />
+<h2 id="el-requisito-indispensable-la-importancia-de-los-requests">El requisito indispensable: la importancia de los <em>requests</em></h2>
+<p>En la Sesión 2 estudiamos en detalle la diferencia entre <em>requests</em> y <em>limits</em>. </p>
+<p>Para que el autoescalado funcione correctamente mediante métricas de CPU o memoria, <strong>es un requisito absolutamente indispensable que la aplicación tenga definidos sus <em>requests</em> de forma adecuada</strong>.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Métrica de Consumo Real&lt;br&gt;Ej: 50m de CPU] --&gt;|Comparación| B[Requests definidos en el Deployment&lt;br&gt;Ej: 100m de CPU]
+    B --&gt; C["Cálculo del porcentaje (% de uso)&lt;br&gt;(50m / 100m) = 50%"]
+    C --&gt; D{¿Supera el objetivo del HPA?}</code></pre>
+<h3 id="por-que-ocurre-esto">¿Por qué ocurre esto?</h3>
+<p>El HPA no calcula el uso de CPU en términos absolutos (como milicores puros), sino en <strong>porcentaje respecto a los recursos reservados (<em>requests</em>)</strong>.</p>
+<ul>
+<li>Si un contenedor consume <code>50m</code> (milicores) de CPU y su <em>request</em> está configurado en <code>100m</code>, el HPA interpretará que está al <strong>50% de su capacidad</strong>.</li>
+<li>Si el contenedor consume exactamente los mismos <code>50m</code>, pero olvidamos definir el <em>request</em> (o lo dejamos mal dimensionado), el HPA no podrá calcular ningún porcentaje y el autoescalado dejará de funcionar.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Idea clave</p>
+<p>El autoescalado por CPU y memoria descansa sobre los cimientos de los <em>requests</em> configurados en el Deployment. Unos <em>requests</em> mal dimensionados provocan que el HPA escale antes de tiempo o que directamente nunca llegue a reaccionar.</p>
+</div>
+<hr />
+<h2 id="desplegar-y-probar-el-hpa-estandar-ciclo-de-vida-y-tiempos-de-reaccion">Desplegar y probar el HPA estándar: Ciclo de vida y tiempos de reacción</h2>
+<p>Partiendo de nuestra aplicación de la Sesión 2 (<code>demo-formacion-yaml</code>), vamos a poner en marcha el autoescalado y a analizar paso a paso <strong>qué ocurre exactamente en cada momento</strong> para entender los tiempos de respuesta del clúster.</p>
+<h3 id="1-creacion-del-hpa-con-oc-autoscale">1. Creación del HPA con <code>oc autoscale</code></h3>
+<p>Ejecutamos el siguiente comando para vincular el recurso de autoescalado al Deployment, fijando temporalmente un objetivo del <strong>10%</strong> de consumo de CPU para facilitar la prueba didáctica:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>autoscale<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span>--min<span class="o">=</span><span class="m">1</span><span class="w"> </span>--max<span class="o">=</span><span class="m">3</span><span class="w"> </span>--cpu-percent<span class="o">=</span><span class="m">10</span>
+</code></pre></div>
+<h3 id="2-monitorizacion-en-tiempo-real">2. Monitorización en tiempo real</h3>
+<p>Para observar el comportamiento del autoescalador segundo a segundo, abrimos una terminal conectada al clúster y ejecutamos:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>hpa<span class="w"> </span>demo-formacion-yaml<span class="w"> </span>-w
+</code></pre></div>
+<h3 id="3-simulacion-de-carga-local-mediante-powershell">3. Simulación de carga local mediante PowerShell</h3>
+<p>Dado que trabajamos en entornos de tipo Sandbox con una única terminal web, generaremos el tráfico concurrente necesario desde un script de PowerShell en nuestra máquina local utilizando trabajos en segundo plano (<code>Start-Job</code>). </p>
+<p>Copia y pega este bloque en tu PowerShell local:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s2">"[http://demo-formacion-yaml-angel-cuaresma-alons-dev.apps.rm3.7wse.p1.openshiftapps.com](http://demo-formacion-yaml-angel-cuaresma-alons-dev.apps.rm3.7wse.p1.openshiftapps.com)"</span>
+<span class="nb">Write-Host</span> <span class="s2">"Lanzando peticiones en paralelo... Pulsa ENTER para detener la carga."</span>
+
+<span class="nv">$jobs</span> <span class="p">=</span> <span class="k">for</span> <span class="p">(</span><span class="nv">$j</span><span class="p">=</span><span class="n">1</span><span class="p">;</span> <span class="nv">$j</span> <span class="o">-le</span> <span class="n">25</span><span class="p">;</span> <span class="nv">$j</span><span class="p">++)</span> <span class="p">{</span>
+    <span class="nb">Start-Job</span> <span class="n">-ScriptBlock</span> <span class="p">{</span>
+        <span class="k">param</span><span class="p">(</span><span class="nv">$u</span><span class="p">)</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nv">$true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">try</span> <span class="p">{</span>
+                <span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$u</span> <span class="n">-UseBasicParsing</span> <span class="n">-TimeoutSec</span> <span class="n">1</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+            <span class="p">}</span> <span class="k">catch</span> <span class="p">{}</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="n">-ArgumentList</span> <span class="nv">$url</span>
+<span class="p">}</span>
+
+<span class="nb">Read-Host</span>
+<span class="nb">Write-Host</span> <span class="s2">"Deteniendo la carga..."</span>
+<span class="nb">Stop-Job</span> <span class="p">*</span>
+<span class="nb">Remove-Job</span> <span class="p">*</span>
+</code></pre></div>
+<hr />
+<h2 id="analisis-detallado-que-esta-pasando-en-cada-fase">Análisis detallado: ¿Qué está pasando en cada fase?</h2>
+<p>Para comprender a fondo la operación de OpenShift, es fundamental desglorar la línea temporal de lo que ocurre desde que lanzamos el tráfico hasta que la aplicación vuelve a su estado inicial:</p>
+<h3 id="fase-1-reposo-0-replicas-adicionales">Fase 1: Reposo (0 réplicas adicionales)</h3>
+<ul>
+<li><strong>Estado inicial:</strong> El HPA muestra un consumo bajo (por ejemplo, <code>1% / 10%</code>) y el número de réplicas se mantiene en el mínimo (<code>1</code>). La aplicación está inactiva o con tráfico mínimo de fondo.</li>
+</ul>
+<h3 id="fase-2-inicio-del-bombardeo-de-peticiones-scale-out">Fase 2: Inicio del bombardeo de peticiones (<em>Scale-Out</em>)</h3>
+<ul>
+<li><strong>Acción:</strong> Al ejecutar el bucle en PowerShell, 25 hilos simultáneos impactan contra la URL del servicio.</li>
+<li><strong>Reacción del clúster:</strong> El <em>Metrics Server</em> recopila el nuevo consumo de CPU del contenedor. Vemos en el monitor (<code>oc get hpa -w</code>) cómo los valores ascienden rápidamente (por ejemplo, pasando del 2% al <strong>13% / 10%</strong>).</li>
+<li><strong>El factor tiempo en el escalado:</strong> OpenShift no reacciona de forma instantánea al primer pico para evitar falsos positivos ante fluctuaciones de milisegundos. El controlador HPA evalúa las métricas en ciclos (por defecto cada 15-30 segundos). Al detectar que el consumo supera el objetivo de forma sostenida, toma la decisión de escalar.</li>
+<li><strong>Resultado:</strong> Las réplicas aumentan de <code>1</code> a <code>2</code> (o directamente a <code>3</code> si la saturación es máxima). Al duplicar las réplicas, la carga de trabajo se reparte inmediatamente entre los nuevos pods, haciendo que el porcentaje de CPU por pod vuelva a descender por debajo del umbral del 10%.</li>
+</ul>
+<h3 id="fase-3-detencion-de-la-carga-y-periodo-de-estabilizacion-scale-in">Fase 3: Detención de la carga y período de estabilización (<em>Scale-In</em>)</h3>
+<ul>
+<li><strong>Acción:</strong> Pulsamos <strong>ENTER</strong> en nuestra consola de PowerShell. El script se detiene, los trabajos en segundo plano mueren y cesa por completo el tráfico hacia la aplicación.</li>
+<li><strong>¿Qué ocurre en el HPA?</strong> Si observamos inmediatamente la terminal con <code>oc get hpa -w</code>, notaremos algo sorprendente: <strong>el número de réplicas no baja de inmediato</strong>. Permanece en 2 o 3 réplicas a pesar de que la CPU ha bajado al 1% o 2%.</li>
+<li><strong>¿Por qué sucede esto? (Ventana de estabilización o <em>Scale-In Stabilization Window</em>):</strong></li>
+<li>Kubernetes implementa por defecto un mecanismo de protección contra el "efecto parpadeo" (<em>thrashing</em>), consistente en una ventana de retardo (por defecto de 5 minutos para la reducción).</li>
+<li>Si el clúster redujera las réplicas al instante en cuanto el tráfico cae un segundo, y volviera a subirlas al siguiente pico, se generaría un consumo inútil de recursos e inestabilidad en la infraestructura.</li>
+<li>Durante este período de gracia, OpenShift evalúa si la caída de tráfico es sostenida en el tiempo.</li>
+<li><strong>Resultado final:</strong> Una vez transcurrido el tiempo de estabilización sin carga, el controlador procede de forma segura a reducir las réplicas progresivamente hasta regresar al valor mínimo (<code>1</code>), completando el ciclo de vida completo del autoescalado.</li>
+</ul>
+<hr />
+<h2 id="mas-alla-de-la-cpu-el-concepto-de-metricas-de-aplicacion-y-negocio">Más allá de la CPU: el concepto de métricas de aplicación y negocio</h2>
+<p>Aunque el HPA por CPU y memoria resuelve la gran mayoría de escenarios estándar, existen casos donde las métricas de infraestructura no reflejan fielmente la necesidad real de escalar:</p>
+<ul>
+<li><strong>Aplicaciones limitadas por E/S (I/O):</strong> Un microservicio que espera respuestas de una base de datos externa o un sistema de ficheros puede saturarse atendiendo peticiones concurrentes sin apenas consumir CPU. Para el HPA estándar, el Pod parecerá inactivo.</li>
+<li><strong>Métricas de negocio específicas:</strong> En entornos avanzados, los equipos necesitan escalar en función de la demanda real del servicio (por ejemplo, número de peticiones HTTP por segundo, transacciones procesadas o mensajes pendientes en una cola de mensajería).</li>
+</ul>
+<h3 id="como-se-logra-esto">¿Cómo se logra esto?</h3>
+<p>Para escalar basándose en este tipo de métricas, es necesario que <strong>la aplicación esté debidamente instrumentada</strong> (es decir, que exponga métricas operativas de rendimiento o negocio a través de un endpoint compatible, como <code>/metrics</code> o <code>/q/metrics</code>).</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Aplicación Instrumentada&lt;br&gt;Expone métricas /metrics] --&gt;|Recopilación| B[User-Workload Monitoring&lt;br&gt;Prometheus / Thanos]
+    B --&gt;|Adaptación de API| C[Métricas Personalizadas]
+    C --&gt;D[HPA Avanzado]</code></pre>
+<p>En plataformas corporativas, la combinación de herramientas como <em>User-Workload Monitoring</em> y adaptadores de métricas permite transformar esas señales de la aplicación en valores comprensibles para el HPA. </p>
+<p>Aunque su configuración técnica requiere componentes adicionales (como adaptadores de métricas y reglas personalizadas), el principio conceptual sigue siendo exactamente el mismo: <strong>observar una magnitud representativa de la carga y adaptar automáticamente el número de réplicas en consecuencia</strong>.</p>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>El <strong>Horizontal Pod Autoscaler (HPA)</strong> ajusta automáticamente el número de réplicas de un Deployment en función de la demanda real.</li>
+<li>El HPA por CPU y memoria se apoya en el <strong>Metrics Server</strong> nativo de OpenShift sin requerir instalaciones complejas adicionales.</li>
+<li><strong>Una correcta definición de <em>requests</em> es obligatoria</strong> para que el HPA pueda calcular los porcentajes de utilización de recursos.</li>
+<li>El proceso de <strong>escalado hacia afuera (<em>scale-out</em>)</strong> se produce de forma ágil al detectar un consumo sostenido por encima del objetivo.</li>
+<li>El proceso de <strong>reducción (<em>scale-in</em>)</strong> incorpora una ventana de estabilización temporal por seguridad para evitar cambios bruscos e inestabilidad en la plataforma.</li>
+<li>Las aplicaciones pueden instrumentarse para exponer métricas de negocio o rendimiento adicionales, permitiendo un autoescalado avanzado adaptado a necesidades específicas de tráfico.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
