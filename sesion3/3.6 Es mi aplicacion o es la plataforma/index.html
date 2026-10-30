@@ -1,0 +1,1937 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../3.5%20Diagnostico%20de%20incidencias/">
+      
+      
+        <link rel="next" href="../3.7%20Operadores/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>3.6 Es mi aplicacion o es la plataforma - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#36-es-mi-aplicacion-o-es-la-plataforma" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.6 Es mi aplicacion o es la plataforma
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#del-diagnostico-de-la-aplicacion-a-la-salud-de-la-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del diagnóstico de la aplicación a la salud de la plataforma
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-comprobar-el-estado-de-los-cluster-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Comprobar el estado de los Cluster Operators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Comprobar el estado de los Cluster Operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consultar-un-operador-concreto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar un operador concreto
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-comprobar-el-estado-de-los-nodos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Comprobar el estado de los nodos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Comprobar el estado de los nodos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consultar-las-condiciones-de-un-nodo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar las condiciones de un nodo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-consultar-el-consumo-global-de-los-nodos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Consultar el consumo global de los nodos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-saber-cuando-escalar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Saber cuándo escalar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#del-estado-de-los-operadores-a-su-gestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del estado de los operadores a su gestión
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#del-diagnostico-de-la-aplicacion-a-la-salud-de-la-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del diagnóstico de la aplicación a la salud de la plataforma
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-comprobar-el-estado-de-los-cluster-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Comprobar el estado de los Cluster Operators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Comprobar el estado de los Cluster Operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consultar-un-operador-concreto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar un operador concreto
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-comprobar-el-estado-de-los-nodos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Comprobar el estado de los nodos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Comprobar el estado de los nodos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consultar-las-condiciones-de-un-nodo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar las condiciones de un nodo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-consultar-el-consumo-global-de-los-nodos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Consultar el consumo global de los nodos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-saber-cuando-escalar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Saber cuándo escalar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#del-estado-de-los-operadores-a-su-gestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del estado de los operadores a su gestión
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="36-es-mi-aplicacion-o-es-la-plataforma">3.6 ¿Es mi aplicación o es la plataforma?</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Ampliar el ámbito de investigación cuando las evidencias no expliquen el fallo desde la aplicación o desde los recursos de su proyecto.</li>
+<li>Interpretar el estado general de los componentes de OpenShift mediante <code>oc get co</code>.</li>
+<li>Identificar nodos en estado <code>NotReady</code> y comprender su posible impacto sobre las cargas de trabajo.</li>
+<li>Consultar el consumo global de recursos de los nodos mediante <code>oc adm top nodes</code> sin extraer conclusiones a partir de una única métrica.</li>
+<li>Reconocer cuándo una incidencia debe continuar tratándose en el ámbito de la aplicación y cuándo conviene recopilar evidencias y escalarla al equipo responsable de la plataforma.</li>
+</ul>
+<hr />
+<h2 id="del-diagnostico-de-la-aplicacion-a-la-salud-de-la-plataforma">Del diagnóstico de la aplicación a la salud de la plataforma</h2>
+<p>En el apartado anterior aprendimos a investigar una incidencia siguiendo un recorrido basado en evidencias: <code>events</code> → <code>describe</code> → <code>logs</code>. Este método permite localizar problemas relacionados con el código, la configuración y los objetos que gestiona el equipo de la aplicación.</p>
+<p>Sin embargo, ese recorrido puede conducirnos a una situación diferente: los recursos de nuestro proyecto parecen correctamente configurados, pero el problema continúa, afecta a varias aplicaciones o apunta a un componente compartido del clúster.</p>
+<p>En ese momento no debemos repetir indefinidamente las mismas comprobaciones sobre el Pod. Debemos <strong>ampliar el foco</strong> y responder a una nueva pregunta:</p>
+<blockquote>
+<p><strong>¿Sigue siendo un problema de mi aplicación o existen indicios de que la plataforma está degradada?</strong></p>
+</blockquote>
+<p>El objetivo de este apartado no es realizar un diagnóstico avanzado del clúster. Se trata de comprobar unas pocas señales generales, relacionarlas con las evidencias ya obtenidas y decidir si debemos seguir trabajando en el ámbito de la aplicación o escalar la incidencia.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Diagnóstico de la aplicación&lt;br/&gt;events · describe · logs]
+    --&gt; B[Las evidencias no explican el problema]
+    --&gt; C[Ampliamos el foco]
+    --&gt; D[Cluster Operators · nodos · recursos]
+    --&gt; E[Continuar o escalar]</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Ampliar el foco no significa abandonar el método</p>
+<p>Seguimos trabajando con evidencias. Un operador degradado, un nodo <code>NotReady</code> o un consumo elevado son indicios que deben relacionarse con el síntoma observado. Ninguna comprobación aislada explica por sí sola todas las incidencias.</p>
+</div>
+<hr />
+<h2 id="1-comprobar-el-estado-de-los-cluster-operators">1. Comprobar el estado de los Cluster Operators</h2>
+<p>En la sesión 1 vimos que OpenShift utiliza operadores para gestionar componentes esenciales de la plataforma. Ahora no necesitamos volver a estudiar su funcionamiento interno: los utilizaremos como una primera señal de la salud general del clúster.</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>co
+</code></pre></div>
+<p>La salida muestra el estado de los <em>Cluster Operators</em>:</p>
+<div class="highlight"><pre><span></span><code>NAME              VERSION   AVAILABLE   PROGRESSING   DEGRADED   SINCE   MESSAGE
+authentication    4.x       True        False         False      4d
+console           4.x       True        False         False      4d
+ingress           4.x       True        False         False      4d
+monitoring        4.x       True        False         False      4d
+network           4.x       True        False         False      4d
+storage           4.x       True        False         False      4d
+</code></pre></div>
+<p>Las columnas más relevantes son:</p>
+<ul>
+<li><strong><code>AVAILABLE</code></strong>: indica si el operador dispone de sus componentes operativos.</li>
+<li><strong><code>PROGRESSING</code></strong>: indica que el operador está aplicando cambios o intentando alcanzar el estado deseado. Puede ser normal durante una actualización o una reconciliación.</li>
+<li><strong><code>DEGRADED</code></strong>: indica que el operador ha detectado una condición que impide que alguno de sus componentes funcione como se espera.</li>
+<li><strong><code>MESSAGE</code></strong>: proporciona un resumen que puede orientar la investigación.</li>
+</ul>
+<p>No debemos interpretar automáticamente cualquier valor distinto de <code>False</code> en <code>PROGRESSING</code> como una incidencia. Lo importante es comprobar si existe una degradación persistente, si el mensaje guarda relación con el síntoma y si el componente afectado es relevante para nuestra aplicación.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li>si varias Routes dejan de responder y el operador de <code>ingress</code> aparece degradado, existe una relación que debe investigar el equipo de plataforma;</li>
+<li>si un operador no relacionado está aplicando un cambio temporal, puede no tener ninguna conexión con nuestra incidencia;</li>
+<li>si todos los operadores aparecen disponibles y sin degradación, esta comprobación no demuestra que la aplicación esté bien, pero reduce la probabilidad de un problema general visible en la plataforma.</li>
+</ul>
+<h3 id="consultar-un-operador-concreto">Consultar un operador concreto</h3>
+<p>Si existe un valor anómalo y disponemos de permisos, podemos consultar información adicional:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>clusteroperator<span class="w"> </span>&lt;nombre-del-operador&gt;
+</code></pre></div>
+<p>La descripción permite revisar sus condiciones y mensajes. En este nivel no intentaremos reparar el operador: utilizaremos esa información para documentar la incidencia y facilitar su escalado.</p>
+<div class="admonition warning">
+<p class="admonition-title">Diferencia con el apartado siguiente</p>
+<p>Aquí utilizamos los <em>Cluster Operators</em> como indicadores de salud de OpenShift. En el apartado 3.7 estudiaremos otra perspectiva: cómo se instalan y gestionan operadores adicionales mediante OperatorHub y OLM, utilizando recursos como <code>Subscription</code> y <code>ClusterServiceVersion</code> (<code>CSV</code>).</p>
+</div>
+<hr />
+<h2 id="2-comprobar-el-estado-de-los-nodos">2. Comprobar el estado de los nodos</h2>
+<p>Los Pods se ejecutan sobre los nodos del clúster. Si un nodo pierde comunicación con el plano de control o presenta un problema grave, puede pasar a estado <code>NotReady</code>.</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>nodes
+</code></pre></div>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>NAME                           STATUS     ROLES    AGE   VERSION
+worker-01.example.com          Ready      worker   10d   v1.x
+worker-02.example.com          NotReady   worker   10d   v1.x
+control-plane-01.example.com   Ready      master   10d   v1.x
+</code></pre></div>
+<p>La pregunta inicial es sencilla:</p>
+<blockquote>
+<p><strong>¿Todos los nodos están en estado <code>Ready</code>?</strong></p>
+</blockquote>
+<p>Un nodo <code>NotReady</code> constituye una evidencia relevante, especialmente cuando:</p>
+<ul>
+<li>el Pod afectado estaba ejecutándose en ese nodo;</li>
+<li>varios Pods ubicados en el mismo nodo presentan problemas;</li>
+<li>el clúster no encuentra capacidad suficiente para reubicar las cargas;</li>
+<li>la incidencia afecta a más de un proyecto o aplicación.</li>
+</ul>
+<p>OpenShift dejará de programar nuevos Pods en un nodo que no esté disponible. Las cargas gestionadas por un controlador, como un Deployment, pueden recrearse en otros nodos si el clúster determina que corresponde hacerlo y existe capacidad y configuración compatibles. Este proceso no siempre es inmediato y no garantiza la continuidad de una aplicación con una única réplica.</p>
+<h3 id="consultar-las-condiciones-de-un-nodo">Consultar las condiciones de un nodo</h3>
+<p>Si disponemos de permisos, podemos ampliar la información:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>node<span class="w"> </span>&lt;nombre-del-nodo&gt;
+</code></pre></div>
+<p>Nos fijaremos principalmente en:</p>
+<ul>
+<li>la sección <strong><code>Conditions</code></strong>;</li>
+<li>los mensajes asociados a <code>Ready</code>;</li>
+<li>las condiciones de presión de memoria, disco o procesos;</li>
+<li>los eventos recientes del nodo.</li>
+</ul>
+<p>El objetivo no es reparar el nodo desde este apartado. Si la evidencia apunta a un problema de infraestructura, debemos registrar el nodo afectado, el momento de la incidencia y los mensajes relevantes para trasladarlos al equipo responsable.</p>
+<hr />
+<h2 id="3-consultar-el-consumo-global-de-los-nodos">3. Consultar el consumo global de los nodos</h2>
+<p>En el apartado 3.1 analizamos las métricas de nuestros propios Pods. Cuando necesitamos ampliar el foco, podemos consultar el consumo actual de CPU y memoria de los nodos:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>adm<span class="w"> </span>top<span class="w"> </span>nodes
+</code></pre></div>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>NAME                           CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+control-plane-01.example.com   1250m        31%    8192Mi          52%
+worker-01.example.com          3400m        85%    14200Mi         91%
+worker-02.example.com          3800m        76%    15100Mi         95%
+</code></pre></div>
+<p>Esta información puede ayudarnos a comprobar si el síntoma coincide con un uso elevado o generalizado de recursos. Sin embargo, debemos interpretarla con prudencia:</p>
+<ul>
+<li>una lectura puntual elevada no demuestra por sí sola una incidencia;</li>
+<li>el consumo debe relacionarse con los eventos, el estado de los Pods y la evolución temporal de las métricas;</li>
+<li>un Pod en <code>Pending</code> no implica automáticamente falta de CPU o memoria: el mensaje de <code>FailedScheduling</code> indicará la causa concreta;</li>
+<li>la presión de memoria puede afectar a las cargas, pero un porcentaje alto no permite afirmar por sí solo que se hayan producido terminaciones por falta de memoria;</li>
+<li>el comando puede no estar disponible para usuarios sin permisos de administración o si las métricas necesarias no están accesibles.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Las métricas aportan contexto, no una sentencia</p>
+<p>Si varios nodos mantienen un consumo muy elevado y aparecen eventos de planificación por falta de recursos, ambas evidencias se refuerzan. Si observamos únicamente un valor alto durante unos segundos, necesitamos más información antes de relacionarlo con la incidencia.</p>
+</div>
+<hr />
+<h2 id="4-saber-cuando-escalar">4. Saber cuándo escalar</h2>
+<p>Después de revisar nuestra aplicación y estas señales generales de la plataforma, no necesitamos determinar la causa exacta de todos los problemas. Lo importante es reconocer cuándo la investigación ha salido de nuestro ámbito.</p>
+<table>
+<thead>
+<tr>
+<th>Evidencia</th>
+<th>Actuación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>events</code>, <code>describe</code> o <code>logs</code> apuntan a nuestra aplicación o configuración</td>
+<td>Continuar el diagnóstico en el ámbito de la aplicación</td>
+</tr>
+<tr>
+<td>Varias aplicaciones o proyectos presentan síntomas similares</td>
+<td>Ampliar el foco a la plataforma</td>
+</tr>
+<tr>
+<td>Un <em>Cluster Operator</em> relacionado aparece degradado de forma persistente</td>
+<td>Recoger la evidencia y escalar</td>
+</tr>
+<tr>
+<td>Uno o varios nodos aparecen <code>NotReady</code></td>
+<td>Recoger la evidencia y escalar</td>
+</tr>
+<tr>
+<td>No disponemos de permisos para continuar la investigación</td>
+<td>Trasladar al equipo responsable las evidencias obtenidas</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Escalar con evidencias</p>
+<p>Al escalar una incidencia conviene indicar qué aplicación y proyecto están afectados, el síntoma observado, cuándo comenzó y qué comprobaciones se han realizado. El objetivo es que el siguiente nivel pueda continuar la investigación, no empezarla desde cero.</p>
+</div>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>El apartado 3.5 permite diagnosticar la aplicación; este apartado amplía el foco cuando esas evidencias no explican el problema.</li>
+<li><code>oc get co</code> muestra señales generales sobre la salud de los componentes gestionados de OpenShift.</li>
+<li>Un valor <code>PROGRESSING</code> no implica necesariamente un fallo; debemos prestar atención al contexto, a <code>DEGRADED</code> y a los mensajes asociados.</li>
+<li><code>oc get nodes</code> permite comprobar si todos los nodos se encuentran <code>Ready</code>.</li>
+<li><code>oc adm top nodes</code> aporta contexto sobre el consumo global, pero una lectura aislada no demuestra la causa de una incidencia.</li>
+<li>El objetivo no es administrar en profundidad la plataforma, sino reconocer cuándo el problema ha salido del ámbito de la aplicación.</li>
+<li>Una buena escalada incluye evidencias concretas y las comprobaciones ya realizadas.</li>
+</ul>
+</div>
+<hr />
+<h2 id="del-estado-de-los-operadores-a-su-gestion">Del estado de los operadores a su gestión</h2>
+<p>En este apartado hemos utilizado los <em>Cluster Operators</em> como una señal de salud de la plataforma. En el siguiente cambiaremos de perspectiva: veremos cómo OpenShift permite incorporar y gestionar operadores adicionales mediante OperatorHub y OLM, y qué implican recursos como <code>Subscription</code> y <code>CSV</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

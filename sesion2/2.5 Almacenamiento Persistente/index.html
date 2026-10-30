@@ -1,0 +1,2447 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2.4%20Configuracion%20fuera%20de%20la%20imagen/">
+      
+      
+        <link rel="next" href="../2.6%20Politicas%20de%20Seguridad/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>2.5 Almacenamiento Persistente - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#25-almacenamiento-persistente-pv-pvc-y-storageclass" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.5 Almacenamiento Persistente
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#25-almacenamiento-persistente-pv-pvc-y-storageclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Almacenamiento persistente: PV, PVC y StorageClass
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5 Almacenamiento persistente: PV, PVC y StorageClass">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-problema-el-pod-desaparece-pero-el-dato-debe-permanecer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El problema: el Pod desaparece, pero el dato debe permanecer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#primera-demostracion-una-base-de-datos-sin-persistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primera demostración: una base de datos sin persistencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#las-tres-piezas-del-almacenamiento-persistente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Las tres piezas del almacenamiento persistente
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Las tres piezas del almacenamiento persistente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#persistentvolumeclaim-pvc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PersistentVolumeClaim (PVC)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persistentvolume-pv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PersistentVolume (PV)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storageclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StorageClass
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspeccion-de-storageclasses-en-el-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspección de StorageClasses en el clúster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modos-de-acceso-al-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modos de acceso al almacenamiento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modos de acceso al almacenamiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#una-precision-importante-sobre-rwo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Una precisión importante sobre RWO
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solicitud-de-almacenamiento-mediante-un-pvc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solicitud de almacenamiento mediante un PVC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-politica-waitforfirstconsumer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La política WaitForFirstConsumer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reutilizacion-de-las-credenciales-de-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reutilización de las credenciales de MySQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#despliegue-de-mysql-y-montaje-del-volumen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Despliegue de MySQL y montaje del volumen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escritura-de-un-dato-en-la-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escritura de un dato en la base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliminacion-del-pod-y-comprobacion-de-la-persistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eliminación del Pod y comprobación de la persistencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparacion-de-los-dos-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparación de los dos resultados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#25-almacenamiento-persistente-pv-pvc-y-storageclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Almacenamiento persistente: PV, PVC y StorageClass
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5 Almacenamiento persistente: PV, PVC y StorageClass">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-problema-el-pod-desaparece-pero-el-dato-debe-permanecer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El problema: el Pod desaparece, pero el dato debe permanecer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#primera-demostracion-una-base-de-datos-sin-persistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primera demostración: una base de datos sin persistencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#las-tres-piezas-del-almacenamiento-persistente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Las tres piezas del almacenamiento persistente
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Las tres piezas del almacenamiento persistente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#persistentvolumeclaim-pvc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PersistentVolumeClaim (PVC)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persistentvolume-pv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PersistentVolume (PV)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storageclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StorageClass
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspeccion-de-storageclasses-en-el-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspección de StorageClasses en el clúster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modos-de-acceso-al-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modos de acceso al almacenamiento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modos de acceso al almacenamiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#una-precision-importante-sobre-rwo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Una precisión importante sobre RWO
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solicitud-de-almacenamiento-mediante-un-pvc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solicitud de almacenamiento mediante un PVC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-politica-waitforfirstconsumer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La política WaitForFirstConsumer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reutilizacion-de-las-credenciales-de-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reutilización de las credenciales de MySQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#despliegue-de-mysql-y-montaje-del-volumen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Despliegue de MySQL y montaje del volumen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escritura-de-un-dato-en-la-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escritura de un dato en la base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliminacion-del-pod-y-comprobacion-de-la-persistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eliminación del Pod y comprobación de la persistencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparacion-de-los-dos-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparación de los dos resultados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>2.5 Almacenamiento Persistente</h1>
+
+<h2 id="25-almacenamiento-persistente-pv-pvc-y-storageclass">2.5 Almacenamiento persistente: PV, PVC y StorageClass</h2>
+<h3 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h3>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender por qué los datos que deben sobrevivir a un Pod necesitan almacenamiento persistente.</li>
+<li>Diferenciar las responsabilidades de <strong>PersistentVolume (PV)</strong>, <strong>PersistentVolumeClaim (PVC)</strong> y <strong>StorageClass</strong>.</li>
+<li>Reconocer los principales modos de acceso al almacenamiento: <strong>ReadWriteOnce (RWO)</strong>, <strong>ReadWriteMany (RWX)</strong> y <strong>ReadOnlyMany (ROX)</strong>.</li>
+<li>Comprender, a nivel básico, el comportamiento de <code>WaitForFirstConsumer</code>.</li>
+<li>Montar un PVC en la ruta donde la aplicación guarda realmente sus datos.</li>
+<li>Desplegar una base de datos con almacenamiento persistente, eliminar su Pod y comprobar que los datos permanecen.</li>
+</ul>
+<h3 id="el-problema-el-pod-desaparece-pero-el-dato-debe-permanecer">El problema: el Pod desaparece, pero el dato debe permanecer</h3>
+<p>Como vimos al estudiar los contenedores, un Pod puede ser eliminado y sustituido por otro en cualquier momento. Si una aplicación guarda información únicamente en el sistema de archivos escribible de su contenedor, esos datos no acompañan a la nueva instancia.</p>
+<p>Esto no supone un problema para una aplicación que no conserva estado, pero sí para una base de datos, un gestor documental o cualquier sistema que deba mantener información entre reinicios y sustituciones de Pods.</p>
+<p>La idea principal de este apartado es sencilla:</p>
+<blockquote>
+<p><strong>Los Pods pueden desaparecer; los datos que deban conservarse tienen que vivir fuera de ellos.</strong></p>
+</blockquote>
+<p>Kubernetes y OpenShift resuelven esta necesidad separando tres elementos:</p>
+<ul>
+<li>La aplicación <strong>solicita almacenamiento</strong> mediante un PVC.</li>
+<li>La plataforma le asigna un <strong>volumen persistente</strong> representado por un PV.</li>
+<li>Una StorageClass describe cómo puede aprovisionarse ese almacenamiento en la infraestructura.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    POD[Pod / aplicación] --&gt;|Monta| PVC[PersistentVolumeClaim]
+    PVC --&gt;|Se vincula| PV[PersistentVolume]
+    PV --&gt; STORAGE[(Almacenamiento real)]
+    SC[StorageClass] -.-&gt;|Aprovisiona dinámicamente| PV</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Mapa mental</p>
+<p>Para seguir este apartado basta con recordar inicialmente esta cadena:</p>
+<p><strong>Pod → PVC → PV → almacenamiento real</strong></p>
+<p>La StorageClass interviene cuando la plataforma debe crear el almacenamiento solicitado.</p>
+</div>
+<h3 id="primera-demostracion-una-base-de-datos-sin-persistencia">Primera demostración: una base de datos sin persistencia</h3>
+<p>Antes de estudiar los objetos de almacenamiento, comprobaremos el problema que necesitamos resolver. Desplegaremos una base de datos sin ningún volumen persistente, insertaremos un dato y eliminaremos el Pod.</p>
+<p>Como vimos en el apartado 2.4, las credenciales no deberían incorporarse directamente al Deployment. Crearemos un Secret específico que reutilizaremos tanto en esta primera prueba como en el despliegue posterior con persistencia.</p>
+<p>Guardamos el siguiente manifiesto como <code>db-secret.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql-secret</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="nt">stringData</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">user_curso</span>
+<span class="w">  </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">password123</span>
+</code></pre></div>
+<p>Aplicamos el Secret:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>db-secret.yaml
+</code></pre></div>
+<p>Guardamos ahora el siguiente manifiesto como <code>db-sin-persistencia.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql-efimera</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql-efimera</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">strategy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Recreate</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql-efimera</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql-efimera</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysql</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.redhat.io/rhel9/mysql-80:latest</span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_USER</span>
+<span class="w">              </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">secretKeyRef</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql-secret</span>
+<span class="w">                  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">username</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_PASSWORD</span>
+<span class="w">              </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">secretKeyRef</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql-secret</span>
+<span class="w">                  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">password</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_DATABASE</span>
+<span class="w">              </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mibase</span>
+<span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3306</span>
+<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysql</span>
+</code></pre></div>
+<p>Observa que el Deployment no contiene <code>volumes</code> ni <code>volumeMounts</code>. MySQL escribirá por tanto sus datos en el sistema de archivos del contenedor.</p>
+<p>Aplicamos el manifiesto y esperamos a que el Pod esté disponible:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>db-sin-persistencia.yaml
+oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/db-mysql-efimera
+</code></pre></div>
+<p>Entramos en el contenedor:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rsh<span class="w"> </span>deployment/db-mysql-efimera
+</code></pre></div>
+<p>Nos conectamos a MySQL:</p>
+<div class="highlight"><pre><span></span><code>mysql<span class="w"> </span>-u<span class="w"> </span>user_curso<span class="w"> </span>-ppassword123<span class="w"> </span>mibase
+</code></pre></div>
+<p>Creamos una tabla, insertamos un registro y comprobamos que existe:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">texto</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="p">(</span><span class="n">texto</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'Dato creado sin almacenamiento persistente'</span><span class="p">);</span>
+
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="p">;</span>
+</code></pre></div>
+<p>Salimos del cliente MySQL y del contenedor:</p>
+<div class="highlight"><pre><span></span><code>exit
+exit
+</code></pre></div>
+<p>Eliminamos el Pod para que el Deployment cree otro:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>db-mysql-efimera
+oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/db-mysql-efimera
+</code></pre></div>
+<p>Volvemos a entrar en la nueva instancia y consultamos la tabla:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rsh<span class="w"> </span>deployment/db-mysql-efimera
+mysql<span class="w"> </span>-u<span class="w"> </span>user_curso<span class="w"> </span>-ppassword123<span class="w"> </span>mibase
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="p">;</span>
+</code></pre></div>
+<p>MySQL responderá que la tabla no existe:</p>
+<div class="highlight"><pre><span></span><code>ERROR 1146 (42S02): Table 'mibase.notas' doesn't exist
+</code></pre></div>
+<p>El Deployment ha recuperado la aplicación, pero no sus datos. El nuevo Pod ha arrancado con un sistema de archivos nuevo, sin la tabla creada en la instancia anterior.</p>
+<p>Salimos del cliente y del contenedor:</p>
+<div class="highlight"><pre><span></span><code>exit
+exit
+</code></pre></div>
+<p>Eliminamos este Deployment antes de continuar. Conservamos el Secret, porque lo reutilizaremos en el despliegue con persistencia:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>db-mysql-efimera
+</code></pre></div>
+<div class="admonition question">
+<p class="admonition-title">Pregunta para el grupo</p>
+<p>OpenShift ha creado correctamente una nueva instancia de MySQL, pero ¿qué objeto debe permitir que el nuevo Pod recupere los datos de la instancia anterior?</p>
+</div>
+<p>A continuación estudiaremos los componentes que resuelven este problema y repetiremos el experimento utilizando almacenamiento persistente.</p>
+<h3 id="las-tres-piezas-del-almacenamiento-persistente">Las tres piezas del almacenamiento persistente</h3>
+<h4 id="persistentvolumeclaim-pvc">PersistentVolumeClaim (PVC)</h4>
+<p>Un <strong>PersistentVolumeClaim</strong> es la solicitud de almacenamiento que realiza una aplicación dentro de un proyecto.</p>
+<p>En el PVC se indican, entre otros datos:</p>
+<ul>
+<li>la capacidad solicitada, por ejemplo <code>1Gi</code>;</li>
+<li>el modo de acceso requerido, por ejemplo <code>ReadWriteOnce</code>;</li>
+<li>opcionalmente, la StorageClass que debe utilizarse.</li>
+</ul>
+<p>El desarrollador trabaja principalmente con el PVC. No necesita conocer los detalles físicos de la cabina, del disco o del servicio de almacenamiento que existe detrás.</p>
+<h4 id="persistentvolume-pv">PersistentVolume (PV)</h4>
+<p>Un <strong>PersistentVolume</strong> representa el volumen de almacenamiento puesto a disposición del clúster. Puede corresponder a un disco de una nube pública, un volumen de una plataforma de virtualización o un sistema de almacenamiento en red.</p>
+<p>A diferencia del PVC, el PV es un recurso de ámbito de clúster y no pertenece a un proyecto concreto.</p>
+<p>Cuando un PVC encuentra un volumen compatible, ambos quedan vinculados. Esta relación aparece con el estado <code>Bound</code>.</p>
+<h4 id="storageclass">StorageClass</h4>
+<p>Una <strong>StorageClass</strong> describe una clase de almacenamiento disponible en el clúster y el <em>provisioner</em> encargado de interactuar con la infraestructura subyacente.</p>
+<p>Cuando existe provisión dinámica, el desarrollador crea un PVC y la plataforma puede crear automáticamente un PV que satisfaga la solicitud. En provisión estática, los PV deben haber sido preparados previamente por el equipo administrador.</p>
+<p>Qué opciones están disponibles depende de la infraestructura, de los controladores de almacenamiento instalados y de la configuración del clúster.</p>
+<h3 id="inspeccion-de-storageclasses-en-el-cluster">Inspección de StorageClasses en el clúster</h3>
+<p>Antes de solicitar almacenamiento, consultamos las clases disponibles:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>storageclass
+</code></pre></div>
+<p>En el sandbox utilizado durante la preparación del curso se obtiene una salida similar a la siguiente:</p>
+<div class="highlight"><pre><span></span><code>NAME              PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+efs-sc            efs.csi.aws.com         Delete          Immediate              false                  673d
+gp2               kubernetes.io/aws-ebs   Delete          WaitForFirstConsumer   true                   674d
+gp2-csi           ebs.csi.aws.com         Delete          WaitForFirstConsumer   true                   674d
+gp3 (default)     ebs.csi.aws.com         Delete          WaitForFirstConsumer   true                   674d
+gp3-csi           ebs.csi.aws.com         Delete          WaitForFirstConsumer   true                   674d
+</code></pre></div>
+<p>La marca <code>(default)</code> identifica la StorageClass predeterminada. Si un PVC no especifica <code>storageClassName</code>, el clúster utilizará normalmente esa clase.</p>
+<div class="admonition note">
+<p class="admonition-title">El resultado depende del entorno</p>
+<p>Los nombres, los <em>provisioners</em> y los modos disponibles cambian entre clústeres. Antes de ejecutar la práctica en el laboratorio definitivo habrá que comprobar sus StorageClasses y adaptar, si fuera necesario, los manifiestos.</p>
+</div>
+<h3 id="modos-de-acceso-al-almacenamiento">Modos de acceso al almacenamiento</h3>
+<p>Al crear un PVC debemos indicar cómo podrá montarse el volumen. Los tres modos principales son:</p>
+<table>
+<thead>
+<tr>
+<th>Modo</th>
+<th>Nombre en el manifiesto</th>
+<th>Significado básico</th>
+<th>Ejemplo habitual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RWO</strong></td>
+<td><code>ReadWriteOnce</code></td>
+<td>Lectura y escritura desde un único nodo</td>
+<td>Una instancia de MySQL o PostgreSQL</td>
+</tr>
+<tr>
+<td><strong>RWX</strong></td>
+<td><code>ReadWriteMany</code></td>
+<td>Lectura y escritura desde varios nodos</td>
+<td>Contenido compartido entre varias réplicas</td>
+</tr>
+<tr>
+<td><strong>ROX</strong></td>
+<td><code>ReadOnlyMany</code></td>
+<td>Solo lectura desde varios nodos</td>
+<td>Contenido estático compartido</td>
+</tr>
+</tbody>
+</table>
+<pre class="mermaid"><code>flowchart LR
+    subgraph RWO[ReadWriteOnce]
+        N1[Nodo worker 1]
+        P1[Pod A]
+        P2[Pod B]
+        V1[(PV RWO)]
+        N1 --- P1
+        N1 --- P2
+        P1 --&gt; V1
+        P2 --&gt; V1
+    end
+
+    subgraph RWX[ReadWriteMany]
+        N2[Nodo worker 1]
+        N3[Nodo worker 2]
+        P3[Pod C]
+        P4[Pod D]
+        V2[(PV RWX)]
+        N2 --- P3
+        N3 --- P4
+        P3 --&gt; V2
+        P4 --&gt; V2
+    end</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Solicitar un modo no garantiza que esté disponible</p>
+<p>El modo de acceso está condicionado por la tecnología y la configuración del almacenamiento. Incluir <code>ReadWriteMany</code> en un PVC no obliga a la infraestructura a poder proporcionarlo.</p>
+</div>
+<h4 id="una-precision-importante-sobre-rwo">Una precisión importante sobre RWO</h4>
+<p><code>ReadWriteOnce</code> no significa necesariamente «un solo Pod». Significa que el volumen puede montarse en lectura y escritura desde un único nodo.</p>
+<p>Aun así, no debemos ejecutar varias instancias de una base de datos escribiendo simultáneamente sobre los mismos archivos, aunque coincidan en el mismo nodo. La aplicación podría sufrir bloqueos o corrupción de datos.</p>
+<p>Si dos Pods situados en nodos diferentes intentan utilizar el mismo volumen RWO, uno de ellos puede quedar en <code>Pending</code> y aparecer un error de tipo <code>Multi-Attach</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Relación con StatefulSet</p>
+<p>En el apartado 2.1 vimos que StatefulSet resulta apropiado para determinadas aplicaciones con estado. Un patrón habitual consiste en proporcionar un PVC independiente a cada réplica mediante <code>volumeClaimTemplates</code>, en lugar de hacer que todas compartan un único PVC RWO.</p>
+<p>En esta práctica utilizaremos una sola instancia de MySQL, por lo que no necesitamos desarrollar ahora ese patrón.</p>
+</div>
+<h3 id="solicitud-de-almacenamiento-mediante-un-pvc">Solicitud de almacenamiento mediante un PVC</h3>
+<p>Para la práctica solicitaremos <code>1Gi</code> de almacenamiento con modo <code>ReadWriteOnce</code>. No indicaremos <code>storageClassName</code>, por lo que el clúster utilizará su StorageClass predeterminada.</p>
+<p>Guardamos el siguiente manifiesto como <code>db-pvc.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolumeClaim</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-pvc</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+</code></pre></div>
+<p>Aplicamos el manifiesto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>db-pvc.yaml
+</code></pre></div>
+<p>Consultamos el PVC:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>db-pvc
+</code></pre></div>
+<p>Dependiendo de la StorageClass, podemos encontrar dos situaciones:</p>
+<div class="highlight"><pre><span></span><code>NAME     STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+db-pvc   Pending                                      gp3            5s
+</code></pre></div>
+<p>O bien:</p>
+<div class="highlight"><pre><span></span><code>NAME     STATUS   VOLUME      CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+db-pvc   Bound    pvc-xxxxx   1Gi        RWO            gp3            20s
+</code></pre></div>
+<p>El estado <code>Bound</code> confirma que el PVC se ha vinculado a un PV. Si aparece inicialmente como <code>Pending</code>, no significa necesariamente que exista un error: la StorageClass puede estar utilizando <code>WaitForFirstConsumer</code>.</p>
+<h3 id="la-politica-waitforfirstconsumer">La política <code>WaitForFirstConsumer</code></h3>
+<p>Algunas StorageClasses utilizan:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">volumeBindingMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WaitForFirstConsumer</span>
+</code></pre></div>
+<p>Con esta política, Kubernetes retrasa la vinculación y, cuando corresponde, el aprovisionamiento del volumen hasta que existe un Pod que necesita utilizar el PVC.</p>
+<p>El flujo básico es el siguiente:</p>
+<ol>
+<li>Creamos el PVC.</li>
+<li>El PVC puede permanecer temporalmente en <code>Pending</code>.</li>
+<li>Creamos el Pod o Deployment que utiliza el PVC.</li>
+<li>El planificador analiza dónde puede ejecutarse el Pod.</li>
+<li>La plataforma selecciona o aprovisiona un volumen compatible con la ubicación de la carga.</li>
+<li>El PVC pasa a <code>Bound</code> y el Pod puede arrancar.</li>
+</ol>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    actor Dev as Desarrollador
+    participant K8s as Control plane
+    participant SC as StorageClass
+    participant Pod as Pod
+
+    Dev-&gt;&gt;K8s: Crea el PVC
+    Note over K8s: El PVC puede quedar Pending
+    Dev-&gt;&gt;K8s: Crea el Deployment
+    K8s-&gt;&gt;K8s: Evalúa dónde ejecutar el Pod
+    K8s-&gt;&gt;SC: Solicita un volumen compatible
+    SC--&gt;&gt;K8s: PV creado o seleccionado y PVC Bound
+    K8s-&gt;&gt;Pod: Monta el volumen y arranca el Pod</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Por qué es útil</p>
+<p><code>WaitForFirstConsumer</code> permite tener en cuenta restricciones de ubicación, como nodos o zonas de disponibilidad, antes de seleccionar o crear el volumen. No significa que el disco se cree dentro del propio nodo.</p>
+</div>
+<h3 id="reutilizacion-de-las-credenciales-de-mysql">Reutilización de las credenciales de MySQL</h3>
+<p>Conservamos el Secret <code>db-mysql-secret</code> creado en la primera demostración. De este modo repetiremos el experimento con las mismas credenciales y cambiaremos únicamente el aspecto que queremos comprobar: dónde se almacenan los datos.</p>
+<h3 id="despliegue-de-mysql-y-montaje-del-volumen">Despliegue de MySQL y montaje del volumen</h3>
+<p>Disponer de un PVC no basta por sí solo. El volumen debe montarse en la ruta en la que la aplicación escribe realmente sus datos.</p>
+<p>Para la imagen <code>registry.redhat.io/rhel9/mysql-80:latest</code>, utilizaremos la ruta <code>/var/lib/mysql/data</code>.</p>
+<p>Guardamos el siguiente manifiesto como <code>db-deployment.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">strategy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Recreate</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysql</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.redhat.io/rhel9/mysql-80:latest</span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_USER</span>
+<span class="w">              </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">secretKeyRef</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql-secret</span>
+<span class="w">                  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">username</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_PASSWORD</span>
+<span class="w">              </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">secretKeyRef</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-mysql-secret</span>
+<span class="w">                  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">password</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_DATABASE</span>
+<span class="w">              </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mibase</span>
+<span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3306</span>
+<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysql</span>
+<span class="w">          </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-data</span>
+<span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/lib/mysql/data</span>
+<span class="w">      </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-data</span>
+<span class="w">          </span><span class="nt">persistentVolumeClaim</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">claimName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-pvc</span>
+</code></pre></div>
+<p>Los elementos principales son:</p>
+<ul>
+<li><code>strategy.type: Recreate</code>: reutiliza la estrategia estudiada en el apartado 2.1. Antes de crear una nueva instancia se elimina la anterior, evitando el solapamiento de dos Pods sobre el mismo volumen RWO durante una actualización.</li>
+<li><code>secretKeyRef</code>: obtiene el usuario y la contraseña del Secret creado anteriormente, sin incluirlos directamente en el Deployment.</li>
+<li><code>volumeMounts.mountPath</code>: indica dónde aparece el volumen dentro del contenedor. Debe coincidir con la ruta en la que MySQL guarda sus datos.</li>
+<li><code>persistentVolumeClaim.claimName</code>: conecta el volumen lógico <code>db-data</code> con el PVC <code>db-pvc</code>.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">El PVC debe montarse en la ruta de datos</p>
+<p>Si montásemos el volumen en <code>/datos</code>, pero MySQL continuase escribiendo en <code>/var/lib/mysql/data</code>, el PVC existiría y estaría correctamente vinculado, pero los datos de la base de datos seguirían dentro del contenedor y se perderían al sustituir el Pod.</p>
+</div>
+<p>Aplicamos el Deployment:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>db-deployment.yaml
+</code></pre></div>
+<p>Esperamos a que el despliegue esté disponible:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/db-mysql
+</code></pre></div>
+<p>Comprobamos el Pod:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>db-mysql
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>NAME                        READY   STATUS    RESTARTS   AGE
+db-mysql-xxxxxxxxxx-xxxxx   1/1     Running   0          45s
+</code></pre></div>
+<p>Volvemos a consultar el PVC. Si estaba en <code>Pending</code> por <code>WaitForFirstConsumer</code>, ahora debería aparecer como <code>Bound</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>db-pvc
+</code></pre></div>
+<h3 id="escritura-de-un-dato-en-la-base-de-datos">Escritura de un dato en la base de datos</h3>
+<p>Accedemos al contenedor mediante <code>oc rsh</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rsh<span class="w"> </span>deployment/db-mysql
+</code></pre></div>
+<p>Desde la terminal del contenedor nos conectamos a MySQL:</p>
+<div class="highlight"><pre><span></span><code>mysql<span class="w"> </span>-u<span class="w"> </span>user_curso<span class="w"> </span>-ppassword123<span class="w"> </span>mibase
+</code></pre></div>
+<p>Creamos una tabla, insertamos un registro y lo consultamos:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">texto</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="p">(</span><span class="n">texto</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'Dato creado con almacenamiento persistente'</span><span class="p">);</span>
+
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="p">;</span>
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>+----+-------------------------------------------+
+| id | texto                                     |
++----+-------------------------------------------+
+|  1 | Dato creado con almacenamiento persistente |
++----+-------------------------------------------+
+</code></pre></div>
+<p>Salimos del cliente MySQL y de la sesión del contenedor:</p>
+<div class="highlight"><pre><span></span><code>exit
+exit
+</code></pre></div>
+<h3 id="eliminacion-del-pod-y-comprobacion-de-la-persistencia">Eliminación del Pod y comprobación de la persistencia</h3>
+<p>Ahora eliminaremos el Pod para obligar al Deployment a crear una nueva instancia:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>db-mysql
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Qué estamos comprobando</p>
+<p>No estamos comprobando únicamente que el Deployment recupere el número de réplicas, algo que ya vimos al estudiar la reconciliación. Queremos comprobar que el nuevo Pod vuelve a montar el mismo almacenamiento y encuentra el dato creado por el Pod anterior.</p>
+</div>
+<p>Observamos la sustitución:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>db-mysql<span class="w"> </span>-w
+</code></pre></div>
+<p>Cuando el nuevo Pod alcance el estado <code>Running</code>, interrumpimos la espera con ++ctrl+c++ y volvemos a entrar:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rsh<span class="w"> </span>deployment/db-mysql
+</code></pre></div>
+<p>Nos conectamos a MySQL y consultamos la tabla:</p>
+<div class="highlight"><pre><span></span><code>mysql<span class="w"> </span>-u<span class="w"> </span>user_curso<span class="w"> </span>-ppassword123<span class="w"> </span>mibase
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="p">;</span>
+</code></pre></div>
+<p>El resultado debe seguir mostrando el registro:</p>
+<div class="highlight"><pre><span></span><code>+----+-------------------------------------------+
+| id | texto                                     |
++----+-------------------------------------------+
+|  1 | Dato creado con almacenamiento persistente |
++----+-------------------------------------------+
+</code></pre></div>
+<p>El Pod anterior ya no existe, pero el dato permanece porque se guardó en el volumen asociado al PVC y no en el sistema de archivos efímero del contenedor.</p>
+<p>Salimos de MySQL y del contenedor:</p>
+<div class="highlight"><pre><span></span><code>exit
+exit
+</code></pre></div>
+<h3 id="comparacion-de-los-dos-resultados">Comparación de los dos resultados</h3>
+<table>
+<thead>
+<tr>
+<th>Prueba</th>
+<th>Ubicación de los datos</th>
+<th>Resultado al sustituir el Pod</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MySQL sin PVC</td>
+<td>Sistema de archivos del contenedor</td>
+<td>La tabla desaparece</td>
+</tr>
+<tr>
+<td>MySQL con PVC</td>
+<td>Volumen persistente montado en <code>/var/lib/mysql/data</code></td>
+<td>La tabla y el registro permanecen</td>
+</tr>
+</tbody>
+</table>
+<p>La aplicación es la misma en ambas pruebas. La diferencia es que, en la segunda, el nuevo Pod vuelve a montar el volumen asociado al PVC.</p>
+<h3 id="ideas-clave-para-recordar">Ideas clave para recordar</h3>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>Un Pod puede ser eliminado y sustituido. Los datos que deban conservarse tienen que almacenarse fuera de su sistema de archivos efímero.</li>
+<li>El <strong>PVC</strong> es la solicitud de almacenamiento realizada desde un proyecto.</li>
+<li>El <strong>PV</strong> representa el volumen persistente disponible para el clúster.</li>
+<li>La <strong>StorageClass</strong> describe cómo puede aprovisionarse el almacenamiento.</li>
+<li>El estado <code>Bound</code> indica que un PVC está vinculado a un PV.</li>
+<li>Los modos <code>RWO</code>, <code>RWX</code> y <code>ROX</code> dependen de las capacidades de la infraestructura de almacenamiento.</li>
+<li><code>WaitForFirstConsumer</code> puede mantener el PVC en <code>Pending</code> hasta que exista un Pod que vaya a utilizarlo.</li>
+<li>El PVC debe montarse en la ruta donde la aplicación guarda realmente sus datos.</li>
+<li>El almacenamiento persistente permite que un Pod nuevo recupere los datos creados por una instancia anterior.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

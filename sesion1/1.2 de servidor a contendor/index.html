@@ -1,0 +1,2058 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../1.1%20Introduccion/">
+      
+      
+        <link rel="next" href="../1.3%20kubernetes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>1.2 De servidor a contenedor - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#12-de-servidor-a-contenedor-imagen-capas-contenedor-efimero-y-lectura-de-un-dockerfile" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.2 De servidor a contenedor
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#del-servidor-tradicional-al-contenedor-por-que-cambia-el-modelo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del servidor tradicional al contenedor: por qué cambia el modelo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Del servidor tradicional al contenedor: por qué cambia el modelo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-problema-de-la-deriva-de-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El problema de la "deriva de configuración"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#un-cambio-en-la-forma-de-desplegar-no-en-la-forma-de-programar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un cambio en la forma de desplegar, no en la forma de programar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-base-de-todo-guion-plantilla-e-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La base de todo: Guion, Plantilla e Instancia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="La base de todo: Guion, Plantilla e Instancia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-el-dockerfile-la-receta-el-script-de-instalacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. El Dockerfile (La Receta / El Script de Instalación)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-la-imagen-construida-la-plantilla-la-iso-master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. La Imagen Construida (La Plantilla / La ISO Máster)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-el-contenedor-la-maquina-virtual-encendida-la-instancia-activa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. El Contenedor (La Máquina Virtual Encendida / La Instancia Activa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lectura-detallada-de-un-dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lectura detallada de un Dockerfile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lectura detallada de un Dockerfile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desglose-de-instrucciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desglose de instrucciones:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-contenedor-es-efimero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El contenedor es efímero
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sustituir-en-lugar-de-parchear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sustituir en lugar de parchear
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sustituir en lugar de parchear">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-modelo-tradicional-parchear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El modelo tradicional (Parchear)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-modelo-basado-en-contenedores-sustituir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El modelo basado en contenedores (Sustituir)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ventajas-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ventajas principales:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#del-servidor-tradicional-al-contenedor-por-que-cambia-el-modelo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del servidor tradicional al contenedor: por qué cambia el modelo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Del servidor tradicional al contenedor: por qué cambia el modelo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-problema-de-la-deriva-de-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El problema de la "deriva de configuración"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#un-cambio-en-la-forma-de-desplegar-no-en-la-forma-de-programar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un cambio en la forma de desplegar, no en la forma de programar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-base-de-todo-guion-plantilla-e-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La base de todo: Guion, Plantilla e Instancia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="La base de todo: Guion, Plantilla e Instancia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-el-dockerfile-la-receta-el-script-de-instalacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. El Dockerfile (La Receta / El Script de Instalación)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-la-imagen-construida-la-plantilla-la-iso-master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. La Imagen Construida (La Plantilla / La ISO Máster)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-el-contenedor-la-maquina-virtual-encendida-la-instancia-activa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. El Contenedor (La Máquina Virtual Encendida / La Instancia Activa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lectura-detallada-de-un-dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lectura detallada de un Dockerfile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lectura detallada de un Dockerfile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desglose-de-instrucciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desglose de instrucciones:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-contenedor-es-efimero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El contenedor es efímero
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sustituir-en-lugar-de-parchear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sustituir en lugar de parchear
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sustituir en lugar de parchear">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-modelo-tradicional-parchear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El modelo tradicional (Parchear)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-modelo-basado-en-contenedores-sustituir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El modelo basado en contenedores (Sustituir)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ventajas-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ventajas principales:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="12-de-servidor-a-contenedor-imagen-capas-contenedor-efimero-y-lectura-de-un-dockerfile">1.2 De servidor a contenedor: imagen, capas, contenedor efímero y lectura de un Dockerfile</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender la transición desde la administración tradicional de servidores hacia el modelo basado en contenedores.</li>
+<li>Entender que los contenedores transforman la forma de empaquetar, distribuir y operar las aplicaciones, sin alterar la lógica de desarrollo o programación.</li>
+<li>Diferenciar con total claridad la secuencia fundamental: <strong><code>Dockerfile</code> (El guion) → Imagen (La plantilla estática / ISO) → Contenedor (La instancia viva)</strong>.</li>
+<li>Interpretar de forma práctica las instrucciones clave de un <code>Dockerfile</code> básico.</li>
+<li>Asimilar la naturaleza efímera de los contenedores y el principio operativo de <strong>sustituir en lugar de parchear</strong>.</li>
+</ul>
+<hr />
+<h2 id="del-servidor-tradicional-al-contenedor-por-que-cambia-el-modelo">Del servidor tradicional al contenedor: por qué cambia el modelo</h2>
+<p>Durante muchos años, la forma estándar de desplegar aplicaciones consistía en aprovisionar un servidor físico o una máquina virtual, instalar manualmente el sistema operativo, configurar las dependencias y desplegar la aplicación directamente sobre él.</p>
+<h3 id="el-problema-de-la-deriva-de-configuracion">El problema de la "deriva de configuración"</h3>
+<p>En la administración clásica de sistemas, el proceso estándar seguía estos pasos:</p>
+<ul>
+<li>Se preparaba un servidor físico o una máquina virtual.</li>
+<li>Se instalaba el sistema operativo y se aplicaban parches.</li>
+<li>Se instalaban manualmente las librerías, dependencias y runtimes (Java, Node.js, Python, servidor web, etc.).</li>
+<li>Se desplegaba y configuraba la aplicación en carpetas locales.</li>
+<li>Se realizaban actualizaciones, retoques y parches directamente sobre ese servidor en marcha.</li>
+</ul>
+<p>Este modelo provocaba un inconveniente crónico: los cambios manuales y las modificaciones aplicadas a lo largo del tiempo hacían que cada servidor terminase teniendo una configuración única. Esto daba pie al clásico problema:</p>
+<div class="admonition note">
+<p class="admonition-title">El problema habitual</p>
+<p><em>"En mi entorno de desarrollo/pruebas funciona perfectamente, pero en producción falla."</em>
+Pequeñas diferencias de versión, librerías o parches provocaban comportamientos impredecibles entre entornos.</p>
+</div>
+<p>Los contenedores surgen precisamente para solucionar este problema de raíz. La idea central es sencilla: <strong>en lugar de transportar instrucciones para instalar una aplicación en un servidor, empaquetamos la aplicación junto con todo su entorno en una caja estanca e idéntica.</strong></p>
+<hr />
+<h2 id="un-cambio-en-la-forma-de-desplegar-no-en-la-forma-de-programar">Un cambio en la forma de desplegar, no en la forma de programar</h2>
+<p>Cuando se empieza a trabajar con tecnologías de contenedores, suele surgir una duda frecuente:</p>
+<p><strong>¿Tengo que aprender a programar para usar contenedores?</strong></p>
+<p>La respuesta es <strong>no</strong>.</p>
+<p>El uso de contenedores no define cómo se programa la lógica de una aplicación ni condiciona el lenguaje de desarrollo. Lo que cambia por completo es el método de empaquetamiento, transporte, despliegue y operación de esa aplicación.</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Código de la Aplicación"] --&gt; B["Empaquetado Inmutable"]
+    B --&gt; C["Despliegue Estándar"]</code></pre>
+<hr />
+<h2 id="la-base-de-todo-guion-plantilla-e-instancia">La base de todo: Guion, Plantilla e Instancia</h2>
+<p>Para comprender cómo funciona el mundo de los contenedores sin perderse en la jerga técnica, basta con distinguir con total precisión tres conceptos interconectados:</p>
+<pre class="mermaid"><code>flowchart LR
+    A["1. El Dockerfile&lt;br&gt;(El guion / receta)"] --&gt;|"Proceso de construcción"| B["2. La Imagen&lt;br&gt;(Plantilla estática / ISO)"]
+    B --&gt;|"Proceso de ejecución"| C["3. El Contenedor&lt;br&gt;(La instancia viva)"]</code></pre>
+<h3 id="1-el-dockerfile-la-receta-el-script-de-instalacion">1. El <code>Dockerfile</code> (La Receta / El Script de Instalación)</h3>
+<p>Es simplemente un documento de texto plano, un guion o un paso a paso detallado de todo lo que harías a mano en un servidor limpio:
+- <em>"Paso 1: Ponme un sistema operativo base ligero."</em>
+- <em>"Paso 2: Instálame el entorno de Java 17."</em>
+- <em>"Paso 3: Copia este archivo <code>.jar</code> dentro de la carpeta <code>/app</code>."</em>
+- <em>"Paso 4: Configura que al arrancar se ejecute este comando."</em></p>
+<p>Por sí solo, el <code>Dockerfile</code> es solo un archivo de texto con instrucciones; no consume memoria ni procesa nada hasta que alguien lo ejecuta.</p>
+<h3 id="2-la-imagen-construida-la-plantilla-la-iso-master">2. La Imagen Construida (La Plantilla / La ISO Máster)</h3>
+<p>Es el resultado de coger ese guion (<code>Dockerfile</code>) y ejecutarlo de principio a fin durante el proceso de construcción (<em>build</em>). El motor de contenedores lee el script, descarga las dependencias, empaqueta todo y <strong>congela el resultado en un archivo estático y de sólo lectura</strong>.
+- Es exactamente el mismo concepto que una plantilla de máquina virtual (<em>VM Template</em>), un <em>snapshot</em> o una <strong>imagen ISO máster</strong>.
+- Nadie entra a modificar una plantilla ISO en caliente mientras está guardada en el repositorio; es una maqueta estática e <strong>inmutable</strong> lista para ser clonada o instanciada las veces que haga falta.</p>
+<h3 id="3-el-contenedor-la-maquina-virtual-encendida-la-instancia-activa">3. El Contenedor (La Máquina Virtual Encendida / La Instancia Activa)</h3>
+<p>Es cuando coges esa plantilla estática (la imagen) y le dices a la plataforma: <em>"Quiero arrancar una instancia de esto ya"</em>.</p>
+<p>En ese preciso instante, la plataforma coge la plantilla, le asigna memoria RAM, hilos de CPU, una dirección IP y un disco temporal de trabajo, y enciende el proceso.
+- El contenedor es la <strong>entidad viva, en ejecución</strong>.
+- Si la aplicación dentro del contenedor recibe peticiones web, el contenedor las procesa y responde.
+- Si el contenedor se apaga o se destruye, muere con él todo lo que estuviera ocurriendo en su disco temporal, pero la <strong>imagen original permanece intacta</strong> en el registro, lista para volver a encenderse tantas veces como sea necesario.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Registro["Registro / Almacenamiento"]
+        A["Imagen Estática&lt;br&gt;empresa/web:v1"]
+    end
+
+    subgraph Cluster["Infraestructura de Ejecución"]
+        A --&gt;|Instancia 1| B["Contenedor 1&lt;br&gt;En ejecución"]
+        A --&gt;|Instancia 2| C["Contenedor 2&lt;br&gt;En ejecución"]
+        A --&gt;|Instancia 3| D["Contenedor 3&lt;br&gt;En ejecución"]
+    end</code></pre>
+<p>Una única imagen estática sirve para arrancar múltiples contenedores idénticos simultáneamente.</p>
+<hr />
+<h2 id="lectura-detallada-de-un-dockerfile">Lectura detallada de un Dockerfile</h2>
+<p>En esta fase del curso no es necesario redactar ficheros <code>Dockerfile</code> complejos, pero sí es fundamental <strong>saber leer e interpretar</strong> qué hace cada instrucción básica cuando analizamos una aplicación.</p>
+<p>A continuación vemos un ejemplo representativo de un <code>Dockerfile</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c"># 1. Definimos la imagen base de partida</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">[registry.access.redhat.com/ubi9/openjdk-17:latest](https://registry.access.redhat.com/ubi9/openjdk-17:latest)</span>
+
+<span class="c"># 2. Copiamos el archivo ejecutable de la aplicación dentro de la imagen</span>
+<span class="k">COPY</span><span class="w"> </span>target/app.jar<span class="w"> </span>/opt/app/app.jar
+
+<span class="c"># 3. Declaramos el puerto de red en el que escuchará la aplicación</span>
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
+
+<span class="c"># 4. Establecemos el comando que se ejecutará al arrancar el contenedor</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">"java"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-jar"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/opt/app/app.jar"</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="desglose-de-instrucciones">Desglose de instrucciones:</h3>
+<ul>
+<li><strong><code>FROM</code></strong>: Especifica la <strong>imagen base</strong> de la que se parte. Ninguna imagen se construye desde cero absoluto; se suele reutilizar una plantilla limpia y homologada (por ejemplo, Red Hat Universal Base Image con Java 17).</li>
+<li><strong><code>COPY</code></strong>: Toma un archivo o binario de nuestro equipo (como el ejecutable <code>.jar</code> de la aplicación) y lo introduce dentro del paquete de la imagen.</li>
+<li><strong><code>EXPOSE</code></strong>: Indica de forma informativa qué puerto de red interna utiliza la aplicación para recibir peticiones (por ejemplo, el puerto 8080).</li>
+<li><strong><code>CMD</code></strong>: Fija el comando principal que se ejecutará en primer plano en el momento en que la imagen se convierta en un contenedor activo.</li>
+</ul>
+<hr />
+<h2 id="el-contenedor-es-efimero">El contenedor es efímero</h2>
+<p>Uno de los cambios de mentalidad más importantes al trabajar con contenedores es asimilar que <strong>un contenedor es efímero por naturaleza</strong>:</p>
+<ul>
+<li>Un contenedor no está pensado para durar indefinidamente. Puede crearse, detenerse, destruirse y volverse a crear en cuestión de segundos.</li>
+<li>Los contenedores <strong>no deben almacenar datos permanentes en su disco interno</strong>. Si un contenedor se elimina o falla, cualquier dato escrito directamente dentro de él se pierde.</li>
+<li>Toda la información persistente (bases de datos, archivos subidos por usuarios) se almacena siempre fuera del contenedor, en volúmenes de almacenamiento independientes.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Mentalidad Cloud-Native</p>
+<p>Lo importante nunca es un contenedor concreto, sino la <strong>imagen</strong> desde la cual fue creado. Los contenedores son piezas reemplazables.</p>
+</div>
+<hr />
+<h2 id="sustituir-en-lugar-de-parchear">Sustituir en lugar de parchear</h2>
+<p>Esta naturaleza efímera transforma radicalmente la forma de aplicar actualizaciones o corregir errores en producción:</p>
+<h3 id="el-modelo-tradicional-parchear">El modelo tradicional (Parchear)</h3>
+<p>En la administración clásica, ante una actualización o un error, se accedía directamente al servidor en marcha y se aplicaba el cambio sobre el sistema vivo.</p>
+<h3 id="el-modelo-basado-en-contenedores-sustituir">El modelo basado en contenedores (Sustituir)</h3>
+<pre class="mermaid"><code>flowchart TD
+    A["Modificación de código o receta"] --&gt; B["Construcción de Nueva Imagen&lt;br&gt;(v2.0)"]
+    B --&gt; C["Despliegue de Nuevo Contenedor"]
+    C --&gt; D["Retirada del Contenedor Antiguo&lt;br&gt;(v1.0)"]</code></pre>
+<p>En las plataformas de contenedores <strong>nunca se modifica un contenedor en marcha</strong>. Ante un cambio de código, una actualización de seguridad o la corrección de un fallo:</p>
+<ol>
+<li>Se actualiza el código o la receta (<code>Dockerfile</code>).</li>
+<li>Se construye una <strong>nueva versión de la imagen</strong> (por ejemplo, <code>v2.0</code>).</li>
+<li>Se despliega un <strong>nuevo contenedor</strong> a partir de la nueva imagen.</li>
+<li>Se retira y elimina el contenedor antiguo.</li>
+</ol>
+<h3 id="ventajas-principales">Ventajas principales:</h3>
+<ul>
+<li><strong>Cambios controlados y trazables</strong>: Se sabe exactamente qué versión de código está corriendo.</li>
+<li><strong>Mayor predictibilidad</strong>: El entorno de pruebas ejecuta exactamente el mismo artefacto inmutable que se despliega en producción.</li>
+<li><strong>Rollback sencillo</strong>: Si la nueva versión falla, volver a la versión anterior (<code>v1.0</code>) requiere solo segundos, arrancando un contenedor desde la imagen previa.</li>
+</ul>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>Los contenedores resuelven la deriva de configuración empaquetando la aplicación junto con todo su entorno.</li>
+<li>No cambia la forma de programar la lógica de la aplicación; cambia la forma de empaquetar, desplegar y operar.</li>
+<li>El <code>Dockerfile</code> es el guion de instrucciones, la Imagen es la plantilla estática inmutable y el Contenedor es la instancia viva en ejecución.</li>
+<li>Las imágenes no se construyen desde cero; parten de imágenes base homologadas.</li>
+<li>Los contenedores son efímeros y no deben almacenar estado ni datos persistentes en su disco local.</li>
+<li>Ante cualquier actualización o corrección se aplica el principio de sustituir la imagen y el contenedor, nunca parchear en caliente.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

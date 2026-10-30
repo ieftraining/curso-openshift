@@ -1,0 +1,2196 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../3.3%20Alertas/">
+      
+      
+        <link rel="next" href="../3.5%20Diagnostico%20de%20incidencias/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>3.4 Logs - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#34-logs-oc-logs-la-vista-de-logs-de-la-consola-y-que-aporta-la-agregacion-centralizada-operador-de-logging-y-almacenamiento" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.4 Logs
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#34-logs-oc-logs-la-vista-de-logs-de-la-consola-y-que-aporta-la-agregacion-centralizada-operador-de-logging-y-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Logs: oc logs, la vista de logs de la consola y qué aporta la agregación centralizada — operador de Logging y almacenamiento ★
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 Logs: oc logs, la vista de logs de la consola y qué aporta la agregación centralizada — operador de Logging y almacenamiento ★">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-importancia-de-los-registros-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La importancia de los registros (logs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultar-logs-con-la-linea-de-comandos-oc-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar logs con la línea de comandos: oc logs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consultar logs con la línea de comandos: oc logs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#localizar-el-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Localizar el Pod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultar-los-logs-actuales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar los logs actuales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seguir-los-logs-en-tiempo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguir los logs en tiempo real
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mostrar-unicamente-las-ultimas-lineas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mostrar únicamente las últimas líneas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultar-los-logs-de-la-ejecucion-anterior-previous" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar los logs de la ejecución anterior: --previous
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-vista-de-logs-en-la-consola-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La vista de logs en la consola web
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="La vista de logs en la consola web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pasos-para-acceder-a-los-logs-desde-la-consola" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pasos para acceder a los logs desde la consola
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caracteristicas-principales-de-la-vista-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Características principales de la vista web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-limitacion-fundamental-de-los-logs-locales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La limitación fundamental de los logs locales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-aporta-la-agregacion-centralizada-centralized-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué aporta la agregación centralizada (Centralized Logging)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Qué aporta la agregación centralizada (Centralized Logging)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ventajas-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ventajas principales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-operador-de-logging-y-el-backend-de-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El operador de Logging y el backend de almacenamiento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El operador de Logging y el backend de almacenamiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-papel-del-operador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El papel del operador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-importancia-del-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La importancia del almacenamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#34-logs-oc-logs-la-vista-de-logs-de-la-consola-y-que-aporta-la-agregacion-centralizada-operador-de-logging-y-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Logs: oc logs, la vista de logs de la consola y qué aporta la agregación centralizada — operador de Logging y almacenamiento ★
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 Logs: oc logs, la vista de logs de la consola y qué aporta la agregación centralizada — operador de Logging y almacenamiento ★">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-importancia-de-los-registros-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La importancia de los registros (logs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultar-logs-con-la-linea-de-comandos-oc-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar logs con la línea de comandos: oc logs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consultar logs con la línea de comandos: oc logs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#localizar-el-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Localizar el Pod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultar-los-logs-actuales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar los logs actuales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seguir-los-logs-en-tiempo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguir los logs en tiempo real
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mostrar-unicamente-las-ultimas-lineas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mostrar únicamente las últimas líneas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultar-los-logs-de-la-ejecucion-anterior-previous" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultar los logs de la ejecución anterior: --previous
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-vista-de-logs-en-la-consola-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La vista de logs en la consola web
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="La vista de logs en la consola web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pasos-para-acceder-a-los-logs-desde-la-consola" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pasos para acceder a los logs desde la consola
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caracteristicas-principales-de-la-vista-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Características principales de la vista web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-limitacion-fundamental-de-los-logs-locales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La limitación fundamental de los logs locales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-aporta-la-agregacion-centralizada-centralized-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué aporta la agregación centralizada (Centralized Logging)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Qué aporta la agregación centralizada (Centralized Logging)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ventajas-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ventajas principales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-operador-de-logging-y-el-backend-de-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El operador de Logging y el backend de almacenamiento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El operador de Logging y el backend de almacenamiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-papel-del-operador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El papel del operador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-importancia-del-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La importancia del almacenamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>3.4 Logs</h1>
+
+<h3 id="34-logs-oc-logs-la-vista-de-logs-de-la-consola-y-que-aporta-la-agregacion-centralizada-operador-de-logging-y-almacenamiento">3.4 Logs: <code>oc logs</code>, la vista de logs de la consola y qué aporta la agregación centralizada — operador de Logging y almacenamiento ★</h3>
+<h4 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h4>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Consultar los registros (<em>logs</em>) de un contenedor mediante la línea de comandos de OpenShift (<code>oc logs</code>).</li>
+<li>Seguir los logs en tiempo real y consultar los de la ejecución anterior de un contenedor reiniciado.</li>
+<li>Localizar y examinar los logs desde la consola web de OpenShift.</li>
+<li>Comprender las limitaciones de la consulta local de logs en contenedores efímeros.</li>
+<li>Entender el concepto de agregación centralizada de logs (<em>Centralized Logging</em>) y su arquitectura general.</li>
+<li>Conocer el papel del <strong>OpenShift Logging Operator</strong> y de <strong>ClusterLogForwarder</strong> en la recolección, el procesamiento y el reenvío de registros.</li>
+<li>Comprender por qué una solución de logging centralizado necesita un backend de almacenamiento correctamente diseñado y dimensionado.</li>
+</ul>
+<h4 id="la-importancia-de-los-registros-logs">La importancia de los registros (<em>logs</em>)</h4>
+<p>Cuando una aplicación no se comporta como esperamos, sus registros son una de las principales fuentes de información para comprender qué está ocurriendo. Normalmente, las aplicaciones en contenedores escriben sus mensajes en las salidas estándar del proceso:</p>
+<ul>
+<li><strong>stdout</strong>: salida estándar.</li>
+<li><strong>stderr</strong>: salida de error.</li>
+</ul>
+<p>A diferencia de los entornos virtuales tradicionales, donde es habitual escribir los logs de forma persistente en rutas fijas del servidor, como <code>/var/log</code>, en Kubernetes y OpenShift los contenedores son efímeros: se crean, se reinician, se sustituyen y pueden ejecutarse en nodos diferentes.</p>
+<p>Por este motivo, una aplicación preparada para ejecutarse en contenedores debería escribir sus logs en <code>stdout</code> y <code>stderr</code>. OpenShift permite consultar esas salidas tanto mediante la línea de comandos como desde la consola web.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Aplicación en el contenedor] --&gt;|stdout / stderr| B[Registro gestionado por el nodo]
+    B --&gt; C[API de Kubernetes / OpenShift]
+    C --&gt;|oc logs / Consola web| D[Usuario]</code></pre>
+<h4 id="consultar-logs-con-la-linea-de-comandos-oc-logs">Consultar logs con la línea de comandos: <code>oc logs</code></h4>
+<p>La herramienta CLI de OpenShift ofrece el comando <code>oc logs</code> como mecanismo principal para inspeccionar la salida de los contenedores de nuestras cargas de trabajo.</p>
+<h5 id="localizar-el-pod">Localizar el Pod</h5>
+<p>En primer lugar, consultamos los Pods del proyecto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<p>El resultado mostrará el nombre de cada Pod, su estado y el número de reinicios de sus contenedores:</p>
+<div class="highlight"><pre><span></span><code>NAME                                      READY   STATUS    RESTARTS   AGE
+demo-formacion-yaml-xxxxxxxxxx-xxxxx      1/1     Running   0          8m
+</code></pre></div>
+<p>El nombre exacto incorpora identificadores generados por OpenShift, por lo que debemos utilizar el que aparezca en nuestro entorno.</p>
+<h5 id="consultar-los-logs-actuales">Consultar los logs actuales</h5>
+<p>Para mostrar los logs del contenedor en ejecución:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>demo-formacion-yaml-xxxxxxxxxx-xxxxx
+</code></pre></div>
+<p>También podemos consultar los logs mediante el recurso que gestiona los Pods, sin tener que copiar su nombre completo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<p>Esta forma resulta especialmente cómoda cuando el Deployment dispone de una única réplica.</p>
+<h5 id="seguir-los-logs-en-tiempo-real">Seguir los logs en tiempo real</h5>
+<p>La opción <code>-f</code> mantiene el comando abierto y va mostrando las nuevas líneas conforme las genera la aplicación:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<p>Podemos detener el seguimiento con ++ctrl+c++. Esto no detiene la aplicación; únicamente finaliza el comando local.</p>
+<h5 id="mostrar-unicamente-las-ultimas-lineas">Mostrar únicamente las últimas líneas</h5>
+<p>Si la aplicación ha generado muchos mensajes, podemos limitar la salida. Por ejemplo, para consultar las últimas 50 líneas:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span>--tail<span class="o">=</span><span class="m">50</span>
+</code></pre></div>
+<h5 id="consultar-los-logs-de-la-ejecucion-anterior-previous">Consultar los logs de la ejecución anterior: <code>--previous</code></h5>
+<p>Si un contenedor termina y OpenShift lo reinicia dentro del mismo Pod, <code>oc logs</code> muestra por defecto los logs de la instancia que se está ejecutando en ese momento. Para investigar qué ocurrió justo antes del último reinicio, utilizamos <code>--previous</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>demo-formacion-yaml-xxxxxxxxxx-xxxxx<span class="w"> </span>--previous
+</code></pre></div>
+<p>La opción <code>--previous</code> consulta la instancia anterior del contenedor dentro del mismo Pod. No recupera los logs de un Pod distinto ni constituye un histórico permanente.</p>
+<p>Podemos identificar que se ha producido un reinicio mediante la columna <code>RESTARTS</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>NAME                                      READY   STATUS    RESTARTS   AGE
+demo-formacion-yaml-xxxxxxxxxx-xxxxx      1/1     Running   1          12m
+</code></pre></div>
+<p>En ese caso, la comparación es especialmente útil:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Logs de la instancia actual del contenedor</span>
+oc<span class="w"> </span>logs<span class="w"> </span>demo-formacion-yaml-xxxxxxxxxx-xxxxx
+
+<span class="c1"># Logs de la instancia anterior, antes del último reinicio</span>
+oc<span class="w"> </span>logs<span class="w"> </span>demo-formacion-yaml-xxxxxxxxxx-xxxxx<span class="w"> </span>--previous
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Cuándo no funciona <code>--previous</code></p>
+<p>Si el contenedor todavía no se ha reiniciado, OpenShift no tendrá una instancia anterior que consultar. Del mismo modo, si el Pod ha sido eliminado y sustituido por otro, <code>--previous</code> no permite consultar el contenedor del Pod desaparecido.</p>
+</div>
+<p>En Pods que contienen más de un contenedor debemos indicar cuál queremos consultar mediante <code>-c</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>demo-formacion-yaml-xxxxxxxxxx-xxxxx<span class="w"> </span>-c<span class="w"> </span>nombre-contenedor
+</code></pre></div>
+<p>La misma opción se puede combinar con <code>--previous</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>demo-formacion-yaml-xxxxxxxxxx-xxxxx<span class="w"> </span>-c<span class="w"> </span>nombre-contenedor<span class="w"> </span>--previous
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Necesidad</th>
+<th>Comando</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consultar los logs actuales</td>
+<td><code>oc logs &lt;pod&gt;</code></td>
+</tr>
+<tr>
+<td>Seguir los logs en tiempo real</td>
+<td><code>oc logs -f &lt;pod&gt;</code></td>
+</tr>
+<tr>
+<td>Ver las últimas 50 líneas</td>
+<td><code>oc logs &lt;pod&gt; --tail=50</code></td>
+</tr>
+<tr>
+<td>Consultar la ejecución anterior</td>
+<td><code>oc logs &lt;pod&gt; --previous</code></td>
+</tr>
+<tr>
+<td>Seleccionar un contenedor concreto</td>
+<td><code>oc logs &lt;pod&gt; -c &lt;contenedor&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="la-vista-de-logs-en-la-consola-web">La vista de logs en la consola web</h4>
+<p>La consola web de OpenShift permite realizar la misma primera inspección de forma visual, seleccionando el Pod y el contenedor que queremos consultar.</p>
+<h5 id="pasos-para-acceder-a-los-logs-desde-la-consola">Pasos para acceder a los logs desde la consola</h5>
+<ul>
+<li>Cambia a la perspectiva <strong>Developer</strong> o <strong>Administrator</strong>.</li>
+<li>Dirígete a <strong>Workloads → Deployments</strong> o <strong>Pods</strong>.</li>
+<li>Selecciona la aplicación <code>demo-formacion-yaml</code>.</li>
+<li>Accede al Pod correspondiente.</li>
+<li>Haz clic en la pestaña <strong>Logs</strong>.</li>
+</ul>
+<h5 id="caracteristicas-principales-de-la-vista-web">Características principales de la vista web</h5>
+<ul>
+<li><strong>Selector de contenedores:</strong> si el Pod está compuesto por varios contenedores, permite alternar entre ellos.</li>
+<li><strong>Seguimiento en directo:</strong> muestra las nuevas líneas conforme la aplicación las genera.</li>
+<li><strong>Búsqueda de texto:</strong> facilita la localización de términos como <code>ERROR</code>, <code>Exception</code>, <code>WARNING</code> o <code>Connection refused</code>.</li>
+<li><strong>Consulta visual:</strong> permite revisar los registros recientes sin necesidad de recordar las opciones del comando.</li>
+</ul>
+<pre class="mermaid"><code>flowchart TD
+    A[Consola web de OpenShift] --&gt; B[Deployment o Pod]
+    B --&gt; C[Pestaña Logs]
+    C --&gt; D[Selección del contenedor]
+    C --&gt; E[Búsqueda y seguimiento]</code></pre>
+<h4 id="la-limitacion-fundamental-de-los-logs-locales">La limitación fundamental de los logs locales</h4>
+<p>Aunque <code>oc logs</code> y la consola web resuelven muchas tareas cotidianas de desarrollo y diagnóstico, no constituyen un sistema de conservación histórica de registros.</p>
+<ul>
+<li><strong>Retención limitada:</strong> los registros se conservan temporalmente en el nodo donde se ejecuta el contenedor. La rotación configurada en el nodo elimina los registros antiguos cuando se alcanzan determinados límites.</li>
+<li><strong>Dependencia del ciclo de vida:</strong> <code>oc logs --previous</code> permite consultar la ejecución inmediatamente anterior de un contenedor reiniciado, pero no ofrece un histórico indefinido.</li>
+<li><strong>Pods sustituidos:</strong> si un Pod es eliminado y el Deployment crea otro, la consulta normal se dirige al nuevo Pod. Los logs del Pod anterior no deben considerarse disponibles como parte de un histórico duradero.</li>
+<li><strong>Visibilidad fragmentada:</strong> una aplicación puede tener varias réplicas, reiniciarse o ejecutarse en nodos diferentes. Consultar individualmente cada Pod resulta insuficiente cuando necesitamos analizar el comportamiento del conjunto durante un periodo prolongado.</li>
+</ul>
+<p>Por tanto, los logs obtenidos directamente desde los Pods son muy útiles para el diagnóstico inmediato, pero una organización que necesite retención, búsqueda global, auditoría o correlación debe plantear una estrategia de <strong>agregación centralizada</strong>.</p>
+<h4 id="que-aporta-la-agregacion-centralizada-centralized-logging">Qué aporta la agregación centralizada (<em>Centralized Logging</em>)</h4>
+<p>La agregación centralizada consiste en recolectar los logs generados por las aplicaciones y por la plataforma, enriquecerlos con información de contexto y enviarlos a uno o varios sistemas donde puedan conservarse, buscarse y analizarse de forma conjunta.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Cluster[Clúster OpenShift]
+        A[Pods y contenedores] --&gt;|stdout / stderr| B[Agentes de recolección]
+    end
+    B --&gt; C[Procesamiento y reenvío]
+    C --&gt; D[Backend centralizado]
+    D --&gt; E[Búsqueda, análisis y visualización]</code></pre>
+<h5 id="ventajas-principales">Ventajas principales</h5>
+<ul>
+<li><strong>Retención:</strong> los registros pueden conservarse durante el periodo definido por la organización, con independencia del ciclo de vida de los Pods.</li>
+<li><strong>Búsqueda global:</strong> permite consultar desde una única interfaz los logs de múltiples Pods, aplicaciones y proyectos.</li>
+<li><strong>Correlación:</strong> facilita relacionar registros de diferentes componentes para reconstruir qué ocurrió durante una incidencia.</li>
+<li><strong>Auditoría y cumplimiento:</strong> permite aplicar políticas de acceso, conservación y protección adaptadas a los requisitos de la organización.</li>
+</ul>
+<p>La agregación centralizada no implica conservar todos los logs indefinidamente. Deben definirse políticas de retención, filtrado y eliminación acordes con su valor operativo, su volumen y los requisitos normativos aplicables.</p>
+<h4 id="el-operador-de-logging-y-el-backend-de-almacenamiento">El operador de Logging y el backend de almacenamiento</h4>
+<p>En OpenShift, el <strong>OpenShift Logging Operator</strong> proporciona componentes para desplegar y gestionar la recolección y el reenvío de logs. En las arquitecturas actuales, <strong>Vector</strong> realiza habitualmente la recolección en los nodos y el recurso <strong>ClusterLogForwarder</strong> define cómo se procesan y a qué destinos se envían los registros.</p>
+<h5 id="el-papel-del-operador">El papel del operador</h5>
+<p>El operador permite gestionar de forma declarativa:</p>
+<ul>
+<li>Los agentes de recolección desplegados en los nodos del clúster.</li>
+<li>La selección de los tipos de logs que se quieren recoger.</li>
+<li>Las entradas, filtros, salidas y canalizaciones configuradas mediante <code>ClusterLogForwarder</code>.</li>
+<li>El reenvío hacia uno o varios backends compatibles.</li>
+</ul>
+<p>Es importante separar dos responsabilidades:</p>
+<ul>
+<li><strong>Recolección y reenvío:</strong> OpenShift captura los registros, puede enriquecerlos con metadatos y los dirige al destino configurado.</li>
+<li><strong>Almacenamiento, indexación y consulta:</strong> el backend recibe los logs y proporciona las capacidades de conservación, búsqueda, análisis o visualización.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    A[Pods y nodos] --&gt; B[Vector]
+    B --&gt; C[ClusterLogForwarder]
+    C --&gt; D[Backend de logging]
+    D --&gt; E[Retención, búsqueda y análisis]</code></pre>
+<p>La implementación concreta puede variar según la versión de OpenShift, los operadores instalados y la arquitectura elegida. Por ello, no debemos asociar el logging centralizado a un único producto ni asumir que el operador proporciona por sí mismo todos los motores de almacenamiento, indexación y consulta.</p>
+<h5 id="la-importancia-del-almacenamiento">La importancia del almacenamiento</h5>
+<p>Un sistema de logging puede recibir un volumen elevado y continuo de información. Su diseño debe contemplar principalmente:</p>
+<ul>
+<li>El volumen diario de logs.</li>
+<li>El periodo de retención.</li>
+<li>La capacidad de búsqueda, disponibilidad y recuperación necesaria.</li>
+</ul>
+<p>Determinadas arquitecturas de logging, por ejemplo algunas basadas en Loki, utilizan almacenamiento de objetos compatible con S3 para conservar grandes volúmenes de información. Sin embargo, no es un requisito universal de toda solución de logging centralizado: la necesidad concreta depende del backend y de la arquitectura adoptada.</p>
+<p>El almacenamiento no sustituye por sí solo a las funciones de recolección, indexación, búsqueda y visualización de una plataforma de logs. Es una pieza del conjunto y debe dimensionarse de acuerdo con el volumen generado y el tiempo durante el que se desea conservar la información.</p>
+<div class="admonition warning">
+<p class="admonition-title">Planificación de capacidad</p>
+<p>La agregación centralizada aporta un gran valor operativo, pero debe dimensionarse cuidadosamente. Una retención excesiva, una generación descontrolada de logs o un backend insuficiente pueden consumir almacenamiento y recursos de procesamiento rápidamente, degradar las búsquedas e incluso afectar a la disponibilidad del servicio de logging.</p>
+</div>
+<h4 id="ideas-clave-para-recordar">Ideas clave para recordar</h4>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li><code>oc logs</code> permite consultar la salida estándar de los contenedores de una carga de trabajo.</li>
+<li><code>oc logs -f</code> sigue los logs en tiempo real y <code>--tail</code> limita la cantidad de líneas mostradas.</li>
+<li><code>oc logs --previous</code> consulta la ejecución anterior de un contenedor que se ha reiniciado dentro del mismo Pod.</li>
+<li>La consola web proporciona una vía visual para seleccionar el Pod y revisar sus registros.</li>
+<li>Los logs accesibles directamente desde los Pods son útiles para el diagnóstico inmediato, pero no deben considerarse un histórico duradero.</li>
+<li>La agregación centralizada permite retener, buscar y correlacionar registros de múltiples componentes.</li>
+<li>El OpenShift Logging Operator, Vector y <code>ClusterLogForwarder</code> se ocupan de la recolección, el procesamiento y el reenvío, mientras que el backend proporciona el almacenamiento y las capacidades de consulta.</li>
+<li>El almacenamiento de objetos puede ser necesario en determinadas arquitecturas, pero no constituye un requisito universal para cualquier solución de logging.</li>
+</ul>
+</div>
+<p>Los logs nos cuentan qué está diciendo la aplicación, pero no siempre explican por qué OpenShift no puede ejecutarla correctamente. En el siguiente apartado combinaremos eventos, <code>describe</code>, logs y otras herramientas para aplicar un método sistemático de diagnóstico.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

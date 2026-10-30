@@ -1,0 +1,2612 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../3.4%20Logs/">
+      
+      
+        <link rel="next" href="../3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>3.5 Diagnostico de incidencias - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#35-diagnostico-de-incidencias-el-metodo-events-describe-logs-y-herramientas-de-resolucion" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.5 Diagnostico de incidencias
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#un-recorrido-recomendado-para-diagnosticar-incidencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un recorrido recomendado para diagnosticar incidencias
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Un recorrido recomendado para diagnosticar incidencias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-events-que-ha-intentado-hacer-el-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: events — ¿Qué ha intentado hacer el clúster?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-describe-cual-es-el-estado-y-la-configuracion-del-objeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: describe — ¿Cuál es el estado y la configuración del objeto?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-logs-que-indica-la-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3: logs — ¿Qué indica la aplicación?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-corregir-y-verificar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4: corregir y verificar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sintomas-evidencias-y-primeras-actuaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Síntomas, evidencias y primeras actuaciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Síntomas, evidencias y primeras actuaciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-pod-en-pending" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Pod en Pending
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pod-en-crashloopbackoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Pod en CrashLoopBackOff
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pod-en-imagepullbackoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pod en ImagePullBackOff
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-contenedor-terminado-por-oomkilled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Contenedor terminado por OOMKilled
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-pvc-en-estado-pending" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. PVC en estado Pending
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practica-n3-diagnosticar-un-crashloopbackoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Práctica N3: diagnosticar un CrashLoopBackOff
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Práctica N3: diagnosticar un CrashLoopBackOff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparacion-aplicar-el-manifiesto-que-provoca-el-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparación: aplicar el manifiesto que provoca el error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#situacion-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Situación inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-revisar-los-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Revisar los eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-inspeccionar-el-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Inspeccionar el Pod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-consultar-los-logs-de-la-ejecucion-anterior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Consultar los logs de la ejecución anterior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-localizar-la-configuracion-que-provoca-el-fallo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Localizar la configuración que provoca el fallo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-aplicar-el-manifiesto-correcto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Aplicar el manifiesto correcto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-verificar-la-recuperacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Verificar la recuperación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#herramientas-complementarias-de-inspeccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Herramientas complementarias de inspección
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Herramientas complementarias de inspección">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oc-rsh-inspeccionar-un-contenedor-en-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        oc rsh: inspeccionar un contenedor en ejecución
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oc-debug-crear-un-entorno-temporal-de-depuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        oc debug: crear un entorno temporal de depuración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oc-port-forward-probar-un-puerto-mediante-un-tunel-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        oc port-forward: probar un puerto mediante un túnel local
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#must-gather-informacion-para-administracion-y-soporte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        must-gather: información para administración y soporte
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#es-mi-aplicacion-o-es-la-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Es mi aplicación o es la plataforma?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#un-recorrido-recomendado-para-diagnosticar-incidencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un recorrido recomendado para diagnosticar incidencias
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Un recorrido recomendado para diagnosticar incidencias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-events-que-ha-intentado-hacer-el-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: events — ¿Qué ha intentado hacer el clúster?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-describe-cual-es-el-estado-y-la-configuracion-del-objeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: describe — ¿Cuál es el estado y la configuración del objeto?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-logs-que-indica-la-aplicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3: logs — ¿Qué indica la aplicación?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-corregir-y-verificar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4: corregir y verificar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sintomas-evidencias-y-primeras-actuaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Síntomas, evidencias y primeras actuaciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Síntomas, evidencias y primeras actuaciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-pod-en-pending" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Pod en Pending
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pod-en-crashloopbackoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Pod en CrashLoopBackOff
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pod-en-imagepullbackoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pod en ImagePullBackOff
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-contenedor-terminado-por-oomkilled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Contenedor terminado por OOMKilled
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-pvc-en-estado-pending" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. PVC en estado Pending
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practica-n3-diagnosticar-un-crashloopbackoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Práctica N3: diagnosticar un CrashLoopBackOff
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Práctica N3: diagnosticar un CrashLoopBackOff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparacion-aplicar-el-manifiesto-que-provoca-el-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparación: aplicar el manifiesto que provoca el error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#situacion-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Situación inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-revisar-los-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Revisar los eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-inspeccionar-el-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Inspeccionar el Pod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-consultar-los-logs-de-la-ejecucion-anterior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Consultar los logs de la ejecución anterior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-localizar-la-configuracion-que-provoca-el-fallo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Localizar la configuración que provoca el fallo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-aplicar-el-manifiesto-correcto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Aplicar el manifiesto correcto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-verificar-la-recuperacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Verificar la recuperación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#herramientas-complementarias-de-inspeccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Herramientas complementarias de inspección
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Herramientas complementarias de inspección">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oc-rsh-inspeccionar-un-contenedor-en-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        oc rsh: inspeccionar un contenedor en ejecución
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oc-debug-crear-un-entorno-temporal-de-depuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        oc debug: crear un entorno temporal de depuración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oc-port-forward-probar-un-puerto-mediante-un-tunel-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        oc port-forward: probar un puerto mediante un túnel local
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#must-gather-informacion-para-administracion-y-soporte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        must-gather: información para administración y soporte
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#es-mi-aplicacion-o-es-la-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Es mi aplicación o es la plataforma?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="35-diagnostico-de-incidencias-el-metodo-events-describe-logs-y-herramientas-de-resolucion">3.5 Diagnóstico de incidencias: el método <code>events</code> → <code>describe</code> → <code>logs</code> y herramientas de resolución</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Aplicar un recorrido estructurado de resolución de problemas (<em>troubleshooting</em>) basado en <code>events</code> → <code>describe</code> → <code>logs</code>, adaptándolo a las evidencias disponibles.</li>
+<li>Interpretar los síntomas más frecuentes en OpenShift (<code>Pending</code>, <code>CrashLoopBackOff</code>, <code>ImagePullBackOff</code>, <code>OOMKilled</code> y PVC en <code>Pending</code>).</li>
+<li>Relacionar cada síntoma con las evidencias que deben comprobarse y con las primeras actuaciones posibles.</li>
+<li>Utilizar herramientas complementarias de inspección y depuración como <code>oc rsh</code>, <code>oc debug</code> y <code>oc port-forward</code>.</li>
+<li>Comprender para qué sirve <code>must-gather</code> y por qué suele asociarse a tareas de administración y soporte.</li>
+<li>Verificar que una incidencia ha quedado realmente resuelta después de aplicar una corrección.</li>
+</ul>
+<hr />
+<h2 id="un-recorrido-recomendado-para-diagnosticar-incidencias">Un recorrido recomendado para diagnosticar incidencias</h2>
+<p>Cuando una aplicación desplegada en OpenShift no arranca, se reinicia o deja de responder, es frecuente comenzar a ejecutar comandos sin un criterio claro. Esto puede hacer que pasemos por alto la evidencia más útil o que dediquemos tiempo a revisar información que no está relacionada con el problema.</p>
+<p>Como punto de partida utilizaremos el siguiente recorrido:</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Detectar el síntoma] --&gt; B[1. Comprobar Events&lt;br/&gt;¿Qué ha intentado hacer el clúster?]
+    B --&gt; C[2. Inspeccionar con Describe&lt;br/&gt;¿Cuál es el estado y la configuración del objeto?]
+    C --&gt; D[3. Consultar Logs&lt;br/&gt;¿Qué indica la aplicación?]
+    D --&gt; E[4. Corregir y verificar&lt;br/&gt;¿El recurso vuelve al estado esperado?]
+    E --&gt; F[5. Ampliar la investigación si es necesario&lt;br/&gt;rsh / debug / port-forward]</code></pre>
+<p>Este orden es una <strong>guía</strong>, no una regla inflexible. Si el síntoma apunta claramente a una causa concreta, puede ser razonable comenzar por otra evidencia. Por ejemplo, ante un <code>ImagePullBackOff</code>, los eventos y <code>describe</code> suelen ser más útiles que los logs, porque el contenedor todavía no ha llegado a iniciarse. Ante un error funcional de una aplicación que permanece en estado <code>Running</code>, puede tener sentido consultar directamente sus logs.</p>
+<p>La idea importante no es memorizar una secuencia rígida, sino investigar de forma ordenada y basar cada decisión en evidencias.</p>
+<hr />
+<h3 id="paso-1-events-que-ha-intentado-hacer-el-cluster">Paso 1: <code>events</code> — ¿Qué ha intentado hacer el clúster?</h3>
+<p>Los eventos de Kubernetes registran actividades y errores recientes relacionados con los objetos del proyecto: planificación de Pods, descarga de imágenes, montaje de volúmenes, fallos de sondas o reinicios, entre otros.</p>
+<p>Cuando ya conocemos el Pod afectado, podemos consultar únicamente sus eventos y ordenarlos por su fecha de creación:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>events<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--field-selector<span class="w"> </span>involvedObject.kind<span class="o">=</span>Pod,involvedObject.name<span class="o">=</span>&lt;nombre-del-pod&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sort-by<span class="o">=</span><span class="s1">'.metadata.creationTimestamp'</span>
+</code></pre></div>
+<p>El selector evita mezclar la investigación con eventos de otros recursos del proyecto:</p>
+<ul>
+<li><code>involvedObject.kind=Pod</code> limita la consulta a objetos de tipo Pod.</li>
+<li><code>involvedObject.name=&lt;nombre-del-pod&gt;</code> selecciona el Pod que estamos investigando.</li>
+<li><code>--sort-by='.metadata.creationTimestamp'</code> ordena los eventos cronológicamente.</li>
+</ul>
+<p>La salida incluye normalmente columnas como <code>LAST SEEN</code>, <code>TYPE</code>, <code>REASON</code>, <code>OBJECT</code> y <code>MESSAGE</code>:</p>
+<ul>
+<li><strong><code>Normal</code></strong>: acciones habituales del clúster, como la asignación de un Pod a un nodo o la descarga correcta de una imagen.</li>
+<li><strong><code>Warning</code></strong>: situaciones que requieren atención, como fallos al descargar una imagen, montar un volumen o ejecutar una sonda.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Los eventos no son un historial completo</p>
+<p>Los eventos son registros temporales y pueden agregarse, repetirse o desaparecer conforme avanza el tiempo. Resultan muy útiles para conocer la actividad reciente, pero no deben interpretarse como un historial permanente de todo lo ocurrido desde la creación del objeto.</p>
+</div>
+<p>Cuando se conoce el objeto afectado, también puede resultar más práctico consultar sus eventos a través de <code>oc describe</code>.</p>
+<hr />
+<h3 id="paso-2-describe-cual-es-el-estado-y-la-configuracion-del-objeto">Paso 2: <code>describe</code> — ¿Cuál es el estado y la configuración del objeto?</h3>
+<p>El comando <code>oc describe</code> muestra información detallada del objeto en un formato orientado al diagnóstico. No se limita a los Pods: puede aplicarse a Deployments, ReplicaSets, Services, Routes, PVC y otros recursos.</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>&lt;tipo-de-recurso&gt;<span class="w"> </span>&lt;nombre&gt;
+</code></pre></div>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nombre-del-pod&gt;
+oc<span class="w"> </span>describe<span class="w"> </span>deployment<span class="w"> </span>demo-formacion-yaml
+oc<span class="w"> </span>describe<span class="w"> </span>pvc<span class="w"> </span>&lt;nombre-del-pvc&gt;
+</code></pre></div>
+<p>En un Pod, la salida permite revisar, entre otros datos:</p>
+<ul>
+<li>el nodo al que se ha asignado;</li>
+<li>la ServiceAccount utilizada;</li>
+<li>el estado actual y anterior de cada contenedor;</li>
+<li>la imagen desplegada;</li>
+<li>los reinicios y códigos de salida;</li>
+<li>los <code>requests</code> y <code>limits</code>;</li>
+<li>las sondas configuradas;</li>
+<li>los volúmenes montados;</li>
+<li>los eventos recientes relacionados con el Pod.</li>
+</ul>
+<p>En otros objetos, la información cambia según su naturaleza. Por ejemplo, en un PVC interesa comprobar su estado, la <code>StorageClass</code> solicitada y los eventos de aprovisionamiento.</p>
+<p><code>describe</code> no proporciona por sí solo la causa de todas las incidencias, pero ayuda a relacionar el estado actual, la configuración aplicada y los eventos registrados.</p>
+<hr />
+<h3 id="paso-3-logs-que-indica-la-aplicacion">Paso 3: <code>logs</code> — ¿Qué indica la aplicación?</h3>
+<p>En el apartado 3.4 vimos cómo consultar los logs mediante <code>oc logs</code>, seguirlos en tiempo real y recuperar los de la ejecución anterior con <code>--previous</code>.</p>
+<p>Dentro de un diagnóstico, utilizaremos los logs cuando el contenedor haya llegado a ejecutarse y necesitemos conocer qué ha indicado el proceso de la aplicación:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>&lt;nombre-del-pod&gt;
+</code></pre></div>
+<p>Si el contenedor se ha reiniciado:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>&lt;nombre-del-pod&gt;<span class="w"> </span>--previous
+</code></pre></div>
+<p>Los logs pueden mostrar excepciones, errores de configuración, fallos de conexión o mensajes emitidos antes de que el proceso termine. Sin embargo, no siempre contienen la causa del problema. Si el contenedor no ha arrancado, no ha podido descargar la imagen o no ha montado un volumen, la evidencia principal estará normalmente en los eventos y en <code>describe</code>.</p>
+<hr />
+<h3 id="paso-4-corregir-y-verificar">Paso 4: corregir y verificar</h3>
+<p>El diagnóstico no termina al modificar un manifiesto o ejecutar un comando. Después de aplicar una corrección debemos comprobar que el estado real vuelve a coincidir con el esperado.</p>
+<p>Según el tipo de incidencia, la verificación puede incluir:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/demo-formacion-yaml
+oc<span class="w"> </span>get<span class="w"> </span>pods
+oc<span class="w"> </span>get<span class="w"> </span>events<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--field-selector<span class="w"> </span>involvedObject.kind<span class="o">=</span>Pod,involvedObject.name<span class="o">=</span>&lt;nombre-del-pod&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sort-by<span class="o">=</span><span class="s1">'.metadata.creationTimestamp'</span>
+</code></pre></div>
+<p>También debemos repetir la comprobación funcional correspondiente, por ejemplo:</p>
+<ul>
+<li>acceder a la aplicación;</li>
+<li>realizar una petición a su Route;</li>
+<li>comprobar que el Pod deja de reiniciarse;</li>
+<li>confirmar que el PVC pasa a <code>Bound</code>;</li>
+<li>verificar que la nueva réplica alcanza el estado <code>Ready</code>.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Corregir no es lo mismo que verificar</p>
+<p>Una modificación puede aplicarse correctamente y, aun así, no resolver la causa real. La incidencia solo puede considerarse cerrada cuando el recurso recupera el estado esperado y la aplicación vuelve a funcionar.</p>
+</div>
+<hr />
+<h2 id="sintomas-evidencias-y-primeras-actuaciones">Síntomas, evidencias y primeras actuaciones</h2>
+<p>Los estados de Kubernetes no siempre identifican una causa única. Debemos tratarlos como síntomas que orientan la investigación.</p>
+<h3 id="1-pod-en-pending">1. Pod en <code>Pending</code></h3>
+<ul>
+<li><strong>Síntoma:</strong> el Pod permanece en estado <code>Pending</code> y no comienza a ejecutarse.</li>
+<li><strong>Evidencias que debemos revisar:</strong> eventos de planificación, recursos solicitados, selectores de nodos, afinidades y PVC asociados.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nombre-del-pod&gt;
+</code></pre></div>
+<ul>
+<li><strong>Posibles indicios:</strong> mensajes como <code>FailedScheduling</code>, falta de CPU o memoria disponible, restricciones de ubicación o un volumen que todavía no puede montarse.</li>
+<li><strong>Primeras actuaciones:</strong> revisar el mensaje exacto del evento, comprobar los <code>requests</code>, verificar el estado de los PVC y confirmar que las restricciones de ubicación son compatibles con los nodos disponibles.</li>
+</ul>
+<p>No debemos asumir automáticamente que un Pod en <code>Pending</code> indica falta de recursos: el evento asociado es el que debe orientar el siguiente paso.</p>
+<hr />
+<h3 id="2-pod-en-crashloopbackoff">2. Pod en <code>CrashLoopBackOff</code></h3>
+<ul>
+<li><strong>Síntoma:</strong> el contenedor arranca, termina y OpenShift intenta iniciarlo de nuevo, aumentando progresivamente el tiempo entre reintentos.</li>
+<li><strong>Evidencias que debemos revisar:</strong> estado anterior del contenedor, motivo de terminación, código de salida, eventos y logs de la ejecución anterior.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nombre-del-pod&gt;
+oc<span class="w"> </span>logs<span class="w"> </span>&lt;nombre-del-pod&gt;<span class="w"> </span>--previous
+</code></pre></div>
+<ul>
+<li><strong>Posibles indicios:</strong> error en el comando de arranque, variable obligatoria ausente, fallo durante la inicialización, dependencia inaccesible o terminación provocada por una sonda.</li>
+<li><strong>Primeras actuaciones:</strong> interpretar el código de salida y el mensaje de los logs antes de modificar el Deployment. La corrección dependerá de la evidencia encontrada.</li>
+</ul>
+<hr />
+<h3 id="3-pod-en-imagepullbackoff">3. Pod en <code>ImagePullBackOff</code></h3>
+<ul>
+<li><strong>Síntoma:</strong> OpenShift no puede descargar la imagen y el contenedor no llega a iniciarse.</li>
+<li><strong>Evidencias que debemos revisar:</strong> nombre y etiqueta de la imagen, registro de origen, eventos de descarga y credenciales configuradas.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nombre-del-pod&gt;
+</code></pre></div>
+<ul>
+<li><strong>Posibles indicios:</strong> <code>ErrImagePull</code>, imagen o etiqueta inexistente, registro inaccesible o falta de un <code>imagePullSecret</code> válido.</li>
+<li><strong>Primeras actuaciones:</strong> comprobar la referencia exacta de la imagen y, si el registro es privado, verificar que las credenciales necesarias estén vinculadas a la ServiceAccount utilizada por el Pod.</li>
+</ul>
+<p>Como el contenedor no ha llegado a ejecutarse, normalmente no existirán logs de aplicación que consultar.</p>
+<hr />
+<h3 id="4-contenedor-terminado-por-oomkilled">4. Contenedor terminado por <code>OOMKilled</code></h3>
+<ul>
+<li><strong>Síntoma:</strong> el contenedor termina y se reinicia; en el estado anterior aparece el motivo <code>OOMKilled</code>.</li>
+<li><strong>Evidencias que debemos revisar:</strong> último estado del contenedor, código de salida y límite de memoria configurado.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nombre-del-pod&gt;
+</code></pre></div>
+<ul>
+<li><strong>Posibles indicios:</strong> <code>Reason: OOMKilled</code> y, habitualmente, código de salida <code>137</code>.</li>
+<li><strong>Primeras actuaciones:</strong> comparar el límite configurado con el consumo esperado, revisar las métricas disponibles y determinar si el problema procede de un dimensionamiento insuficiente, un pico de carga o un consumo anómalo de la aplicación.</li>
+</ul>
+<p>Aumentar el <code>limit</code> puede aliviar el síntoma, pero no sustituye el análisis del consumo real de memoria.</p>
+<hr />
+<h3 id="5-pvc-en-estado-pending">5. PVC en estado <code>Pending</code></h3>
+<ul>
+<li><strong>Síntoma:</strong> el PVC no pasa a <code>Bound</code> y la aplicación que depende del volumen puede no llegar a arrancar.</li>
+<li><strong>Evidencias que debemos revisar:</strong> <code>StorageClass</code>, modo de acceso, capacidad solicitada, modo de vinculación y eventos de aprovisionamiento.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pvc
+oc<span class="w"> </span>describe<span class="w"> </span>pvc<span class="w"> </span>&lt;nombre-del-pvc&gt;
+oc<span class="w"> </span>get<span class="w"> </span>storageclass
+</code></pre></div>
+<ul>
+<li><strong>Posibles indicios:</strong> <code>StorageClass</code> inexistente, aprovisionador no disponible, modo de acceso no soportado o vinculación pendiente hasta que exista un Pod consumidor.</li>
+<li><strong>Primeras actuaciones:</strong> interpretar los eventos del PVC y comprobar que la solicitud es compatible con el almacenamiento disponible en el clúster.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Recordatorio sobre <code>WaitForFirstConsumer</code></p>
+<p>Si la <code>StorageClass</code> utiliza <code>volumeBindingMode: WaitForFirstConsumer</code>, el PVC puede permanecer en <code>Pending</code> hasta que exista un Pod que lo utilice. En ese caso, el estado no implica necesariamente un error.</p>
+</div>
+<hr />
+<h2 id="practica-n3-diagnosticar-un-crashloopbackoff">Práctica N3: diagnosticar un <code>CrashLoopBackOff</code></h2>
+<p>En esta práctica trabajaremos sobre el Deployment <code>demo-formacion-yaml</code>. Partiremos del manifiesto consolidado en el apartado 2.3, que incluye la imagen v3, las tres sondas y la configuración de recursos. Primero aplicaremos una variante que provoca un fallo de inicialización. Después investigaremos el problema, recuperaremos el manifiesto correcto y verificaremos que la aplicación vuelve a funcionar.</p>
+<h3 id="preparacion-aplicar-el-manifiesto-que-provoca-el-error">Preparación: aplicar el manifiesto que provoca el error</h3>
+<p>Guardamos el siguiente contenido en un archivo llamado <code>deployment-error.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Simulacion</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">fallo</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">inicializacion</span><span class="nv"> </span><span class="s">para</span><span class="nv"> </span><span class="s">practica</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">diagnostico"</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v3</span>
+<span class="w">          </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/bin/sh</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-c</span>
+<span class="w">          </span><span class="nt">args</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">              </span><span class="no">echo "Iniciando contenedor..."</span>
+<span class="w">              </span><span class="no">echo "ERROR: no se ha podido completar la inicialización"</span>
+<span class="w">              </span><span class="no">exit 1</span>
+<span class="w">          </span><span class="nt">startupProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/live</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">          </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ready</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">          </span><span class="nt">livenessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/live</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">          </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"100m"</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"128Mi"</span>
+<span class="w">            </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"500m"</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"512Mi"</span>
+</code></pre></div>
+<p>Aplicamos el manifiesto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment-error.yaml
+</code></pre></div>
+<p>El bloque <code>command</code> y <code>args</code> sustituye temporalmente el proceso normal de la imagen. El contenedor escribe dos mensajes y termina con código de salida <code>1</code>. No necesitamos memorizar la causa: el objetivo de la práctica es localizarla mediante las evidencias que proporciona OpenShift.</p>
+<h3 id="situacion-inicial">Situación inicial</h3>
+<p>Comenzamos observando el estado de los Pods:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<p>Tras varios intentos de reinicio, la salida mostrará un estado similar a este:</p>
+<div class="highlight"><pre><span></span><code>NAME                                      READY   STATUS             RESTARTS   AGE
+demo-formacion-yaml-7c85b9f7f-xxxxx      0/1     CrashLoopBackOff   3          45s
+</code></pre></div>
+<p>El nombre del estado constituye el primer indicio, pero todavía no explica la causa.</p>
+<h3 id="1-revisar-los-eventos">1. Revisar los eventos</h3>
+<p>Una vez identificado el Pod afectado, consultamos únicamente sus eventos:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>events<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--field-selector<span class="w"> </span>involvedObject.kind<span class="o">=</span>Pod,involvedObject.name<span class="o">=</span>&lt;nombre-del-pod&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sort-by<span class="o">=</span><span class="s1">'.metadata.creationTimestamp'</span>
+</code></pre></div>
+<p>Los eventos permiten comprobar que el contenedor se inicia, termina y vuelve a arrancarse. También pueden mostrar fallos de sondas u otros mensajes relacionados con los reinicios.</p>
+<p>En nuestra aplicación de ejemplo puede aparecer temporalmente <code>Readiness probe failed</code> con código HTTP <code>503</code> cuando se utiliza el manifiesto correcto, porque el endpoint <code>/ready</code> tarda aproximadamente 30 segundos en devolver una respuesta satisfactoria. Ese evento refleja una situación ocurrida durante el arranque y no implica, por sí solo, que el Pod continúe sin estar preparado. Debemos relacionarlo con el estado actual del Pod y comprobar si el evento sigue repitiéndose.</p>
+<h3 id="2-inspeccionar-el-pod">2. Inspeccionar el Pod</h3>
+<p>Revisamos el estado detallado del Pod:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;nombre-del-pod&gt;
+</code></pre></div>
+<p>Prestamos especial atención a:</p>
+<ul>
+<li><code>State</code> y <code>Last State</code>;</li>
+<li><code>Reason</code>;</li>
+<li><code>Exit Code</code>;</li>
+<li>contador de reinicios;</li>
+<li>eventos situados al final de la salida.</li>
+</ul>
+<p>En este caso, el estado anterior del contenedor mostrará que el proceso terminó con error y código de salida <code>1</code>.</p>
+<h3 id="3-consultar-los-logs-de-la-ejecucion-anterior">3. Consultar los logs de la ejecución anterior</h3>
+<p>Como el contenedor se reinicia, consultamos los logs de la ejecución que acaba de finalizar:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>logs<span class="w"> </span>&lt;nombre-del-pod&gt;<span class="w"> </span>--previous
+</code></pre></div>
+<p>La salida proporciona una pista clara:</p>
+<div class="highlight"><pre><span></span><code>Iniciando contenedor...
+ERROR: no se ha podido completar la inicialización
+</code></pre></div>
+<p>Los logs muestran en qué momento falla la aplicación, pero todavía debemos revisar la configuración del Deployment para localizar la causa concreta.</p>
+<h3 id="4-localizar-la-configuracion-que-provoca-el-fallo">4. Localizar la configuración que provoca el fallo</h3>
+<p>Consultamos el Deployment:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>demo-formacion-yaml<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<p>En la especificación del contenedor encontraremos los campos que sustituyen el proceso normal de la imagen:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">command</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/bin/sh</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-c</span>
+<span class="nt">args</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">echo "Iniciando contenedor..."</span>
+<span class="w">    </span><span class="no">echo "ERROR: no se ha podido completar la inicialización"</span>
+<span class="w">    </span><span class="no">exit 1</span>
+</code></pre></div>
+<p>El proceso termina deliberadamente con código de salida <code>1</code>. Para recuperar el comportamiento normal de la aplicación debemos volver al Deployment consolidado, sin los campos <code>command</code> y <code>args</code>.</p>
+<h3 id="5-aplicar-el-manifiesto-correcto">5. Aplicar el manifiesto correcto</h3>
+<p>Guardamos el siguiente contenido en <code>deployment.yaml</code>. Es el Deployment consolidado del apartado 2.3, con la imagen v3, las tres sondas y la configuración de recursos:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s">"Configuradas</span><span class="nv"> </span><span class="s">probes</span><span class="nv"> </span><span class="s">y</span><span class="nv"> </span><span class="s">recursos</span><span class="nv"> </span><span class="s">para</span><span class="nv"> </span><span class="s">la</span><span class="nv"> </span><span class="s">aplicacion</span><span class="nv"> </span><span class="s">v3"</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-yaml</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v3</span>
+<span class="w">          </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Always</span>
+<span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">          </span><span class="nt">startupProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/live</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">          </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ready</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">          </span><span class="nt">livenessProbe</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/live</span>
+<span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">            </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">          </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"100m"</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"128Mi"</span>
+<span class="w">            </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"500m"</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"512Mi"</span>
+</code></pre></div>
+<p>Aplicamos el manifiesto correcto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment.yaml
+</code></pre></div>
+<h3 id="6-verificar-la-recuperacion">6. Verificar la recuperación</h3>
+<p>Esperamos a que el nuevo despliegue finalice:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/demo-formacion-yaml
+</code></pre></div>
+<p>Como la versión v3 simula un arranque de aproximadamente 30 segundos, podemos observar la evolución del nuevo Pod:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>demo-formacion-yaml<span class="w"> </span>-w
+</code></pre></div>
+<p>Inicialmente puede aparecer como <code>0/1 Running</code> mientras <code>/ready</code> devuelve temporalmente <code>503</code>. Después debe alcanzar el estado <code>1/1 Running</code>:</p>
+<div class="highlight"><pre><span></span><code>NAME                                      READY   STATUS    RESTARTS   AGE
+demo-formacion-yaml-xxxxxxxxxx-xxxxx      1/1     Running   0          35s
+</code></pre></div>
+<p>Comprobamos también los eventos del nuevo Pod. El nombre será diferente al del Pod que fallaba:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>events<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--field-selector<span class="w"> </span>involvedObject.kind<span class="o">=</span>Pod,involvedObject.name<span class="o">=</span>&lt;nombre-del-nuevo-pod&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sort-by<span class="o">=</span><span class="s1">'.metadata.creationTimestamp'</span>
+</code></pre></div>
+<p>Finalmente, verificamos que la aplicación vuelve a responder mediante la Route utilizada en los apartados anteriores.</p>
+<div class="admonition success">
+<p class="admonition-title">Criterio de finalización</p>
+<p>La práctica no termina al aplicar el manifiesto correcto. Debemos confirmar que el rollout finaliza, el nuevo Pod alcanza <code>Ready</code>, no se producen nuevos reinicios y la aplicación vuelve a responder.</p>
+</div>
+<hr />
+<h2 id="herramientas-complementarias-de-inspeccion">Herramientas complementarias de inspección</h2>
+<p>Cuando <code>events</code>, <code>describe</code> y <code>logs</code> no proporcionan suficiente información, podemos recurrir a herramientas adicionales. No forman una secuencia obligatoria ni deben utilizarse en todas las incidencias: elegiremos la que permita comprobar una hipótesis concreta.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Hipótesis que debemos comprobar] --&gt; B[oc rsh&lt;br/&gt;Inspeccionar un contenedor en ejecución]
+    A --&gt; C[oc debug&lt;br/&gt;Crear un entorno temporal de depuración]
+    A --&gt; D[oc port-forward&lt;br/&gt;Probar el acceso directo a un puerto]</code></pre>
+<h3 id="oc-rsh-inspeccionar-un-contenedor-en-ejecucion"><code>oc rsh</code>: inspeccionar un contenedor en ejecución</h3>
+<p><code>oc rsh</code> abre una sesión remota dentro de un contenedor que se está ejecutando:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rsh<span class="w"> </span>pod/&lt;nombre-del-pod&gt;
+</code></pre></div>
+<p>Puede resultar útil para comprobar ficheros, variables, resolución DNS o conectividad desde el propio contenedor.</p>
+<p>Su uso tiene limitaciones:</p>
+<ul>
+<li>el contenedor debe mantenerse en ejecución;</li>
+<li>la imagen debe incluir una shell compatible;</li>
+<li>las herramientas que queramos utilizar deben existir dentro de la imagen;</li>
+<li>los permisos del contenedor siguen estando limitados por la configuración de seguridad de la plataforma.</li>
+</ul>
+<p>No debe utilizarse para modificar manualmente una aplicación en producción. Cualquier corrección persistente debe incorporarse a la imagen o a la configuración declarativa correspondiente.</p>
+<hr />
+<h3 id="oc-debug-crear-un-entorno-temporal-de-depuracion"><code>oc debug</code>: crear un entorno temporal de depuración</h3>
+<p><code>oc debug</code> crea un recurso temporal basado en otro objeto para facilitar tareas de diagnóstico. Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>debug<span class="w"> </span>pod/&lt;nombre-del-pod&gt;
+</code></pre></div>
+<p>Puede ser útil cuando necesitamos inspeccionar la configuración o ejecutar comandos sin depender del proceso principal de la aplicación. El comportamiento concreto dependerá del recurso utilizado como origen, de la imagen y de los permisos disponibles.</p>
+<p>En entornos restringidos, algunas operaciones de depuración pueden no estar permitidas para usuarios de aplicación. La depuración de nodos u otros recursos de plataforma corresponde normalmente al equipo administrador.</p>
+<hr />
+<h3 id="oc-port-forward-probar-un-puerto-mediante-un-tunel-local"><code>oc port-forward</code>: probar un puerto mediante un túnel local</h3>
+<p><code>oc port-forward</code> permite redirigir temporalmente un puerto local hacia un Pod o un Service:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>port-forward<span class="w"> </span>pod/&lt;nombre-del-pod&gt;<span class="w"> </span><span class="m">8080</span>:8080
+</code></pre></div>
+<p>Mientras el comando permanezca activo, podremos probar la aplicación desde <code>http://localhost:8080</code>.</p>
+<p>Esta prueba puede ayudar a comprobar si el proceso escucha y responde en el puerto esperado sin depender del acceso externo. No sustituye la validación completa del Service o de la Route, porque los evita temporalmente.</p>
+<div class="admonition note">
+<p class="admonition-title">Uso en entornos de laboratorio</p>
+<p>El funcionamiento de <code>oc port-forward</code> depende de la conectividad desde el equipo del alumno, de los permisos y de las políticas aplicadas al entorno. Si no está disponible, la aplicación puede verificarse mediante el Service y la Route configurados en el laboratorio.</p>
+</div>
+<hr />
+<h2 id="must-gather-informacion-para-administracion-y-soporte"><code>must-gather</code>: información para administración y soporte</h2>
+<p><code>must-gather</code> es un mecanismo de OpenShift para recopilar información de diagnóstico del clúster y de sus operadores:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>adm<span class="w"> </span>must-gather
+</code></pre></div>
+<p>La recopilación puede incluir recursos, estados y logs relevantes para analizar una incidencia de plataforma. Su ejecución suele requerir privilegios administrativos y puede generar una cantidad considerable de información.</p>
+<p>Por tanto, no forma parte del diagnóstico habitual que realiza un desarrollador sobre su aplicación. Se utiliza principalmente cuando el equipo de administración necesita reunir evidencias para una investigación de plataforma o cuando el soporte de Red Hat solicita una recopilación concreta.</p>
+<div class="admonition warning">
+<p class="admonition-title">La recopilación puede contener información sensible</p>
+<p>Antes de compartir un <code>must-gather</code>, el equipo administrador debe aplicar los procedimientos de la organización para custodiar, revisar y transferir la información de diagnóstico.</p>
+</div>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li><code>events</code> → <code>describe</code> → <code>logs</code> es un recorrido recomendado, no una regla rígida.</li>
+<li>Los eventos muestran actividad reciente, pero no constituyen un historial permanente y completo.</li>
+<li><code>oc describe</code> puede utilizarse sobre distintos tipos de objetos, no solo sobre Pods.</li>
+<li>Los estados como <code>Pending</code>, <code>CrashLoopBackOff</code>, <code>ImagePullBackOff</code> u <code>OOMKilled</code> son síntomas que deben relacionarse con evidencias.</li>
+<li>Los logs ya estudiados en el apartado 3.4 se integran ahora dentro de un proceso de diagnóstico.</li>
+<li>Después de corregir una incidencia debemos verificar tanto el estado de los recursos como el funcionamiento de la aplicación.</li>
+<li><code>oc rsh</code>, <code>oc debug</code> y <code>oc port-forward</code> son herramientas complementarias que se utilizan para comprobar hipótesis concretas.</li>
+<li><code>oc adm must-gather</code> está orientado principalmente a la administración y al soporte de la plataforma.</li>
+</ul>
+</div>
+<hr />
+<h2 id="es-mi-aplicacion-o-es-la-plataforma">¿Es mi aplicación o es la plataforma?</h2>
+<p>El recorrido de este apartado permite investigar problemas relacionados con una aplicación y con los recursos de su proyecto. Sin embargo, puede llegar un momento en el que las evidencias no apunten al código, a la configuración o a los objetos que gestiona el equipo de desarrollo.</p>
+<p>Si varias aplicaciones presentan fallos similares, existen errores generalizados de almacenamiento o red, o los recursos del proyecto parecen correctos pero el servicio continúa degradado, debemos ampliar el ámbito de la investigación.</p>
+<p>En el siguiente apartado aprenderemos a diferenciar una incidencia de aplicación de una incidencia de plataforma mediante la revisión de los Cluster Operators, el estado de los nodos y el consumo general de recursos del clúster.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

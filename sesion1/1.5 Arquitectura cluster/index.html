@@ -1,0 +1,1959 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../1.4%20que%20a%C3%B1ade%20openshift/">
+      
+      
+        <link rel="next" href="../1.6%20Consola%20web/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>1.5 Arquitectura del clúster - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#15-arquitectura-de-un-cluster-openshift-4x" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.5 Arquitectura del clúster
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-los-bloques-individuales-a-la-arquitectura-distribuida-del-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De los bloques individuales a la arquitectura distribuida del clúster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tipos-de-nodos-en-el-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de nodos en el clúster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-control-plane-el-cerebro-del-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El Control Plane: El cerebro del clúster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El Control Plane: El cerebro del clúster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-api-server-la-puerta-de-entrada-universal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El API Server: La puerta de entrada universal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-scheduler-programador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El Scheduler (Programador)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#los-controllers-controladores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los Controllers (Controladores)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etcd-la-memoria-persistente-del-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        etcd: La memoria persistente del clúster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#los-nodos-worker-donde-se-ejecutan-las-aplicaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los nodos Worker: Donde se ejecutan las aplicaciones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#los-nodos-de-infraestructura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los nodos de infraestructura
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#una-plataforma-autogestionada-mediante-operadores-y-el-cvo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Una plataforma autogestionada mediante Operadores y el CVO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recorrido-conceptual-de-una-peticion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recorrido conceptual de una petición
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-cluster-se-actualiza-canales-cadencia-y-compatibilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El clúster se actualiza: Canales, cadencia y compatibilidad
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Industrializar y gobernar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion4/4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-los-bloques-individuales-a-la-arquitectura-distribuida-del-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De los bloques individuales a la arquitectura distribuida del clúster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tipos-de-nodos-en-el-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de nodos en el clúster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-control-plane-el-cerebro-del-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El Control Plane: El cerebro del clúster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El Control Plane: El cerebro del clúster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-api-server-la-puerta-de-entrada-universal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El API Server: La puerta de entrada universal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-scheduler-programador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El Scheduler (Programador)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#los-controllers-controladores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los Controllers (Controladores)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etcd-la-memoria-persistente-del-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        etcd: La memoria persistente del clúster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#los-nodos-worker-donde-se-ejecutan-las-aplicaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los nodos Worker: Donde se ejecutan las aplicaciones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#los-nodos-de-infraestructura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los nodos de infraestructura
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#una-plataforma-autogestionada-mediante-operadores-y-el-cvo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Una plataforma autogestionada mediante Operadores y el CVO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recorrido-conceptual-de-una-peticion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recorrido conceptual de una petición
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-cluster-se-actualiza-canales-cadencia-y-compatibilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El clúster se actualiza: Canales, cadencia y compatibilidad
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="15-arquitectura-de-un-cluster-openshift-4x">1.5 Arquitectura de un clúster OpenShift 4.x</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Entender cómo se organiza físicamente y lógicamente un clúster OpenShift.</li>
+<li>Diferenciar con precisión las funciones del <strong>Control Plane</strong> (el cerebro) frente a los <strong>Workers</strong> (los ejecutores) y la <strong>Infraestructura</strong>.</li>
+<li>Comprender el papel central del <strong>API Server</strong> como puerta de entrada universal y de <strong>etcd</strong> como la memoria persistente del clúster.</li>
+<li>Reconocer cómo OpenShift utiliza operadores y el <strong>Cluster Version Operator (CVO)</strong> para mantener la plataforma autogestionada.</li>
+<li>Trazar conceptualmente el recorrido de una petición desde el exterior hasta una aplicación.</li>
+<li>Comprender la lógica detrás del ciclo de vida y las actualizaciones del clúster.</li>
+</ul>
+<hr />
+<h2 id="de-los-bloques-individuales-a-la-arquitectura-distribuida-del-cluster">De los bloques individuales a la arquitectura distribuida del clúster</h2>
+<p>A lo largo de las secciones anteriores hemos recorrido un camino lógico: hemos visto cómo empaquetar una aplicación en un contenedor inmutable (1.2), cómo orquestarla a escala mediante Kubernetes gestionando su estado deseado (1.3), y qué valor añadido empresarial aporta OpenShift sobre esa base (1.4).</p>
+<p>La pregunta natural que surge ahora es: <strong>¿Cómo está estructurado físicamente un clúster OpenShift para hacer todo esto posible?</strong></p>
+<pre class="mermaid"><code>flowchart TD
+    CP[Control Plane / Cerebro]
+    W[Workers / Ejecutores]
+    I[Infraestructura / Servicios opcionales]
+
+    CP --&gt; W
+    CP --&gt; I</code></pre>
+<p>Un clúster OpenShift no es más que un conjunto coordinado de máquinas (servidores físicos, máquinas virtuales o instancias en la nube) que colaboran unificadas bajo una misma plataforma inteligente. Para comprender cómo opera este ecosistema, debemos descomponerlo en sus componentes fundamentales.</p>
+<hr />
+<h2 id="tipos-de-nodos-en-el-cluster">Tipos de nodos en el clúster</h2>
+<p>Un nodo es la unidad básica de cálculo en OpenShift. Dependiendo del rol que desempeñen dentro del clúster, los clasificamos en tres grandes grupos:</p>
+<ul>
+<li><strong>Control Plane (Master):</strong> El núcleo de gestión y control.</li>
+<li><strong>Workers (Nodos de trabajo):</strong> Las máquinas donde se ejecutan realmente las cargas de trabajo de los usuarios.</li>
+<li><strong>Infraestructura (Opcionales):</strong> Nodos dedicados exclusivamente al alojamiento de los servicios transversales de la plataforma.</li>
+</ul>
+<hr />
+<h2 id="el-control-plane-el-cerebro-del-cluster">El Control Plane: El cerebro del clúster</h2>
+<p>El <strong>Control Plane</strong> es el encargado de mantener el estado del clúster, tomar decisiones globales y supervisar que todo funcione tal y como hemos definido en nuestros manifiestos. Si el clúster fuera una organización, el Control Plane sería la dirección y el equipo de operaciones coordinando los recursos.</p>
+<p>Dentro del Control Plane conviven varios componentes esenciales:</p>
+<h3 id="el-api-server-la-puerta-de-entrada-universal">El API Server: La puerta de entrada universal</h3>
+<p>Todas las acciones que realizamos sobre OpenShift —ya sea mediante comandos de terminal (<code>oc</code>), despliegues automatizados o la propia consola web— pasan obligatoriamente por el <strong>API Server</strong>. </p>
+<ul>
+<li>Funciona como el <strong>recepcionista y validador único</strong> del clúster.</li>
+<li>Recibe cada petición, comprueba la autenticación, verifica los permisos y procesa la orden para que el clúster actúe.</li>
+</ul>
+<h3 id="el-scheduler-programador">El Scheduler (Programador)</h3>
+<p>Cuando solicitas desplegar una aplicación (por ejemplo, a través de un Deployment), el <em>Scheduler</em> evalúa los recursos disponibles en los nodos de trabajo y decide de forma inteligente <strong>en qué nodo exacto debe ejecutarse</strong> ese Pod.</p>
+<h3 id="los-controllers-controladores">Los Controllers (Controladores)</h3>
+<p>Son los guardianes del sistema. Monitorizan continuamente el estado real del clúster y lo comparan con el estado deseado, ejecutando el bucle de reconciliación que estudiamos en Kubernetes.</p>
+<h3 id="etcd-la-memoria-persistente-del-cluster">etcd: La memoria persistente del clúster</h3>
+<p><strong>etcd</strong> es una base de datos clave-valor distribuida, altamente fiable y consistente. </p>
+<ul>
+<li>Aquí se almacena absolutamente todo: la configuración del clúster, los objetos creados, los secretos, los usuarios y el estado actual de cada componente.</li>
+<li>Al ser el "disco duro" del sistema donde reside la verdad absoluta del clúster, su estabilidad y la realización de copias de seguridad periódicas son de vital importancia.</li>
+</ul>
+<pre class="mermaid"><code>flowchart TD
+    U[Usuario / Administrador] --&gt;|oc / Peticiones| API[API Server]
+    API --&gt; S[Scheduler / Controllers]
+    API --&gt; E[(etcd / Base de datos)]</code></pre>
+<hr />
+<h2 id="los-nodos-worker-donde-se-ejecutan-las-aplicaciones">Los nodos Worker: Donde se ejecutan las aplicaciones</h2>
+<p>Mientras que el Control Plane piensa, coordina y almacena el estado, los <strong>nodos Worker</strong> son los músculos de la plataforma. </p>
+<ul>
+<li>En estos nodos es donde se despliegan de manera efectiva los <strong>Pods</strong> que contienen nuestros contenedores.</li>
+<li>Soportan las cargas de trabajo de las aplicaciones, los procesos de compilación y los trabajos programados.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    CP["Control Plane (Coordina y decide)"] --&gt; W["Workers (Ejecutan las aplicaciones)"]</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Idea clave</p>
+<p>Por regla general, las aplicaciones de negocio de los usuarios nunca se ejecutan en los nodos del Control Plane, garantizando así la estabilidad, rendimiento y seguridad del cerebro de la plataforma.</p>
+</div>
+<hr />
+<h2 id="los-nodos-de-infraestructura">Los nodos de infraestructura</h2>
+<p>En entornos corporativos, es una buena práctica separar las aplicaciones de negocio de los servicios propios de la plataforma mediante los <strong>nodos de infraestructura (Infra)</strong>.</p>
+<p>Estos nodos albergan componentes transversales esenciales:</p>
+<ul>
+<li><strong>El Router / Ingress Controller:</strong> Gestiona las <em>Routes</em> y el tráfico de red externo que entra hacia las aplicaciones.</li>
+<li><strong>El Container Registry interno:</strong> Almacena las imágenes de contenedores del clúster.</li>
+<li><strong>Herramientas de monitorización y logging:</strong> Recogen métricas y registros de salud de toda la plataforma.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    A[Aplicaciones de negocio] --&gt; W[Nodos Workers]
+    B["Servicios de plataforma (Routers, Monitorización)"] --&gt; I[Nodos de Infraestructura]</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Ventaja de licenciamiento</p>
+<p>Bajo las condiciones de suscripción de Red Hat OpenShift, los nodos dedicados exclusivamente a infraestructura (ejecutando componentes de plataforma como routers, registro o monitorización de red) <strong>no computan para el licenciamiento de núcleos o cores</strong> destinados a cargas de trabajo de usuario, lo que aporta una importante optimización de costes en grandes despliegues corporativos.</p>
+</div>
+<hr />
+<h2 id="una-plataforma-autogestionada-mediante-operadores-y-el-cvo">Una plataforma autogestionada mediante Operadores y el CVO</h2>
+<p>Como vimos en el apartado anterior (1.4), OpenShift descansa pesadamente sobre el concepto de operadores (esos "sysadmins robotizados" que automatizan tareas complejas).</p>
+<ul>
+<li><strong>Cluster Operators:</strong> Gran parte de los subsistemas internos de OpenShift (red, almacenamiento, autenticación, monitorización) están gestionados por operadores propios. Su estado conjunto actúa como el termómetro principal de salud de la plataforma.</li>
+<li><strong>El Cluster Version Operator (CVO):</strong> Es el componente superior responsable de coordinar el ciclo de vida y la evolución de todo el clúster, asegurando que las actualizaciones de versión se apliquen de forma sincronizada y segura.</li>
+</ul>
+<hr />
+<h2 id="recorrido-conceptual-de-una-peticion">Recorrido conceptual de una petición</h2>
+<p>Para hilar todo lo visto hasta ahora, veamos qué sucede a nivel de arquitectura cuando un usuario final accede a una aplicación en OpenShift:</p>
+<ol>
+<li>El tráfico externo llega al clúster y es interceptado por el <strong>Router</strong> (ubicado en un nodo de infraestructura).</li>
+<li>El recurso <strong>Route</strong> redirige esa petición hacia el <strong>Service</strong>, que actúa como un distribuidor interno y estable de tráfico (balanceador de carga interno).</li>
+<li>El Service distribuye la petición de forma equitativa directamente hacia uno de los <strong>Pods</strong> activos ejecutándose en un nodo <strong>Worker</strong>.</li>
+</ol>
+<pre class="mermaid"><code>flowchart LR
+    U[Usuario externo] --&gt;|Tráfico HTTP/S| R["Route / Router"]
+    R --&gt; S["Service (Balanceador interno)"]
+    S --&gt; P["Pod en nodo Worker"]</code></pre>
+<hr />
+<h2 id="el-cluster-se-actualiza-canales-cadencia-y-compatibilidad">El clúster se actualiza: Canales, cadencia y compatibilidad</h2>
+<p>OpenShift evoluciona continuamente mediante nuevas versiones que incorporan correcciones de seguridad, parches y mejoras operativas. El proceso de actualización está diseñado para ser seguro y transparente para las aplicaciones:</p>
+<ul>
+<li><strong>Canales de actualización:</strong> Definen la estrategia de adopción de versiones (por ejemplo, canales <code>stable</code> o <code>candidate</code>).</li>
+<li><strong>Cadencia gestionada:</strong> El proceso es coordinado automáticamente por el CVO, aplicando parches nodo a nodo sin interrumpir el servicio.</li>
+<li><strong>Compatibilidad de operadores:</strong> Antes de aplicar una actualización, el clúster verifica la salud y compatibilidad de todos los operadores instalados para garantizar la estabilidad general de la plataforma.</li>
+</ul>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">En pocas palabras</p>
+<ul>
+<li><strong>Control Plane:</strong> Es el cerebro del clúster; toma decisiones y mantiene el estado deseado.</li>
+<li><strong>API Server:</strong> La puerta de entrada universal por la que pasa cualquier operación sobre el clúster.</li>
+<li><strong>etcd:</strong> La base de datos distribuida que almacena la memoria y la configuración crítica.</li>
+<li><strong>Workers:</strong> Las máquinas dedicadas a ejecutar las cargas de trabajo y aplicaciones.</li>
+<li><strong>Infraestructura:</strong> Nodos dedicados a alojar servicios transversales (routers, monitorización) que además optimizan costes al no computar para licencias de usuario.</li>
+<li><strong>Operadores y CVO:</strong> Automatizan la gestión, el mantenimiento y la actualización coordinada de toda la plataforma.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
