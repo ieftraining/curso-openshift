@@ -1,0 +1,2174 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/">
+      
+      
+        <link rel="next" href="../4.6%20Promocion%20entre%20entornos/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>4.5 Construir en la plataforma - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#45-construir-en-la-plataforma-estrategias-de-buildconfig" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4.5 Construir en la plataforma
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#45-construir-en-la-plataforma-estrategias-de-buildconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Construir en la plataforma: estrategias de BuildConfig
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.5 Construir en la plataforma: estrategias de BuildConfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#del-gobierno-de-las-imagenes-a-la-construccion-en-la-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del gobierno de las imágenes a la construcción en la plataforma
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evolucion-de-nuestra-perspectiva-de-la-construccion-artesanal-en-local-a-la-automatizacion-en-el-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evolución de nuestra perspectiva: de la construcción artesanal en local a la automatización en el clúster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evolución de nuestra perspectiva: de la construcción artesanal en local a la automatización en el clúster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparativa-de-flujos-de-trabajo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparativa de flujos de trabajo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-abstraccion-de-construccion-en-openshift-buildconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La abstracción de construcción en OpenShift: BuildConfig
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategias-de-construccion-en-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrategias de construcción en OpenShift
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estrategias de construcción en OpenShift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-utilizaremos-docker-strategy-en-esta-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué utilizaremos Docker Strategy en esta práctica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acceso-a-imagenes-base-y-dependencias-durante-la-construccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acceso a imágenes base y dependencias durante la construcción
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practica-guiada-llevando-nuestra-app-de-la-sesion-18-a-un-buildconfig-con-github-y-docker-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Práctica guiada: llevando nuestra app de la Sesión 1.8 a un BuildConfig con GitHub y Docker Hub
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Práctica guiada: llevando nuestra app de la Sesión 1.8 a un BuildConfig con GitHub y Docker Hub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-estructura-del-codigo-en-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: Estructura del código en GitHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-crear-un-secret-de-autenticacion-para-docker-hub-en-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: Crear un Secret de autenticación para Docker Hub en OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-crear-el-objeto-buildconfig-conectado-a-github-y-docker-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3: Crear el objeto BuildConfig conectado a GitHub y Docker Hub
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paso 3: Crear el objeto BuildConfig conectado a GitHub y Docker Hub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#explicacion-del-manifiesto-buildconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicación del manifiesto BuildConfig
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-disparar-y-monitorizar-la-construccion-en-el-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4: Disparar y monitorizar la construcción en el clúster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-5-actualizar-el-despliegue-existente-mediante-oc-set-image-y-registrar-la-causa-del-cambio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5: Actualizar el despliegue existente mediante oc set image y registrar la causa del cambio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#45-construir-en-la-plataforma-estrategias-de-buildconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Construir en la plataforma: estrategias de BuildConfig
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.5 Construir en la plataforma: estrategias de BuildConfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#del-gobierno-de-las-imagenes-a-la-construccion-en-la-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del gobierno de las imágenes a la construcción en la plataforma
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evolucion-de-nuestra-perspectiva-de-la-construccion-artesanal-en-local-a-la-automatizacion-en-el-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evolución de nuestra perspectiva: de la construcción artesanal en local a la automatización en el clúster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evolución de nuestra perspectiva: de la construcción artesanal en local a la automatización en el clúster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparativa-de-flujos-de-trabajo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparativa de flujos de trabajo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-abstraccion-de-construccion-en-openshift-buildconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La abstracción de construcción en OpenShift: BuildConfig
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategias-de-construccion-en-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrategias de construcción en OpenShift
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estrategias de construcción en OpenShift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-utilizaremos-docker-strategy-en-esta-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué utilizaremos Docker Strategy en esta práctica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acceso-a-imagenes-base-y-dependencias-durante-la-construccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acceso a imágenes base y dependencias durante la construcción
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practica-guiada-llevando-nuestra-app-de-la-sesion-18-a-un-buildconfig-con-github-y-docker-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Práctica guiada: llevando nuestra app de la Sesión 1.8 a un BuildConfig con GitHub y Docker Hub
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Práctica guiada: llevando nuestra app de la Sesión 1.8 a un BuildConfig con GitHub y Docker Hub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-estructura-del-codigo-en-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: Estructura del código en GitHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-crear-un-secret-de-autenticacion-para-docker-hub-en-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: Crear un Secret de autenticación para Docker Hub en OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-crear-el-objeto-buildconfig-conectado-a-github-y-docker-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3: Crear el objeto BuildConfig conectado a GitHub y Docker Hub
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Paso 3: Crear el objeto BuildConfig conectado a GitHub y Docker Hub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#explicacion-del-manifiesto-buildconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicación del manifiesto BuildConfig
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-disparar-y-monitorizar-la-construccion-en-el-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4: Disparar y monitorizar la construcción en el clúster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-5-actualizar-el-despliegue-existente-mediante-oc-set-image-y-registrar-la-causa-del-cambio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5: Actualizar el despliegue existente mediante oc set image y registrar la causa del cambio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>4.5 Construir en la plataforma</h1>
+
+<h2 id="45-construir-en-la-plataforma-estrategias-de-buildconfig">4.5 Construir en la plataforma: estrategias de BuildConfig</h2>
+<h3 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h3>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender el propósito del recurso nativo <code>BuildConfig</code> (<code>bc</code>) en OpenShift como abstracción para la automatización de construcciones de imágenes.</li>
+<li>Conocer las principales estrategias de construcción de OpenShift y comprender por qué utilizaremos <strong>Docker Strategy</strong> en esta práctica.</li>
+<li>Comprender, a un nivel introductorio, cómo se accede a las imágenes base y a las dependencias durante una construcción ejecutada en el clúster.</li>
+<li>Ejecutar una práctica guiada basada en nuestra aplicación de la Sesión 1.8, utilizando un <code>BuildConfig</code> con <strong>Docker Strategy</strong> conectado a un repositorio de GitHub mediante <code>contextDir</code>, para construir la imagen, publicarla en <strong>Docker Hub</strong> y actualizar posteriormente el despliegue existente mediante <code>oc set image</code>.</li>
+</ul>
+<h3 id="del-gobierno-de-las-imagenes-a-la-construccion-en-la-plataforma">Del gobierno de las imágenes a la construcción en la plataforma</h3>
+<p>En los apartados anteriores hemos visto cómo OpenShift permite gobernar los recursos, las comunicaciones y las imágenes utilizadas por las aplicaciones. Sin embargo, hasta ahora la imagen se construía fuera de la plataforma y llegaba al clúster como un artefacto ya preparado.</p>
+<p>El siguiente paso consiste en trasladar también la construcción a OpenShift mediante un <code>BuildConfig</code>. Este cambio mantiene la lógica de gobierno de la sesión y, al mismo tiempo, supone una primera aproximación a la industrialización: el proceso deja de depender de comandos ejecutados manualmente en el equipo del desarrollador y pasa a definirse y ejecutarse de forma repetible en la plataforma.</p>
+<p>En este apartado no construiremos todavía un pipeline de integración continua. Nos centraremos exclusivamente en comprender cómo OpenShift puede obtener el código y su Dockerfile, construir una imagen en un <strong>Build Pod</strong> y publicarla en el registro configurado.</p>
+<h3 id="evolucion-de-nuestra-perspectiva-de-la-construccion-artesanal-en-local-a-la-automatizacion-en-el-cluster">Evolución de nuestra perspectiva: de la construcción artesanal en local a la automatización en el clúster</h3>
+<p>Para comprender el salto cualitativo que supone <code>BuildConfig</code>, debemos conectar este apartado con el flujo de trabajo que realizamos en la <strong>Sesión 1.8</strong>:</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Sesion1 ["Sesión 1.8: construcción manual en el puesto del desarrollador"]
+        A1[Código fuente + Dockerfile local] --&gt;|1. podman build| A2[Imagen local en la estación de trabajo]
+        A2 --&gt;|2. podman push| A3[Registro público externo: Docker Hub]
+        A3 --&gt;|3. oc new-app| A4[Despliegue en OpenShift]
+    end
+
+    subgraph Sesion4 ["Sesión 4.5: construcción delegada en la plataforma"]
+        B1[Repositorio GitHub con código + Dockerfile] --&gt;|1. oc start-build| B2[Build Pod efímero en OpenShift]
+        B2 --&gt;|2. Construye la imagen| B3[Registro externo: Docker Hub]
+        B3 -.-&gt;|3. Actualización manual con oc set image| B4[Deployment en OpenShift]
+    end</code></pre>
+<h4 id="comparativa-de-flujos-de-trabajo">Comparativa de flujos de trabajo</h4>
+<ul>
+<li><strong>El enfoque de la Sesión 1.8, construcción manual en local:</strong> en la primera sesión aprendimos a leer un Dockerfile y construimos una imagen ejecutando comandos manuales en nuestra máquina cliente con Podman (<code>podman build</code>). Después, le asignamos una etiqueta, la subimos a un registro externo (<code>podman push</code>) y le indicamos a OpenShift que la desplegara. Este modelo depende de que el desarrollador disponga de las herramientas necesarias en su equipo y dificulta reproducir y auditar de manera homogénea cómo se generó cada imagen.</li>
+<li><strong>El enfoque de la Sesión 4.5, construcción automatizada en la plataforma:</strong> en este apartado delegamos la responsabilidad de la construcción en OpenShift manteniendo nuestro Dockerfile. El desarrollador ya no construye la imagen en su equipo: conecta el repositorio de código con la plataforma y el clúster procesa el Dockerfile en un <strong>Build Pod</strong> y deposita la imagen resultante en <strong>Docker Hub</strong>.</li>
+</ul>
+<p>La construcción y el despliegue son procesos relacionados, pero distintos. En esta práctica actualizaremos posteriormente el <code>Deployment</code> de forma manual para utilizar la nueva imagen.</p>
+<h3 id="la-abstraccion-de-construccion-en-openshift-buildconfig">La abstracción de construcción en OpenShift: BuildConfig</h3>
+<p>En la Sesión 1.7 mostramos el efecto visual de desplegar código fuente directamente en la plataforma. En este apartado explicamos el mecanismo técnico que permite definir una construcción dentro de OpenShift.</p>
+<p>OpenShift amplía las capacidades de Kubernetes con el objeto <strong>BuildConfig</strong> (<code>bc</code>). Un <code>BuildConfig</code> es la definición declarativa del proceso mediante el cual un origen, una estrategia de construcción y un destino se combinan para generar una imagen de contenedor.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Entrada ["Origen"]
+        A[Repositorio GitHub con código y Dockerfile]
+    end
+
+    subgraph Recurso ["Recurso OpenShift"]
+        BC[BuildConfig: Docker Strategy]
+    end
+
+    subgraph Ejecucion ["Ejecución"]
+        Build[Build Pod]
+    end
+
+    subgraph Resultado ["Resultado"]
+        RegExt[Registro externo: Docker Hub]
+    end
+
+    A --&gt;|Repositorio Git y contextDir| BC
+    BC --&gt;|Crea un Build| Build
+    Build --&gt;|Genera y publica la imagen| RegExt</code></pre>
+<p>Cuando se inicia un <code>BuildConfig</code>, ya sea manualmente, mediante un webhook de Git o por otros mecanismos de activación, OpenShift crea un <strong>Build Pod</strong> efímero dedicado a ejecutar la construcción. De esta manera, la tarea se realiza dentro de la plataforma y su ejecución, sus logs y su resultado pueden consultarse como parte de la operación del clúster.</p>
+<h3 id="estrategias-de-construccion-en-openshift">Estrategias de construcción en OpenShift</h3>
+<p>OpenShift ofrece distintas estrategias para transformar código fuente y otros contenidos en imágenes de contenedor. En este curso nos centraremos en las dos alternativas más relevantes para comprender el modelo:</p>
+<ul>
+<li><strong>Docker Strategy:</strong> OpenShift procesa un Dockerfile presente en el origen de la construcción. El equipo mantiene de forma explícita las instrucciones necesarias para generar la imagen.</li>
+<li><strong>Source-to-Image (S2I):</strong> OpenShift combina el código fuente de la aplicación con una imagen constructora o <em>builder image</em>, preparada para un lenguaje o entorno de ejecución determinado.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    D[Código + Dockerfile] --&gt; DS[Docker Strategy]
+    DS --&gt; DI[Imagen de aplicación]
+
+    S[Código fuente] --&gt; S2I[Source-to-Image]
+    BI[Builder image] --&gt; S2I
+    S2I --&gt; SI[Imagen de aplicación]</code></pre>
+<p>Ninguna de las dos estrategias es universalmente superior. La elección depende del modelo de trabajo, de las imágenes proporcionadas por la organización y del grado de control que se quiera mantener sobre la construcción.</p>
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>Docker Strategy</th>
+<th>Source-to-Image</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Definición de la construcción</td>
+<td>Dockerfile</td>
+<td>Builder image y scripts S2I</td>
+</tr>
+<tr>
+<td>Control directo sobre las instrucciones</td>
+<td>Alto</td>
+<td>Condicionado por la builder image</td>
+</tr>
+<tr>
+<td>Requisitos para el desarrollador</td>
+<td>Mantener un Dockerfile</td>
+<td>Proporcionar código compatible con la builder image</td>
+</tr>
+<tr>
+<td>Adecuado cuando</td>
+<td>Ya existe un Dockerfile conocido</td>
+<td>La organización proporciona builder images estandarizadas</td>
+</tr>
+</tbody>
+</table>
+<h4 id="por-que-utilizaremos-docker-strategy-en-esta-practica">Por qué utilizaremos Docker Strategy en esta práctica</h4>
+<p>En esta práctica utilizaremos <strong>Docker Strategy</strong> porque ya disponemos del Dockerfile empleado en la Sesión 1.8. Esto nos permite conservar la definición de la imagen y concentrarnos en la novedad del apartado: delegar la construcción en OpenShift mediante un <code>BuildConfig</code>.</p>
+<p>Esta elección aporta continuidad pedagógica:</p>
+<ul>
+<li>reutilizamos un Dockerfile que el alumno ya conoce;</li>
+<li>comparamos directamente la construcción local con la construcción dentro del clúster;</li>
+<li>mantenemos explícitas la imagen base, las dependencias y las instrucciones de construcción;</li>
+<li>evitamos introducir al mismo tiempo el funcionamiento interno de las builder images y de S2I.</li>
+</ul>
+<p>El formato Dockerfile está ampliamente adoptado y puede ser procesado por distintas herramientas compatibles. No obstante, en este apartado no necesitamos estudiar las herramientas internas utilizadas por OpenShift: para realizar la práctica basta con comprender que Docker Strategy toma el Dockerfile y ejecuta la construcción dentro de un Build Pod.</p>
+<h3 id="acceso-a-imagenes-base-y-dependencias-durante-la-construccion">Acceso a imágenes base y dependencias durante la construcción</h3>
+<p>Al trasladar la construcción al clúster, las imágenes base y las dependencias dejan de descargarse desde el equipo del alumno. Ahora es el <strong>Build Pod</strong> el que debe poder acceder a todos los recursos indicados por el Dockerfile.</p>
+<p>Durante la construcción pueden intervenir principalmente:</p>
+<ul>
+<li><strong>Registros de imágenes</strong>, desde los que se obtiene la imagen base indicada mediante <code>FROM</code>.</li>
+<li><strong>Repositorios de paquetes</strong>, cuando el Dockerfile ejecuta herramientas como npm, Maven, pip u otros gestores de dependencias.</li>
+</ul>
+<p>En entornos corporativos o con acceso restringido, la organización puede proporcionar registros internos, gestores de artefactos como Nexus o Artifactory y proxies corporativos. La configuración concreta dependerá de la arquitectura y de las políticas del clúster. Para esta práctica utilizaremos los recursos públicos accesibles desde el entorno de formación.</p>
+<h3 id="practica-guiada-llevando-nuestra-app-de-la-sesion-18-a-un-buildconfig-con-github-y-docker-hub">Práctica guiada: llevando nuestra app de la Sesión 1.8 a un BuildConfig con GitHub y Docker Hub</h3>
+<p>En esta práctica vamos a reutilizar la aplicación Node.js de la <strong>Sesión 1.8</strong> (<code>server.js</code>, <code>demo-formacion.html</code> y su Dockerfile), organizada por versiones dentro de un repositorio de <strong>GitHub</strong>. Automatizaremos su construcción con un <code>BuildConfig</code> que utiliza <strong>Docker Strategy</strong> e indica la subcarpeta <code>v4</code> mediante <code>contextDir</code>. Publicaremos el resultado en <strong>Docker Hub</strong> y, como paso posterior e independiente de la construcción, actualizaremos el despliegue existente con <code>oc set image</code>.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[GitHub: v4/server.js + v4/Dockerfile] --&gt;|oc start-build| B[Build Pod en OpenShift]
+    B --&gt;|Procesa v4/Dockerfile| C[Docker Hub: demo-formacion:v4]
+    C -.-&gt;|oc set image| D[Deployment actualizado en OpenShift]</code></pre>
+<h4 id="paso-1-estructura-del-codigo-en-github">Paso 1: Estructura del código en GitHub</h4>
+<p>Para esta práctica utilizaremos el repositorio de <strong>GitHub</strong> preparado para el curso. La versión <code>v4</code> de la aplicación se encuentra en la subcarpeta correspondiente:</p>
+<div class="highlight"><pre><span></span><code>demo-formacion/
+├── v1/
+├── v2/
+├── v3/
+└── v4/
+    ├── Dockerfile
+    ├── demo-formacion.html
+    └── server.js
+</code></pre></div>
+<p>El <code>BuildConfig</code> utilizará <code>contextDir: "v4"</code> para establecer esta subcarpeta como contexto de construcción.</p>
+<p>El fichero <code>v4/Dockerfile</code> contiene:</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">registry.access.redhat.com/ubi9/nodejs-20</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/opt/app-root/src</span>
+<span class="k">COPY</span><span class="w"> </span>server.js<span class="w"> </span>.
+<span class="k">COPY</span><span class="w"> </span>demo-formacion.html<span class="w"> </span>index.html
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">"node"</span><span class="p">,</span><span class="w"> </span><span class="s2">"server.js"</span><span class="p">]</span>
+</code></pre></div>
+<h4 id="paso-2-crear-un-secret-de-autenticacion-para-docker-hub-en-openshift">Paso 2: Crear un Secret de autenticación para Docker Hub en OpenShift</h4>
+<p>Para que OpenShift pueda realizar el <em>push</em> de la nueva imagen hacia tu espacio de nombres en Docker Hub, creamos el secreto con tus credenciales:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>docker-registry<span class="w"> </span>dockerhub-secret<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--docker-server<span class="o">=</span>docker.io<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--docker-username<span class="o">=</span>tu-usuario-dockerhub<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--docker-password<span class="o">=</span>tu-token-o-password<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--docker-email<span class="o">=</span>tu-correo@dominio.com<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="o">=</span>angel-cuaresma-alons-dev
+</code></pre></div>
+<h4 id="paso-3-crear-el-objeto-buildconfig-conectado-a-github-y-docker-hub">Paso 3: Crear el objeto BuildConfig conectado a GitHub y Docker Hub</h4>
+<p>Creamos un fichero de manifiesto llamado <code>buildconfig-github.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build.openshift.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BuildConfig</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo-formacion-bc</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">angel-cuaresma-alons-dev</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Origen: repositorio Git apuntando al directorio de contexto de la versión v4</span>
+<span class="w">  </span><span class="nt">source</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Git</span>
+<span class="w">    </span><span class="nt">git</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="s">"https://github.com/tu-usuario/curso-openshift-app.git"</span>
+<span class="w">      </span><span class="nt">ref</span><span class="p">:</span><span class="w"> </span><span class="s">"main"</span>
+<span class="w">    </span><span class="nt">contextDir</span><span class="p">:</span><span class="w"> </span><span class="s">"v4"</span>
+
+<span class="w">  </span><span class="c1"># Estrategia: procesar el Dockerfile localizado en v4/</span>
+<span class="w">  </span><span class="nt">strategy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Docker</span>
+<span class="w">    </span><span class="nt">dockerStrategy</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">dockerfilePath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
+
+<span class="w">  </span><span class="c1"># Salida: registro externo de Docker Hub con etiqueta v4</span>
+<span class="w">  </span><span class="nt">output</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">to</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DockerImage</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"docker.io/tu-usuario-dockerhub/demo-formacion:v4"</span>
+<span class="w">    </span><span class="nt">pushSecret</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dockerhub-secret</span>
+
+<span class="w">  </span><span class="nt">successfulBuildsHistoryLimit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">failedBuildsHistoryLimit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</code></pre></div>
+<h5 id="explicacion-del-manifiesto-buildconfig">Explicación del manifiesto BuildConfig</h5>
+<ul>
+<li><strong><code>spec.source</code>:</strong> declara la fuente del código. Usamos <code>type: Git</code>, indicamos la URI del repositorio y, mediante <code>contextDir: "v4"</code>, instruimos a OpenShift para que utilice la subcarpeta <code>v4</code> como contexto de la construcción.</li>
+<li><strong><code>spec.strategy</code>:</strong> define la estrategia de construcción. En este caso, <code>type: Docker</code>, por lo que OpenShift procesa el Dockerfile indicado mediante <code>dockerfilePath</code>.</li>
+<li><strong><code>spec.output</code>:</strong> especifica el destino de la imagen generada por el Build Pod. Apunta a <code>demo-formacion:v4</code> en Docker Hub y utiliza <code>pushSecret</code> para autenticarse.</li>
+<li><strong><code>successfulBuildsHistoryLimit</code> y <code>failedBuildsHistoryLimit</code>:</strong> limitan el número de construcciones finalizadas correctamente y fallidas que se conservan en el clúster.</li>
+</ul>
+<p>Aplicamos el manifiesto en nuestro espacio de nombres:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>buildconfig-github.yaml
+</code></pre></div>
+<h4 id="paso-4-disparar-y-monitorizar-la-construccion-en-el-cluster">Paso 4: Disparar y monitorizar la construcción en el clúster</h4>
+<p>Disparamos la construcción manualmente mediante la CLI:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>start-build<span class="w"> </span>demo-formacion-bc<span class="w"> </span>--follow
+</code></pre></div>
+<p>El parámetro <code>--follow</code> muestra en tiempo real los logs del Build Pod. Durante la ejecución, OpenShift clonará el repositorio, utilizará la subcarpeta <code>v4</code> como contexto, procesará el Dockerfile de Node.js y publicará la imagen resultante en Docker Hub.</p>
+<h4 id="paso-5-actualizar-el-despliegue-existente-mediante-oc-set-image-y-registrar-la-causa-del-cambio">Paso 5: Actualizar el despliegue existente mediante oc set image y registrar la causa del cambio</h4>
+<p>La construcción ha finalizado con la publicación de la imagen. A continuación realizamos una operación separada: actualizamos el <code>Deployment</code>demo-formacion-yaml<code>existente, desplegado previamente con la versión</code>v3<code>, para que pase a utilizar la imagen</code>v4` construida por la plataforma.</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">set</span><span class="w"> </span>image<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>*<span class="o">=</span>docker.io/tu-usuario-dockerhub/demo-formacion:v4
+</code></pre></div>
+<p>Después añadimos una anotación descriptiva que facilita identificar el motivo de la actualización en el historial del recurso:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>annotate<span class="w"> </span>deployment/demo-formacion-yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>kubernetes.io/change-cause<span class="o">=</span><span class="s2">"Actualización a v4. Construcción automatizada en el clúster mediante BuildConfig con Docker Strategy."</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--overwrite
+</code></pre></div>
+<p>Comprobamos que el despliegue está realizando el <em>rolling update</em> y verificamos la ruta existente:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/demo-formacion-yaml
+oc<span class="w"> </span>get<span class="w"> </span>route
+</code></pre></div>
+<h3 id="ideas-clave-para-recordar">Ideas clave para recordar</h3>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li><strong>Continuidad con el gobierno de la plataforma:</strong> OpenShift no solo controla qué imágenes se ejecutan, sino que también puede asumir de forma declarativa y visible su proceso de construcción.</li>
+<li><strong>Primer paso hacia la industrialización:</strong> el proceso deja de depender de <code>podman build</code> en el equipo del desarrollador y pasa a ejecutarse de forma repetible dentro del clúster, sin introducir todavía pipelines de integración continua.</li>
+<li><strong>Evolución respecto a la Sesión 1.8:</strong> pasamos de la construcción manual con Podman a la construcción delegada en la plataforma mediante un <code>BuildConfig</code>.</li>
+<li><strong>Docker Strategy:</strong> permite reutilizar el Dockerfile basado en UBI que ya conocemos y concentrarnos en el funcionamiento del <code>BuildConfig</code>.</li>
+<li><strong>Soporte para estructuras con <code>contextDir</code>:</strong> OpenShift puede localizar el Dockerfile y el código fuente aunque se encuentren dentro de una subcarpeta, como <code>v4/</code>.</li>
+<li><strong>Construcción y despliegue son responsabilidades distintas:</strong> el <code>BuildConfig</code> construye y publica la imagen; en la práctica, el <code>Deployment</code> se actualiza posteriormente y de forma manual mediante <code>oc set image</code>.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

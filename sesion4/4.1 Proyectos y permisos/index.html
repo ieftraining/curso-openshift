@@ -1,0 +1,2423 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../sesion3/3.9%20Cierre/">
+      
+      
+        <link rel="next" href="../4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>4.1 Proyectos y permisos - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#41-proyectos-y-permisos" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4.1 Proyectos y permisos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-proyectos-y-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Proyectos y permisos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Proyectos y permisos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#de-operar-aplicaciones-a-controlar-el-acceso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De operar aplicaciones a controlar el acceso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-y-namespace-el-ambito-de-los-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project y Namespace: el ámbito de los permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rbac-control-de-acceso-basado-en-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RBAC: control de acceso basado en roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roles-habituales-admin-edit-y-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles habituales: admin, edit y view
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Roles habituales: admin, edit y view">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#un-mismo-proyecto-diferentes-responsabilidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un mismo proyecto, diferentes responsabilidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-se-asignan-los-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo se asignan los permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permisos-de-proyecto-y-permisos-de-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permisos de proyecto y permisos de clúster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Permisos de proyecto y permisos de clúster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#roles-habituales-con-alcance-de-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles habituales con alcance de clúster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usuarios-grupos-y-serviceaccounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios, grupos y ServiceAccounts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usuarios, grupos y ServiceAccounts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grupos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grupos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serviceaccounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ServiceAccounts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proveedores-de-identidad-para-usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proveedores de identidad para usuarios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Proveedores de identidad para usuarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#integraciones-y-mecanismos-habituales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integraciones y mecanismos habituales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integraciones y mecanismos habituales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ldap-y-microsoft-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LDAP y Microsoft Active Directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openid-connect-oidc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenID Connect (OIDC)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#saml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SAML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#htpasswd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTPasswd
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-de-permisos-mediante-grupos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de permisos mediante grupos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#un-recorrido-completo-por-el-modelo-de-acceso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un recorrido completo por el modelo de acceso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#del-control-de-acceso-al-gobierno-de-los-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del control de acceso al gobierno de los recursos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-proyectos-y-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Proyectos y permisos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Proyectos y permisos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#de-operar-aplicaciones-a-controlar-el-acceso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De operar aplicaciones a controlar el acceso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-y-namespace-el-ambito-de-los-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project y Namespace: el ámbito de los permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rbac-control-de-acceso-basado-en-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RBAC: control de acceso basado en roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roles-habituales-admin-edit-y-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles habituales: admin, edit y view
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Roles habituales: admin, edit y view">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#un-mismo-proyecto-diferentes-responsabilidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un mismo proyecto, diferentes responsabilidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-se-asignan-los-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo se asignan los permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permisos-de-proyecto-y-permisos-de-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permisos de proyecto y permisos de clúster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Permisos de proyecto y permisos de clúster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#roles-habituales-con-alcance-de-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles habituales con alcance de clúster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usuarios-grupos-y-serviceaccounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios, grupos y ServiceAccounts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usuarios, grupos y ServiceAccounts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grupos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grupos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serviceaccounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ServiceAccounts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proveedores-de-identidad-para-usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proveedores de identidad para usuarios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Proveedores de identidad para usuarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#integraciones-y-mecanismos-habituales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integraciones y mecanismos habituales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integraciones y mecanismos habituales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ldap-y-microsoft-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LDAP y Microsoft Active Directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openid-connect-oidc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenID Connect (OIDC)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#saml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SAML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#htpasswd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTPasswd
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-de-permisos-mediante-grupos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de permisos mediante grupos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#un-recorrido-completo-por-el-modelo-de-acceso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un recorrido completo por el modelo de acceso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#del-control-de-acceso-al-gobierno-de-los-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Del control de acceso al gobierno de los recursos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>4.1 Proyectos y permisos</h1>
+
+<h2 id="41-proyectos-y-permisos">4.1 Proyectos y permisos</h2>
+<h3 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h3>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Recordar la relación entre un <strong>Project</strong> de OpenShift y un <strong>Namespace</strong> de Kubernetes.</li>
+<li>Comprender cómo OpenShift decide <strong>quién puede hacer qué y dónde</strong>.</li>
+<li>Diferenciar los roles habituales <strong>admin</strong>, <strong>edit</strong> y <strong>view</strong>.</li>
+<li>Distinguir entre usuarios, grupos y <strong>ServiceAccounts</strong>.</li>
+<li>Entender cómo OpenShift se integra con proveedores de identidad corporativos y locales.</li>
+<li>Comprender por qué es preferible asignar permisos mediante grupos.</li>
+</ul>
+<h3 id="de-operar-aplicaciones-a-controlar-el-acceso">De operar aplicaciones a controlar el acceso</h3>
+<p>En las sesiones anteriores hemos desplegado y administrado aplicaciones dentro de proyectos que ya estaban preparados. Hemos utilizado objetos como <em>Deployments</em>, <em>Services</em>, <em>Routes</em>, <em>ConfigMaps</em>, <em>Secrets</em> y <em>PersistentVolumeClaims</em>. También hemos comprobado que no todos los usuarios pueden ver o modificar los mismos recursos.</p>
+<p>Hasta ahora hemos trabajado principalmente desde la perspectiva de un equipo responsable de una aplicación. Sin embargo, en una plataforma corporativa conviven numerosos proyectos, entornos, equipos internos y proveedores sobre una infraestructura compartida. Para gestionarla de forma ordenada es necesario establecer criterios comunes sobre quién puede acceder a cada espacio, qué responsabilidades asume y qué operaciones puede realizar.</p>
+<p>En la Sesión 1 vimos este efecto desde la consola web: las opciones disponibles dependen de los permisos del usuario. Ahora veremos cómo OpenShift utiliza proyectos, identidades, grupos y roles para organizar y controlar esos accesos.</p>
+<p>Para comprender este modelo debemos responder a tres preguntas:</p>
+<ul>
+<li><strong>Quién</strong> intenta realizar la operación.</li>
+<li><strong>Qué</strong> operación quiere realizar.</li>
+<li><strong>Dónde</strong> quiere realizarla.</li>
+</ul>
+<h3 id="project-y-namespace-el-ambito-de-los-permisos">Project y Namespace: el ámbito de los permisos</h3>
+<p>Como vimos anteriormente, Kubernetes utiliza los <strong>Namespaces</strong> para agrupar y separar lógicamente los recursos. OpenShift se apoya en ese mismo mecanismo y presenta el <strong>Project</strong> como el espacio de trabajo habitual para usuarios y equipos.</p>
+<p>En la práctica, cada Project se corresponde con un Namespace de Kubernetes. OpenShift añade una experiencia de gestión orientada a proyectos, incluyendo la administración de los permisos sobre ese espacio.</p>
+<p>Este recordatorio es importante porque los permisos no tienen por qué ser iguales en todo el clúster. Una misma persona puede tener un nivel de acceso diferente en cada proyecto.</p>
+<table>
+<thead>
+<tr>
+<th>Proyecto</th>
+<th>Rol asignado a una usuaria</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nominas-dev</code></td>
+<td><code>edit</code></td>
+<td>Puede desplegar y modificar la aplicación.</td>
+</tr>
+<tr>
+<td><code>nominas-prod</code></td>
+<td><code>view</code></td>
+<td>Puede consultar los recursos, pero no modificarlos.</td>
+</tr>
+<tr>
+<td><code>rrhh-dev</code></td>
+<td>Ninguno</td>
+<td>No puede trabajar con los recursos del proyecto.</td>
+</tr>
+</tbody>
+</table>
+<p>Por tanto, no basta con decir que una persona “tiene acceso a OpenShift”. Es necesario conocer <strong>a qué proyectos puede acceder y qué rol tiene en cada uno</strong>.</p>
+<p>Crear un Project no aplica automáticamente cuotas, políticas de red ni otras reglas concretas. Estas medidas dependen de la configuración establecida por el equipo administrador del clúster.</p>
+<p>Una vez organizado el trabajo en proyectos, aparece la siguiente pregunta: <strong>¿quién puede trabajar en cada proyecto y qué puede hacer dentro de él?</strong></p>
+<h3 id="rbac-control-de-acceso-basado-en-roles">RBAC: control de acceso basado en roles</h3>
+<p>OpenShift utiliza <strong>RBAC</strong> (<em>Role-Based Access Control</em> o control de acceso basado en roles) para gestionar los permisos.</p>
+<p>RBAC evita tener que autorizar cada posible operación de manera individual. En su lugar, agrupa los permisos en <strong>roles</strong> que después se asignan a usuarios, grupos o identidades técnicas.</p>
+<p>El modelo puede entenderse mediante tres elementos:</p>
+<ul>
+<li><strong>Identidad:</strong> quién solicita la operación. Puede ser un usuario, un grupo o una ServiceAccount.</li>
+<li><strong>Rol:</strong> qué acciones tiene permitidas.</li>
+<li><strong>Ámbito:</strong> dónde se aplican esos permisos, normalmente un proyecto concreto.</li>
+</ul>
+<p>Cuando una identidad intenta consultar, crear, modificar o eliminar un recurso, OpenShift comprueba los permisos aplicables. Si la operación está autorizada, la permite; en caso contrario, la rechaza.</p>
+<p>En este curso no necesitamos diseñar reglas RBAC personalizadas ni conocer todos los objetos internos del sistema. Lo importante es comprender el modelo general y reconocer las asignaciones más habituales.</p>
+<p>Esta combinación de identidades, roles y ámbitos permite aplicar criterios de acceso homogéneos aunque la plataforma sea utilizada por numerosos equipos y proveedores.</p>
+<h3 id="roles-habituales-admin-edit-y-view">Roles habituales: admin, edit y view</h3>
+<p>OpenShift incluye roles predefinidos para cubrir las necesidades más frecuentes dentro de un proyecto.</p>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Qué permite hacer</th>
+<th>Uso habitual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>admin</strong></td>
+<td>Administrar los recursos y gestionar los accesos del proyecto.</td>
+<td>Responsable del proyecto.</td>
+</tr>
+<tr>
+<td><strong>edit</strong></td>
+<td>Crear, modificar y eliminar la mayoría de los recursos de la aplicación.</td>
+<td>Equipo que despliega y mantiene la aplicación.</td>
+</tr>
+<tr>
+<td><strong>view</strong></td>
+<td>Consultar los recursos y su estado sin modificarlos.</td>
+<td>Soporte, auditoría o personal que solo necesita observar.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="un-mismo-proyecto-diferentes-responsabilidades">Un mismo proyecto, diferentes responsabilidades</h4>
+<p>Imaginemos una aplicación corporativa desplegada en el proyecto <code>nominas-prod</code>:</p>
+<ul>
+<li>El <strong>responsable del proyecto</strong> puede necesitar <code>admin</code> para gestionar sus recursos y decidir qué equipos acceden.</li>
+<li>El <strong>equipo de desarrollo</strong> puede necesitar <code>edit</code> para desplegar nuevas versiones y corregir incidencias.</li>
+<li>El <strong>equipo de soporte</strong> puede necesitar <code>view</code> para consultar el estado de los Pods, las versiones desplegadas y otros recursos sin modificarlos.</li>
+</ul>
+<p>El objetivo no es conceder el nivel máximo a todo el mundo, sino asignar a cada identidad los permisos adecuados a su función.</p>
+<p>En una organización con equipos internos y proveedores externos, los permisos también pueden variar según la responsabilidad asumida y el entorno. Por ejemplo, un proveedor podría disponer de <code>edit</code> en desarrollo, pero únicamente de <code>view</code> en producción, mientras que la administración de los accesos queda reservada al responsable interno del proyecto.</p>
+<p>Este reparto es solo un ejemplo. Cada organización debe definir su propio modelo de acceso y separación de responsabilidades.</p>
+<div class="admonition tip">
+<p class="admonition-title">Principio de mínimo privilegio</p>
+<p>Cada usuario, grupo o ServiceAccount debe recibir únicamente los permisos necesarios para realizar su trabajo. Conceder permisos superiores “por si acaso” aumenta el riesgo de cambios accidentales o accesos indebidos.</p>
+</div>
+<p>El rol <code>admin</code> de un proyecto no convierte al usuario en administrador de todo el clúster. Sus permisos se limitan al proyecto en el que se le haya asignado ese rol.</p>
+<p>Las tareas globales, como administrar nodos o modificar la configuración general del clúster, requieren permisos de ámbito superior y corresponden normalmente al equipo responsable de la plataforma.</p>
+<h3 id="como-se-asignan-los-permisos">Cómo se asignan los permisos</h3>
+<p>Un rol no se aplica por sí solo. Es necesario relacionarlo con una identidad y con el proyecto en el que debe utilizarse.</p>
+<p>OpenShift representa esta relación mediante un objeto denominado <strong>RoleBinding</strong>. Para este curso basta con entenderlo como la unión de tres elementos:</p>
+<blockquote>
+<p><strong>Una identidad + un rol + un proyecto.</strong></p>
+</blockquote>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>grupo-equipo-desarrollo + rol edit + proyecto aplicacion-dev
+</code></pre></div>
+<p>Esta asignación significa que los miembros del grupo pueden crear y modificar los recursos habituales de la aplicación dentro de <code>aplicacion-dev</code>, pero no reciben automáticamente permisos sobre otros proyectos ni sobre todo el clúster.</p>
+<p>El equivalente mediante la línea de comandos sería:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>adm<span class="w"> </span>policy<span class="w"> </span>add-role-to-group<span class="w"> </span>edit<span class="w"> </span>grp-desarrollo-app1<span class="w"> </span>-n<span class="w"> </span>app1-dev
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Comando ilustrativo</p>
+<p>No es necesario ejecutar este comando en el laboratorio del curso. Se incluye únicamente para reconocer sus tres componentes: el rol <code>edit</code>, el grupo <code>grp-desarrollo-app1</code> y el proyecto <code>app1-dev</code>.</p>
+</div>
+<h3 id="permisos-de-proyecto-y-permisos-de-cluster">Permisos de proyecto y permisos de clúster</h3>
+<p>Hasta ahora hemos visto permisos aplicados dentro de un proyecto concreto. RBAC también permite conceder permisos sobre toda la plataforma o sobre recursos globales del clúster.</p>
+<table>
+<thead>
+<tr>
+<th>Ámbito</th>
+<th>Objeto de asignación</th>
+<th>Efecto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Proyecto</strong></td>
+<td><code>RoleBinding</code></td>
+<td>Concede permisos únicamente dentro de un proyecto.</td>
+</tr>
+<tr>
+<td><strong>Clúster</strong></td>
+<td><code>ClusterRoleBinding</code></td>
+<td>Concede permisos con alcance global sobre la plataforma o sobre recursos del clúster.</td>
+</tr>
+</tbody>
+</table>
+<p>Un <strong>ClusterRole</strong> define un conjunto de permisos disponible en el clúster, pero su alcance efectivo depende de cómo se asigne:</p>
+<ul>
+<li>Si se asigna mediante un <code>RoleBinding</code>, sus permisos quedan limitados a un proyecto.</li>
+<li>Si se asigna mediante un <code>ClusterRoleBinding</code>, sus permisos se aplican con alcance de clúster.</li>
+</ul>
+<p>Esto permite reutilizar roles predefinidos como <code>admin</code>, <code>edit</code> y <code>view</code> dentro de proyectos concretos. Aunque estos roles están definidos como ClusterRoles, cuando se asignan mediante un RoleBinding sus permisos quedan limitados al proyecto correspondiente.</p>
+<h4 id="roles-habituales-con-alcance-de-cluster">Roles habituales con alcance de clúster</h4>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Qué permite hacer</th>
+<th>Uso habitual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>cluster-admin</strong></td>
+<td>Control administrativo completo sobre el clúster y todos sus proyectos.</td>
+<td>Administración global de la plataforma.</td>
+</tr>
+<tr>
+<td><strong>cluster-reader</strong></td>
+<td>Consulta amplia de los recursos del clúster sin capacidad general de modificación.</td>
+<td>Supervisión o consulta global de la plataforma.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Permisos globales</p>
+<p>Los permisos de clúster pueden afectar a toda la plataforma. Deben asignarse únicamente a identidades que realmente necesiten administrar o supervisar el clúster.</p>
+</div>
+<p>Para el nivel de este curso es suficiente diferenciar entre los permisos limitados a un proyecto y los permisos globales. La creación de roles personalizados y la administración detallada de vinculaciones de clúster quedan fuera del alcance.</p>
+<h3 id="usuarios-grupos-y-serviceaccounts">Usuarios, grupos y ServiceAccounts</h3>
+<p>RBAC puede conceder permisos a diferentes tipos de identidades:</p>
+<table>
+<thead>
+<tr>
+<th>Identidad</th>
+<th>Representa</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Usuario</strong></td>
+<td>Una persona.</td>
+<td>Una operadora que accede mediante la consola web o <code>oc</code>.</td>
+</tr>
+<tr>
+<td><strong>Grupo</strong></td>
+<td>Un conjunto de usuarios.</td>
+<td>El equipo de desarrollo de una aplicación.</td>
+</tr>
+<tr>
+<td><strong>ServiceAccount</strong></td>
+<td>Una aplicación o un proceso automatizado.</td>
+<td>Un Pod o un pipeline que necesita utilizar la API de OpenShift.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="usuarios">Usuarios</h4>
+<p>Los usuarios representan personas. Normalmente proceden del sistema de identidad de la organización y acceden a OpenShift mediante la consola web o la CLI <code>oc</code>.</p>
+<p>Es posible asignar un rol directamente a un usuario. Sin embargo, hacerlo de forma individual puede resultar difícil de mantener cuando existen numerosos proyectos y equipos.</p>
+<h4 id="grupos">Grupos</h4>
+<p>Los grupos reúnen usuarios con una función común, por ejemplo:</p>
+<ul>
+<li>equipo de desarrollo de una aplicación;</li>
+<li>equipo de soporte;</li>
+<li>responsables de un proyecto;</li>
+<li>personal con acceso de consulta.</li>
+</ul>
+<p>En lugar de asignar <code>edit</code> a cada desarrollador, se asigna el rol al grupo correspondiente. Cuando una persona se incorpora o abandona el equipo, se actualiza su pertenencia al grupo sin modificar los permisos del proyecto.</p>
+<h4 id="serviceaccounts">ServiceAccounts</h4>
+<p>Una <strong>ServiceAccount</strong> es una identidad técnica utilizada por los Pods y por otros procesos automatizados. Permite que una aplicación o una herramienta opere sin utilizar las credenciales personales de un usuario.</p>
+<p>Todos los Pods están asociados a una ServiceAccount. Si no se indica otra, normalmente utilizan la ServiceAccount <code>default</code> del proyecto.</p>
+<p>RBAC también se aplica a las ServiceAccounts. Si una aplicación o automatización necesita consultar o modificar recursos mediante la API de OpenShift, su ServiceAccount debe recibir los permisos necesarios.</p>
+<p>Esto permite aplicar la misma idea de mínimo privilegio a las identidades técnicas: cada aplicación debe disponer únicamente de los permisos que necesite para realizar su función.</p>
+<h3 id="proveedores-de-identidad-para-usuarios">Proveedores de identidad para usuarios</h3>
+<p>Las personas que acceden a OpenShift deben demostrar quiénes son. Para ello, OpenShift suele delegar la autenticación de los usuarios en un <strong>proveedor de identidad</strong> o <strong>IdP</strong>, en lugar de gestionar directamente sus contraseñas corporativas.</p>
+<p>Esta integración se refiere principalmente a los <strong>usuarios humanos</strong>. Las ServiceAccounts son identidades técnicas internas de OpenShift y no inician sesión mediante Active Directory, LDAP, OIDC, SAML o HTPasswd. Los grupos tampoco inician sesión: se utilizan para reunir usuarios y facilitar la asignación de permisos.</p>
+<p>Debemos diferenciar dos conceptos:</p>
+<ul>
+<li><strong>Autenticación:</strong> comprobar quién es el usuario.</li>
+<li><strong>Autorización:</strong> decidir qué puede hacer después de identificarse.</li>
+</ul>
+<p>El proveedor de identidad se ocupa de autenticar al usuario. Después, RBAC comprueba los roles asignados directamente al usuario o a los grupos a los que pertenece y decide qué operaciones puede realizar.</p>
+<p>Esta separación permite que OpenShift utilice las identidades existentes en la organización sin tener que mantener una base independiente de contraseñas para la plataforma.</p>
+<h4 id="integraciones-y-mecanismos-habituales">Integraciones y mecanismos habituales</h4>
+<h5 id="ldap-y-microsoft-active-directory">LDAP y Microsoft Active Directory</h5>
+<p><strong>LDAP</strong> es un protocolo que permite consultar un servicio de directorio y validar las credenciales de sus usuarios. OpenShift admite la integración con proveedores de identidad LDAP, por lo que puede autenticarse contra directorios compatibles con LDAP.</p>
+<p><strong>Microsoft Active Directory</strong> es una solución de directorio utilizada por numerosas organizaciones para gestionar usuarios, grupos y equipos. No constituye un tipo independiente de proveedor de identidad en OpenShift: la integración puede realizarse mediante el servicio LDAP de Active Directory.</p>
+<p>De esta forma, los usuarios pueden acceder con sus credenciales corporativas y la organización mantiene centralizadas las políticas de contraseñas, las altas y las bajas.</p>
+<h5 id="openid-connect-oidc">OpenID Connect (OIDC)</h5>
+<p><strong>OpenID Connect</strong> es un protocolo moderno de identidad construido sobre OAuth 2.0. Permite integrar OpenShift con plataformas como Keycloak, Okta o Microsoft Entra ID.</p>
+<p>Es habitual en arquitecturas donde existe un servicio corporativo de inicio de sesión único o una plataforma centralizada de identidad.</p>
+<h5 id="saml">SAML</h5>
+<p><strong>SAML</strong> es un estándar de federación de identidad presente en numerosos entornos corporativos. Sin embargo, OpenShift no lo ofrece como un tipo de proveedor de identidad directo.</p>
+<p>Cuando una organización utiliza SAML, normalmente se emplea un intermediario de identidad compatible, como <strong>Keycloak</strong>. Este intermediario recibe la autenticación SAML del sistema corporativo y se integra con OpenShift mediante un mecanismo admitido, habitualmente <strong>OpenID Connect</strong>.</p>
+<h5 id="htpasswd">HTPasswd</h5>
+<p><strong>HTPasswd</strong> utiliza un archivo local con nombres de usuario y hashes de contraseñas. Es una alternativa sencilla cuando no existe un proveedor de identidad corporativo disponible.</p>
+<p>Se utiliza habitualmente en:</p>
+<ul>
+<li>laboratorios y cursos de formación;</li>
+<li>demostraciones;</li>
+<li>pruebas de concepto;</li>
+<li>entornos iniciales o aislados.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">HTPasswd en el curso</p>
+<p>HTPasswd resulta adecuado para un entorno de formación porque es sencillo y no depende de un directorio externo. En producción se suele preferir la integración con el sistema corporativo de identidad para centralizar las altas, bajas y políticas de acceso.</p>
+</div>
+<h3 id="gestion-de-permisos-mediante-grupos">Gestión de permisos mediante grupos</h3>
+<p>En un entorno corporativo no resulta práctico mantener las autorizaciones usuario por usuario. La opción recomendada es asignar los roles a grupos que representen equipos o funciones.</p>
+<p>Por ejemplo, el grupo corporativo <code>grp-desarrollo-app1</code> puede recibir el rol <code>edit</code> en el proyecto <code>app1-dev</code>. Todas las personas que pertenezcan al grupo heredarán ese nivel de acceso dentro del proyecto.</p>
+<p>Este enfoque presenta varias ventajas:</p>
+<ul>
+<li>simplifica la incorporación de nuevos miembros;</li>
+<li>facilita la retirada de accesos cuando una persona cambia de equipo;</li>
+<li>reduce las asignaciones individuales difíciles de revisar;</li>
+<li>permite relacionar los permisos de OpenShift con la estructura organizativa.</li>
+</ul>
+<p>La forma en que los grupos corporativos llegan a OpenShift depende de la integración configurada. En algunos entornos se sincronizan periódicamente y en otros se utilizan mecanismos diferentes. Por ello, un cambio realizado en el directorio corporativo podría no reflejarse inmediatamente en OpenShift.</p>
+<div class="admonition warning">
+<p class="admonition-title">Revisión de accesos</p>
+<p>La utilización de grupos simplifica la gestión, pero no elimina la necesidad de revisar periódicamente qué grupos tienen acceso a cada proyecto y qué roles se les han asignado.</p>
+</div>
+<h3 id="un-recorrido-completo-por-el-modelo-de-acceso">Un recorrido completo por el modelo de acceso</h3>
+<p>Podemos resumir el proceso mediante un ejemplo corporativo:</p>
+<ol>
+<li>Ana accede a OpenShift mediante el proveedor de identidad corporativo.</li>
+<li>El proveedor de identidad autentica a Ana.</li>
+<li>La pertenencia de Ana al grupo <code>grp-desarrollo-app1</code> se obtiene o sincroniza según la integración configurada.</li>
+<li>Ese grupo tiene asignado el rol <code>edit</code> en el proyecto <code>app1-dev</code>.</li>
+<li>RBAC permite a Ana crear y modificar los recursos habituales de la aplicación dentro de ese proyecto.</li>
+<li>La misma asignación no le concede automáticamente acceso a otros proyectos ni permisos administrativos sobre el clúster.</li>
+</ol>
+<p>Este ejemplo reúne las ideas principales:</p>
+<ul>
+<li>el proveedor de identidad determina <strong>quién es el usuario</strong>;</li>
+<li>los grupos representan <strong>la función o el equipo al que pertenece</strong>;</li>
+<li>los roles indican <strong>qué puede hacer</strong>;</li>
+<li>el proyecto determina <strong>dónde puede hacerlo</strong>.</li>
+</ul>
+<h3 id="del-control-de-acceso-al-gobierno-de-los-recursos">Del control de acceso al gobierno de los recursos</h3>
+<p>Los proyectos, grupos y roles permiten organizar quién puede acceder a la plataforma, en qué espacios puede trabajar y qué operaciones puede realizar. Esta es una dimensión esencial del gobierno de OpenShift cuando conviven numerosos equipos, aplicaciones y proveedores.</p>
+<p>Sin embargo, controlar los accesos no es suficiente para gobernar una plataforma compartida. También es necesario establecer cuánto puede consumir cada proyecto y decidir dónde deben ejecutarse determinadas cargas. Estas cuestiones se abordarán en el siguiente apartado.</p>
+<h3 id="ideas-clave-para-recordar">Ideas clave para recordar</h3>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>Un <strong>Project</strong> de OpenShift se apoya en un <strong>Namespace</strong> de Kubernetes y actúa como ámbito habitual de los permisos.</li>
+<li><strong>RBAC</strong> decide quién puede hacer qué y dentro de qué proyecto.</li>
+<li>Los roles habituales dentro de un proyecto son <strong>admin</strong>, <strong>edit</strong> y <strong>view</strong>.</li>
+<li>Los permisos pueden asignarse a usuarios, grupos y <strong>ServiceAccounts</strong>.</li>
+<li>Un <strong>RoleBinding</strong> limita la asignación a un proyecto; un <strong>ClusterRoleBinding</strong> concede permisos con alcance de clúster.</li>
+<li>Los roles <code>cluster-admin</code> y <code>cluster-reader</code> son ejemplos sencillos de roles utilizados con alcance global.</li>
+<li>La autenticación de usuarios puede integrarse directamente mediante mecanismos como LDAP, OIDC o HTPasswd. Microsoft Active Directory puede integrarse mediante LDAP.</li>
+<li>OpenShift no admite SAML como proveedor de identidad directo; en entornos basados en SAML puede utilizarse un intermediario compatible, como Keycloak, que se integre con OpenShift mediante OIDC.</li>
+<li>En entornos corporativos, los permisos deben asignarse preferentemente a grupos y revisarse periódicamente.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
