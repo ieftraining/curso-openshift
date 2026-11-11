@@ -3,6 +3,7 @@ site_name: Curso OpenShift
 theme:
   name: material
   language: es
+  logo: Logo.png
 
   features:
     - content.code.copy
