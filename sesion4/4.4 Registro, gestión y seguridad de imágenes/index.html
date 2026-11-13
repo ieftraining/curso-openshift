@@ -1,0 +1,2234 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../4.3%20Aislamiento%20de%20Red/">
+      
+      
+        <link rel="next" href="../4.5%20Construir%20en%20la%20plataforma/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>4.4 Registro, gestión y seguridad de imágenes - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#44-registro-gestion-y-seguridad-de-imagenes" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  <img src="../../Logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4.4 Registro, gestión y seguridad de imágenes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  <img src="../../Logo.png" alt="logo">
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-gobernar-la-plataforma-a-gobernar-los-artefactos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De gobernar la plataforma a gobernar los artefactos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registro-integrado-de-openshift-frente-a-registro-corporativo-externo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registro integrado de OpenShift frente a registro corporativo externo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registro integrado de OpenShift frente a registro corporativo externo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-el-registro-integrado-de-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. El registro integrado de OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-el-registro-corporativo-externo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. El registro corporativo externo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nomenclatura-y-estructura-de-una-referencia-de-imagen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nomenclatura y estructura de una referencia de imagen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nomenclatura y estructura de una referencia de imagen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desglose-de-la-referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desglose de la referencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etiquetado-y-trazabilidad-de-imagenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Etiquetado y trazabilidad de imágenes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Etiquetado y trazabilidad de imágenes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-evitar-latest-en-despliegues-controlados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué evitar latest en despliegues controlados
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uso-conceptual-de-imagestreams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso conceptual de ImageStreams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Uso conceptual de ImageStreams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-aporta-un-imagestream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué aporta un ImageStream?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convivencia-con-registros-corporativos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convivencia con registros corporativos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escaneo-de-vulnerabilidades-y-gestion-de-hallazgos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escaneo de vulnerabilidades y gestión de hallazgos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Escaneo de vulnerabilidades y gestión de hallazgos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-el-analisis-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. El análisis de seguridad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-el-escaneo-no-decide-por-si-solo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. El escaneo no decide por sí solo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-responsabilidades-y-excepciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Responsabilidades y excepciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-gobernar-la-plataforma-a-gobernar-los-artefactos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De gobernar la plataforma a gobernar los artefactos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registro-integrado-de-openshift-frente-a-registro-corporativo-externo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registro integrado de OpenShift frente a registro corporativo externo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Registro integrado de OpenShift frente a registro corporativo externo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-el-registro-integrado-de-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. El registro integrado de OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-el-registro-corporativo-externo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. El registro corporativo externo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nomenclatura-y-estructura-de-una-referencia-de-imagen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nomenclatura y estructura de una referencia de imagen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nomenclatura y estructura de una referencia de imagen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desglose-de-la-referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desglose de la referencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etiquetado-y-trazabilidad-de-imagenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Etiquetado y trazabilidad de imágenes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Etiquetado y trazabilidad de imágenes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-evitar-latest-en-despliegues-controlados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué evitar latest en despliegues controlados
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uso-conceptual-de-imagestreams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso conceptual de ImageStreams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Uso conceptual de ImageStreams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-aporta-un-imagestream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué aporta un ImageStream?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convivencia-con-registros-corporativos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convivencia con registros corporativos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escaneo-de-vulnerabilidades-y-gestion-de-hallazgos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escaneo de vulnerabilidades y gestión de hallazgos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Escaneo de vulnerabilidades y gestión de hallazgos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-el-analisis-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. El análisis de seguridad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-el-escaneo-no-decide-por-si-solo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. El escaneo no decide por sí solo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-responsabilidades-y-excepciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Responsabilidades y excepciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="44-registro-gestion-y-seguridad-de-imagenes">4.4 Registro, gestión y seguridad de imágenes</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender cómo el gobierno de la plataforma se extiende también a las imágenes que se ejecutan en el clúster.</li>
+<li>Diferenciar el registro integrado de OpenShift de un registro corporativo o público externo.</li>
+<li>Interpretar una referencia de imagen y aplicar una convención de nomenclatura coherente.</li>
+<li>Comprender cómo los tags permiten identificar versiones y cómo el SHA del commit facilita la trazabilidad entre código, imagen y despliegue.</li>
+<li>Explicar por qué una etiqueta mutable como <code>latest</code> no resulta adecuada cuando se necesita reproducibilidad y control.</li>
+<li>Entender el papel de los <strong>ImageStreams</strong> como abstracción nativa de OpenShift y su posible convivencia con registros corporativos externos.</li>
+<li>Conocer el escaneo de vulnerabilidades y el reparto de responsabilidades ante los hallazgos de seguridad.</li>
+</ul>
+<hr />
+<h2 id="de-gobernar-la-plataforma-a-gobernar-los-artefactos">De gobernar la plataforma a gobernar los artefactos</h2>
+<p>En los apartados anteriores hemos visto cómo una organización puede gobernar una plataforma compartida: quién puede realizar determinadas acciones, cuántos recursos puede consumir cada proyecto y qué comunicaciones de red se permiten.</p>
+<p>Esa gobernanza también debe extenderse a los artefactos que se ejecutan en el clúster. Antes de desplegar una aplicación conviene poder responder preguntas como estas:</p>
+<ul>
+<li>¿Dónde se almacena su imagen?</li>
+<li>¿Qué versión concreta se está utilizando?</li>
+<li>¿De qué revisión del código procede?</li>
+<li>¿Ha sido analizada antes de llegar a un entorno sensible?</li>
+<li>¿Quién puede autorizar una excepción si aparece una vulnerabilidad?</li>
+</ul>
+<p>De este modo, el apartado 4.4 completa la visión de gobierno desarrollada en los apartados anteriores y actúa como transición hacia la industrialización del ciclo de vida de las aplicaciones que abordaremos a continuación.</p>
+<hr />
+<h2 id="registro-integrado-de-openshift-frente-a-registro-corporativo-externo">Registro integrado de OpenShift frente a registro corporativo externo</h2>
+<p>Un <strong>registro de imágenes</strong> es el servicio que almacena y distribuye imágenes de contenedores. OpenShift puede trabajar tanto con su registro integrado como con registros externos públicos o corporativos.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Imagen de la aplicación] --&gt; B{Registro de imágenes}
+    B --&gt; C[Registro integrado de OpenShift]
+    B --&gt; D[Registro corporativo externo]
+    D --&gt; E[Nexus Repository]
+    D --&gt; F[Red Hat Quay]
+    D --&gt; G[Harbor]
+    C --&gt; H[Despliegues en OpenShift]
+    D --&gt; H</code></pre>
+<h3 id="1-el-registro-integrado-de-openshift">1. El registro integrado de OpenShift</h3>
+<p>OpenShift incorpora un registro de imágenes integrado en la plataforma, gestionado mediante el <strong>Image Registry Operator</strong>. Este registro puede utilizarse para almacenar las imágenes generadas y utilizadas dentro del clúster.</p>
+<p>Entre sus posibles usos se encuentran:</p>
+<ul>
+<li>almacenar imágenes generadas por procesos de construcción ejecutados en el clúster;</li>
+<li>compartir imágenes entre proyectos cuando la política de permisos lo permite;</li>
+<li>integrarse con recursos propios de OpenShift, como los ImageStreams;</li>
+<li>mantener dentro de la plataforma las imágenes utilizadas por sus aplicaciones.</li>
+</ul>
+<h3 id="2-el-registro-corporativo-externo">2. El registro corporativo externo</h3>
+<p>Muchas organizaciones utilizan un registro corporativo centralizado, como <strong>Red Hat Quay</strong>, <strong>Harbor</strong> o <strong>Nexus Repository</strong>, para almacenar las imágenes de sus aplicaciones.</p>
+<p>Este modelo permite, entre otras posibilidades:</p>
+<ul>
+<li>centralizar imágenes utilizadas por varios clústeres o entornos;</li>
+<li>aplicar políticas comunes de acceso, retención y auditoría;</li>
+<li>integrar el registro con procesos de construcción, despliegue y análisis de seguridad;</li>
+<li>separar el ciclo de vida de las imágenes del ciclo de vida de un clúster concreto.</li>
+</ul>
+<p>El registro integrado y el registro corporativo pueden convivir. Una organización puede utilizar recursos nativos de OpenShift para determinadas imágenes gestionadas dentro de la plataforma y almacenar las imágenes de negocio en un registro corporativo externo.</p>
+<div class="admonition note">
+<p class="admonition-title">Decisión de arquitectura</p>
+<p>El registro integrado resulta especialmente útil para los procesos propios de un clúster, por ejemplo, para almacenar imágenes generadas por construcciones realizadas en la plataforma. Cuando existen <strong>varios clústeres o entornos separados</strong> y una misma imagen debe estar disponible entre ellos, es habitual disponer además de un <strong>registro corporativo externo</strong>, como Red Hat Quay, Harbor o Nexus Repository, que actúe como punto común para almacenar y gobernar los artefactos.</p>
+</div>
+<hr />
+<h2 id="nomenclatura-y-estructura-de-una-referencia-de-imagen">Nomenclatura y estructura de una referencia de imagen</h2>
+<p>Una referencia de imagen permite indicar al clúster qué artefacto debe descargar y ejecutar. Aunque cada organización puede definir su propia convención, una estructura coherente facilita la operación y la trazabilidad.</p>
+<div class="highlight"><pre><span></span><code>&lt;registro&gt;/&lt;organización-o-equipo&gt;/&lt;proyecto&gt;/&lt;servicio&gt;:&lt;tag&gt;
+</code></pre></div>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>registry.corp.internal/es.ief/tramites/app-backend:7f3a9b1
+</code></pre></div>
+<h3 id="desglose-de-la-referencia">Desglose de la referencia</h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Ejemplo</th>
+<th>Función</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Registro</td>
+<td><code>registry.corp.internal</code></td>
+<td>Servicio en el que se almacena la imagen.</td>
+</tr>
+<tr>
+<td>Organización o equipo</td>
+<td><code>es.ief</code></td>
+<td>Agrupa imágenes bajo un ámbito corporativo.</td>
+</tr>
+<tr>
+<td>Proyecto</td>
+<td><code>tramites</code></td>
+<td>Identifica la aplicación o iniciativa.</td>
+</tr>
+<tr>
+<td>Servicio</td>
+<td><code>app-backend</code></td>
+<td>Identifica el componente desplegable.</td>
+</tr>
+<tr>
+<td>Tag</td>
+<td><code>7f3a9b1</code></td>
+<td>Identifica la versión de la imagen.</td>
+</tr>
+</tbody>
+</table>
+<p>Esta estructura es una <strong>convención organizativa</strong>, no un formato impuesto por OpenShift. Lo importante es que el patrón elegido sea estable, comprensible y aplicable de manera uniforme.</p>
+<div class="admonition note">
+<p class="admonition-title">Buenas prácticas de nombrado</p>
+<ul>
+<li>Utiliza nombres breves y descriptivos.</li>
+<li>Mantén una convención común para todos los equipos.</li>
+<li>Evita introducir en la ruta información que pueda quedar obsoleta rápidamente.</li>
+<li>Documenta qué parte identifica al equipo, al proyecto, al servicio y a la versión.</li>
+</ul>
+</div>
+<hr />
+<h2 id="etiquetado-y-trazabilidad-de-imagenes">Etiquetado y trazabilidad de imágenes</h2>
+<p>Un <strong>tag</strong> es una etiqueta empleada para identificar una versión de una imagen dentro de un repositorio:</p>
+<div class="highlight"><pre><span></span><code>app-backend:v1
+app-backend:1.4.0
+app-backend:7f3a9b1
+</code></pre></div>
+<p>Una práctica habitual consiste en utilizar como tag el identificador corto del commit de Git con el que se generó la imagen:</p>
+<div class="highlight"><pre><span></span><code>Commit Git
+7f3a9b1
+    │
+    ▼
+Imagen
+app-backend:7f3a9b1
+</code></pre></div>
+<p>De esta forma se puede relacionar con facilidad una imagen desplegada con la versión del código fuente que la generó:</p>
+<div class="highlight"><pre><span></span><code>código → imagen → despliegue
+</code></pre></div>
+<p>El formato concreto de los tags forma parte de la convención adoptada por cada organización. Lo importante es utilizar un criterio estable que permita reconocer la versión desplegada y rastrear su origen.</p>
+<h3 id="por-que-evitar-latest-en-despliegues-controlados">Por qué evitar <code>latest</code> en despliegues controlados</h3>
+<p><code>latest</code> es únicamente un tag convencional. No significa necesariamente «la imagen más reciente» ni identifica de forma inequívoca una versión determinada.</p>
+<div class="highlight"><pre><span></span><code>app-backend:latest
+</code></pre></div>
+<p>Hoy puede apuntar a una imagen y mañana a otra distinta. Esto dificulta:</p>
+<ul>
+<li>reproducir un despliegue;</li>
+<li>auditar qué versión se ejecutó;</li>
+<li>relacionar un incidente con una revisión concreta del código;</li>
+<li>repetir una validación en otro entorno;</li>
+<li>realizar un <em>rollback</em> de forma controlada.</li>
+</ul>
+<p>Por ello, en despliegues gobernados se recomienda utilizar tags versionados o asociados al commit, de manera que pueda identificarse la versión desplegada y relacionarla con el código que la generó.</p>
+<div class="admonition warning">
+<p class="admonition-title">Evitar referencias ambiguas</p>
+<p><code>latest</code> puede resultar útil en pruebas puntuales o flujos locales, pero no debería utilizarse como identificador de una versión destinada a promoción o producción.</p>
+</div>
+<p>En el apartado 4.6 retomaremos esta idea para explicar cómo una misma imagen puede avanzar entre entornos manteniendo su identidad y cambiando únicamente la configuración propia de cada entorno.</p>
+<hr />
+<h2 id="uso-conceptual-de-imagestreams">Uso conceptual de ImageStreams</h2>
+<p>En la sesión inicial presentamos los <strong>ImageStreams</strong> como uno de los recursos propios que OpenShift añade sobre Kubernetes. Ahora podemos situarlos dentro del ciclo de vida de las imágenes.</p>
+<p>Un ImageStream es una abstracción de OpenShift que mantiene referencias y metadatos sobre imágenes y sus tags. <strong>No almacena por sí mismo las capas de la imagen</strong>: esas capas residen en un registro.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[ImageStream] --&gt; B[Tag del ImageStream]
+    B --&gt; C[Referencia a una imagen]
+    C --&gt; D[Registro integrado o externo]
+    D --&gt; E[Capas de la imagen]</code></pre>
+<h3 id="que-aporta-un-imagestream">¿Qué aporta un ImageStream?</h3>
+<p>Puede utilizarse para:</p>
+<ul>
+<li>ofrecer una referencia estable dentro de OpenShift;</li>
+<li>agrupar versiones relacionadas de una imagen;</li>
+<li>importar o seguir imágenes alojadas en un registro;</li>
+<li>integrarse con construcciones y despliegues de OpenShift;</li>
+<li>activar automatizaciones cuando cambia una referencia, si así se configura.</li>
+</ul>
+<p>No es necesario utilizar ImageStreams para desplegar una imagen. Un <code>Deployment</code> también puede apuntar directamente a la URL de una imagen en un registro externo.</p>
+<h3 id="convivencia-con-registros-corporativos">Convivencia con registros corporativos</h3>
+<p>Su utilización depende de la arquitectura adoptada. Por ejemplo, una organización puede usar ImageStreams para catalogar determinadas imágenes base o runtimes disponibles en la plataforma y, al mismo tiempo, referenciar directamente desde sus aplicaciones las imágenes almacenadas en un registro corporativo.</p>
+<p>Por tanto, no debe interpretarse que los ImageStreams sean exclusivamente para imágenes base ni que todas las imágenes de una organización deban gestionarse mediante ellos. Son una capacidad específica de OpenShift que puede incorporarse cuando aporta valor al modelo operativo.</p>
+<div class="admonition note">
+<p class="admonition-title">Profundidad necesaria en este curso</p>
+<p>En este punto es suficiente comprender qué problema resuelve un ImageStream y cómo se relaciona con un registro. La configuración avanzada de importaciones, políticas de referencia y disparadores queda fuera del alcance de este curso introductorio.</p>
+</div>
+<hr />
+<h2 id="escaneo-de-vulnerabilidades-y-gestion-de-hallazgos">Escaneo de vulnerabilidades y gestión de hallazgos</h2>
+<p>Publicar correctamente una imagen no garantiza que sea segura. Sus capas pueden contener paquetes del sistema operativo, bibliotecas o dependencias afectadas por vulnerabilidades conocidas, registradas habitualmente como <strong>CVE</strong>.</p>
+<p>Una vez publicada, la imagen puede analizarse antes de considerarla apta para su uso en entornos controlados:</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Imagen publicada] --&gt; B[Escaneo de seguridad]
+    B --&gt; C[Hallazgos CVE]
+    C --&gt; D{Política de la organización}
+    D --&gt;|Resultado aceptable| E[Imagen candidata a despliegue]
+    D --&gt;|Requiere actuación| F[Corrección, revisión o bloqueo]</code></pre>
+<h3 id="1-el-analisis-de-seguridad">1. El análisis de seguridad</h3>
+<p>Una herramienta como <strong>Trivy</strong>, <strong>Clair</strong> o las capacidades de seguridad de <strong>Red Hat Quay</strong> puede analizar los componentes presentes en las capas de la imagen y compararlos con bases de datos de vulnerabilidades conocidas.</p>
+<p>El resultado puede incluir:</p>
+<ul>
+<li>identificador de la vulnerabilidad;</li>
+<li>severidad estimada;</li>
+<li>paquete y versión afectados;</li>
+<li>disponibilidad de una versión corregida;</li>
+<li>información adicional para valorar la exposición real.</li>
+</ul>
+<h3 id="2-el-escaneo-no-decide-por-si-solo">2. El escaneo no decide por sí solo</h3>
+<p>El escáner produce hallazgos. La decisión de bloquear o permitir un artefacto corresponde a la política definida por la organización.</p>
+<p>Algunos modelos habituales son:</p>
+<table>
+<thead>
+<tr>
+<th>Modelo</th>
+<th>Comportamiento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Informativo</td>
+<td>El informe se publica y debe revisarse antes de continuar.</td>
+</tr>
+<tr>
+<td>Bloqueo automático</td>
+<td>El proceso se detiene al superar un umbral definido.</td>
+</tr>
+<tr>
+<td>Aprobación manual</td>
+<td>Un responsable analiza el resultado y autoriza o rechaza el uso de la imagen.</td>
+</tr>
+<tr>
+<td>Modelo mixto</td>
+<td>Determinados hallazgos bloquean automáticamente y otros requieren evaluación.</td>
+</tr>
+</tbody>
+</table>
+<p>No todos los hallazgos de igual severidad implican el mismo riesgo. También deben valorarse la exposición del componente, la existencia de una corrección, los controles compensatorios y el contexto de uso.</p>
+<h3 id="3-responsabilidades-y-excepciones">3. Responsabilidades y excepciones</h3>
+<p>El equipo de desarrollo debe corregir las dependencias vulnerables cuando exista una actualización viable y aportar la información técnica necesaria para valorar el hallazgo.</p>
+<p>La aceptación del riesgo no debería recaer únicamente en quien desarrolla la aplicación. Debe seguir el procedimiento de gobierno establecido por la organización y contar con las responsabilidades formalmente asignadas.</p>
+<div class="admonition warning">
+<p class="admonition-title">Regla de gobernanza ante bloqueos de seguridad</p>
+<p>Cuando una vulnerabilidad impide desplegar un artefacto necesario, una posible excepción debe quedar justificada, aprobada y limitada en el tiempo. Como mínimo, el procedimiento debería contemplar:</p>
+<ol>
+<li><strong>Análisis de impacto:</strong> determinar si la vulnerabilidad es explotable en el contexto real de la aplicación.</li>
+<li><strong>Evaluación del riesgo:</strong> valorar severidad, exposición y controles compensatorios, como NetworkPolicies, SCC u otras medidas de plataforma.</li>
+<li><strong>Decisión formal:</strong> aprobar o rechazar la excepción por parte del rol competente.</li>
+<li><strong>Caducidad y seguimiento:</strong> fijar una fecha límite y revisar la excepción cuando exista una corrección.</li>
+</ol>
+</div>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>El gobierno de la plataforma también debe controlar <strong>qué artefactos se ejecutan</strong>, dónde se almacenan, cómo se identifican y qué controles de seguridad deben superar.</li>
+<li>OpenShift incorpora un <strong>registro integrado</strong>, que puede convivir con un <strong>registro corporativo externo</strong>.</li>
+<li>Cuando existen varios clústeres o entornos separados que deben compartir artefactos, un registro corporativo externo puede actuar como punto común de almacenamiento y gobierno.</li>
+<li>La nomenclatura de las imágenes es una convención organizativa que debe facilitar la identificación del equipo, el proyecto, el servicio y la versión.</li>
+<li>Un <strong>tag</strong> permite identificar una versión de una imagen; etiquetarla con el <strong>SHA del commit de Git</strong> facilita la trazabilidad entre código, imagen y despliegue.</li>
+<li><code>latest</code> no identifica una versión concreta y dificulta la reproducibilidad, la auditoría y los <em>rollbacks</em>.</li>
+<li>Un <strong>ImageStream</strong> mantiene referencias y metadatos sobre imágenes; no almacena sus capas y no es obligatorio para desplegar desde un registro externo.</li>
+<li>El escaneo detecta vulnerabilidades, pero la decisión de permitir, revisar o bloquear una imagen depende de la política de seguridad adoptada.</li>
+<li>Las excepciones de seguridad deben justificarse, aprobarse formalmente, limitarse en el tiempo y mantenerse bajo seguimiento.</li>
+</ul>
+</div>
+<hr />
+<p>Hasta ahora hemos visto distintas dimensiones del gobierno de una plataforma OpenShift compartida. En este apartado hemos añadido una más: <strong>el control sobre los artefactos que permitimos ejecutar</strong>, dónde se almacenan, cómo los identificamos y qué controles de seguridad aplicamos sobre ellos.</p>
+<p>Una vez establecido qué esperamos de una imagen gobernada y trazable, el siguiente paso es preguntarnos <strong>cómo generarla de forma automatizada y reproducible</strong>. Ese será el objetivo del siguiente apartado.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

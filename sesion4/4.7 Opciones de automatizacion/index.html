@@ -1,0 +1,2093 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../4.6%20Promocion%20entre%20entornos/">
+      
+      
+        <link rel="next" href="../4.8%20Openshift%20Virtualization/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>4.7 Opciones de automatizacion - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#47-opciones-de-automatizacion-openshift-pipelines-tekton-y-herramientas-externas-de-integracion-continua-jenkins" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  <img src="../../Logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4.7 Opciones de automatizacion
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  <img src="../../Logo.png" alt="logo">
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-la-operacion-manual-a-la-automatizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De la operación manual a la automatización
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etapas-habituales-de-un-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Etapas habituales de un pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Etapas habituales de un pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-obtencion-del-codigo-y-ejecucion-de-pruebas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Obtención del código y ejecución de pruebas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-analisis-estatico-de-codigo-con-sonarqube" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Análisis estático de código con SonarQube
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-construccion-y-publicacion-de-la-imagen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Construcción y publicación de la imagen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-analisis-de-vulnerabilidades-con-trivy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Análisis de vulnerabilidades con Trivy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-despliegue-y-verificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Despliegue y verificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelos-de-orquestacion-pipeline-unificado-y-pipeline-desacoplado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelos de orquestación: pipeline unificado y pipeline desacoplado
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modelos de orquestación: pipeline unificado y pipeline desacoplado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-unificado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline unificado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-desacoplado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline desacoplado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quien-ejecuta-el-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Quién ejecuta el pipeline?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openshift-pipelines-tekton" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenShift Pipelines (Tekton)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#herramientas-externas-de-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Herramientas externas de CI/CD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-la-operacion-manual-a-la-automatizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De la operación manual a la automatización
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etapas-habituales-de-un-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Etapas habituales de un pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Etapas habituales de un pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-obtencion-del-codigo-y-ejecucion-de-pruebas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Obtención del código y ejecución de pruebas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-analisis-estatico-de-codigo-con-sonarqube" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Análisis estático de código con SonarQube
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-construccion-y-publicacion-de-la-imagen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Construcción y publicación de la imagen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-analisis-de-vulnerabilidades-con-trivy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Análisis de vulnerabilidades con Trivy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-despliegue-y-verificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Despliegue y verificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelos-de-orquestacion-pipeline-unificado-y-pipeline-desacoplado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelos de orquestación: pipeline unificado y pipeline desacoplado
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modelos de orquestación: pipeline unificado y pipeline desacoplado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-unificado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline unificado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-desacoplado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline desacoplado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quien-ejecuta-el-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Quién ejecuta el pipeline?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openshift-pipelines-tekton" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenShift Pipelines (Tekton)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#herramientas-externas-de-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Herramientas externas de CI/CD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="47-opciones-de-automatizacion-openshift-pipelines-tekton-y-herramientas-externas-de-integracion-continua-jenkins">4.7 Opciones de automatización: OpenShift Pipelines (Tekton) y herramientas externas de integración continua (Jenkins)</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender el ciclo de vida de un pipeline de integración y despliegue continuo y el propósito de sus etapas fundamentales: pruebas, análisis de calidad, construcción de la imagen, análisis de vulnerabilidades y despliegue.</li>
+<li>Diferenciar entre un <strong>pipeline unificado</strong>, que integra CI y CD en un único flujo, y un <strong>pipeline desacoplado</strong>, que separa la construcción y validación del artefacto de su despliegue.</li>
+<li>Identificar <strong>OpenShift Pipelines (Tekton)</strong> como una opción de automatización integrada con OpenShift.</li>
+<li>Reconocer que herramientas externas como <strong>Jenkins</strong> o <strong>GitLab CI</strong> también pueden automatizar procesos de construcción y despliegue sobre OpenShift.</li>
+</ul>
+<hr />
+<h2 id="de-la-operacion-manual-a-la-automatizacion">De la operación manual a la automatización</h2>
+<p>En los apartados anteriores hemos realizado de forma manual varias operaciones que forman parte del ciclo de vida de una aplicación:</p>
+<ul>
+<li>hemos trabajado con imágenes y registros de contenedores;</li>
+<li>hemos construido una nueva versión de la aplicación;</li>
+<li>hemos desplegado y actualizado cargas de trabajo;</li>
+<li>hemos comprobado el estado del despliegue;</li>
+<li>y hemos promovido una misma imagen entre entornos aplicando configuraciones diferentes.</li>
+</ul>
+<p>En un entorno profesional, estas operaciones no suelen depender únicamente de comandos ejecutados manualmente desde una terminal. Se organizan y automatizan mediante un <strong>pipeline de integración y despliegue continuo</strong>, habitualmente denominado <strong>pipeline de CI/CD</strong>.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Código fuente] --&gt; B[Pruebas]
+    B --&gt; C[Análisis de calidad]
+    C --&gt; D[Construcción de la imagen]
+    D --&gt; E[Análisis de vulnerabilidades]
+    E --&gt; F[Despliegue y verificación]</code></pre>
+<p>Un pipeline define una secuencia repetible de etapas. Si una etapa falla, el proceso puede detenerse antes de que el error avance hacia los entornos posteriores.</p>
+<div class="admonition note">
+<p class="admonition-title">Automatizar no significa eliminar todos los controles</p>
+<p>Algunas etapas pueden ejecutarse automáticamente, mientras que otras pueden requerir una aprobación manual. Esto es especialmente habitual antes de desplegar en entornos de preproducción o producción.</p>
+</div>
+<hr />
+<h2 id="etapas-habituales-de-un-pipeline">Etapas habituales de un pipeline</h2>
+<p>La composición exacta depende de cada organización, pero un pipeline corporativo suele incluir las siguientes etapas.</p>
+<h3 id="1-obtencion-del-codigo-y-ejecucion-de-pruebas">1. Obtención del código y ejecución de pruebas</h3>
+<p>El pipeline se inicia normalmente a partir de un cambio en el repositorio Git, por ejemplo, al enviar nuevos cambios o aceptar una solicitud de integración.</p>
+<p>El sistema obtiene la versión concreta del código y ejecuta las pruebas automatizadas definidas por el equipo. Si una prueba falla, el pipeline se detiene y evita continuar con una versión que no ha superado las validaciones iniciales.</p>
+<h3 id="2-analisis-estatico-de-codigo-con-sonarqube">2. Análisis estático de código con SonarQube</h3>
+<p>Antes de construir la imagen, el código puede analizarse mediante una herramienta como <strong>SonarQube</strong>.</p>
+<p>SonarQube permite detectar, entre otros aspectos:</p>
+<ul>
+<li>posibles errores de programación;</li>
+<li>vulnerabilidades y problemas de seguridad en el código;</li>
+<li>duplicidades y problemas de mantenibilidad;</li>
+<li>cobertura proporcionada por las pruebas automatizadas.</li>
+</ul>
+<p>La organización puede definir un <strong>Quality Gate</strong> o umbral mínimo de calidad. Si el resultado no cumple las condiciones establecidas, el pipeline se detiene antes de generar el artefacto.</p>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo de control de calidad</p>
+<p>Una organización puede impedir que el pipeline continúe cuando SonarQube detecta una vulnerabilidad grave o cuando la cobertura de pruebas queda por debajo del mínimo definido para el proyecto.</p>
+</div>
+<h3 id="3-construccion-y-publicacion-de-la-imagen">3. Construcción y publicación de la imagen</h3>
+<p>Una vez superadas las comprobaciones de código, el pipeline construye la imagen de contenedor utilizando el mecanismo elegido por la organización.</p>
+<p>La construcción de la imagen puede realizarse de distintas formas. Por ejemplo, la herramienta de CI puede construir directamente la imagen o puede apoyarse en mecanismos de construcción proporcionados por la plataforma.</p>
+<p>En OpenShift ya vimos este segundo enfoque cuando utilizamos un <strong><code>BuildConfig</code></strong> para construir una imagen a partir del código fuente. En un proceso automatizado, un pipeline podría iniciar esa construcción y esperar a que finalizase antes de continuar con las siguientes etapas.</p>
+<p>La imagen resultante se publica en el registro corporativo correspondiente, como <strong>Red Hat Quay</strong>, <strong>Harbor</strong>, <strong>Nexus Repository</strong> o el registro integrado de OpenShift, según la arquitectura utilizada.</p>
+<p>Para conservar la trazabilidad, la imagen se identifica mediante una etiqueta inmutable, como el <strong>Git Commit SHA</strong> utilizado en el apartado anterior. No es necesario volver a desarrollar aquí este principio: el pipeline simplemente automatiza su aplicación.</p>
+<h3 id="4-analisis-de-vulnerabilidades-con-trivy">4. Análisis de vulnerabilidades con Trivy</h3>
+<p>La imagen puede analizarse mediante herramientas como <strong>Trivy</strong> antes de autorizar su despliegue.</p>
+<p>Trivy puede detectar vulnerabilidades conocidas en:</p>
+<ul>
+<li>los paquetes del sistema operativo incluidos en la imagen;</li>
+<li>las dependencias utilizadas por la aplicación;</li>
+<li>determinados archivos de configuración y manifiestos.</li>
+</ul>
+<p>Los resultados se comparan con la política de seguridad de la organización. Según su severidad, un hallazgo puede:</p>
+<ul>
+<li>quedar registrado para su corrección posterior;</li>
+<li>requerir una revisión o excepción justificada;</li>
+<li>o impedir que la imagen continúe hacia los siguientes entornos.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">El resultado depende de la política de seguridad</p>
+<p>La presencia de una vulnerabilidad no produce necesariamente la misma respuesta en todas las organizaciones. Los umbrales de bloqueo, las excepciones y los plazos de corrección deben estar definidos por la política de seguridad aplicable.</p>
+</div>
+<h3 id="5-despliegue-y-verificacion">5. Despliegue y verificación</h3>
+<p>Cuando la imagen ha superado las validaciones, el pipeline puede interactuar con la API de OpenShift para actualizar la aplicación.</p>
+<p>El proceso puede automatizar operaciones que ya conocemos, como:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span><span class="nb">set</span><span class="w"> </span>image<span class="w"> </span>deployment/demo-formacion<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>demo-formacion<span class="o">=</span>docker.io/ieftraining/demo-formacion:&lt;COMMIT-SHA&gt;
+
+oc<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployment/demo-formacion
+</code></pre></div>
+<p>Después del despliegue, el pipeline puede comprobar automáticamente que la aplicación responde correctamente. Esta verificación básica se denomina habitualmente <strong>smoke test</strong> y puede consistir, por ejemplo, en consultar el endpoint de disponibilidad que utilizamos anteriormente.</p>
+<hr />
+<h2 id="modelos-de-orquestacion-pipeline-unificado-y-pipeline-desacoplado">Modelos de orquestación: pipeline unificado y pipeline desacoplado</h2>
+<p>Las etapas anteriores pueden organizarse de distintas formas. Dos modelos habituales son el <strong>pipeline unificado</strong> y la separación entre un pipeline de <strong>CI</strong> y otro de <strong>CD</strong>.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph A["Modelo A: Pipeline unificado"]
+        A1[Git] --&gt; A2[Test y calidad]
+        A2 --&gt; A3[Construcción y análisis de imagen]
+        A3 --&gt; A4[Despliegue y verificación]
+    end
+
+    subgraph B["Modelo B: CI y CD desacoplados"]
+        B1[Git] --&gt; B2[Pipeline CI]
+        B2 --&gt; B3[Imagen validada en el registro]
+        B3 --&gt;|Aprobación o promoción| B4[Pipeline CD]
+        B4 --&gt; B5[Entorno de destino]
+    end</code></pre>
+<h3 id="pipeline-unificado">Pipeline unificado</h3>
+<p>En un pipeline unificado, una misma ejecución recorre todas las etapas, desde la obtención del código hasta el despliegue en el entorno de destino.</p>
+<p>Este modelo puede resultar adecuado para:</p>
+<ul>
+<li>entornos de desarrollo o integración;</li>
+<li>despliegues frecuentes con un riesgo limitado;</li>
+<li>procesos en los que no se requieren aprobaciones entre la construcción y el despliegue.</li>
+</ul>
+<p>Su principal ventaja es la simplicidad del flujo: un cambio validado puede llegar automáticamente al entorno previsto.</p>
+<h3 id="pipeline-desacoplado">Pipeline desacoplado</h3>
+<p>En un modelo desacoplado se separan las responsabilidades:</p>
+<ul>
+<li>el <strong>pipeline de CI</strong> prueba el código, aplica los controles de calidad, construye la imagen, analiza sus vulnerabilidades y la publica en el registro;</li>
+<li>el <strong>pipeline de CD</strong> toma una imagen ya validada y la despliega en el entorno autorizado.</li>
+</ul>
+<p>Este modelo facilita la incorporación de:</p>
+<ul>
+<li>aprobaciones antes de desplegar;</li>
+<li>segregación de funciones;</li>
+<li>ventanas de mantenimiento;</li>
+<li>controles diferentes según el entorno;</li>
+<li>trazabilidad de las promociones a preproducción y producción.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Relación con el apartado anterior</p>
+<p>El pipeline de CD puede automatizar el proceso de promoción estudiado en el apartado 4.6: seleccionar una imagen inmutable ya validada y aplicar la configuración correspondiente al entorno de destino.</p>
+</div>
+<p>No existe un único modelo válido para todos los casos. Una organización puede utilizar un pipeline unificado para desarrollo y separar CI y CD para los entornos que requieren mayor control.</p>
+<hr />
+<h2 id="quien-ejecuta-el-pipeline">¿Quién ejecuta el pipeline?</h2>
+<p>Hasta ahora hemos hablado del pipeline desde el punto de vista del <strong>proceso</strong>: qué etapas contiene y cómo pueden organizarse.</p>
+<p>Pero esas etapas necesitan una herramienta que las orqueste: iniciar una construcción, ejecutar pruebas, invocar SonarQube o Trivy, publicar una imagen, solicitar un despliegue y comprobar su resultado.</p>
+<p>OpenShift puede participar en este proceso de dos formas generales:</p>
+<ul>
+<li>utilizando <strong>OpenShift Pipelines</strong>, basado en Tekton, como solución de automatización integrada con la plataforma;</li>
+<li>utilizando una <strong>herramienta de CI/CD externa</strong>, como Jenkins o GitLab CI, que se comunica con OpenShift para ejecutar las operaciones necesarias.</li>
+</ul>
+<p>En ambos casos, el objetivo es el mismo: <strong>automatizar de manera controlada y repetible las operaciones que hasta ahora hemos realizado manualmente</strong>.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Pipeline CI/CD] --&gt; B[OpenShift Pipelines - Tekton]
+    A --&gt; C[Herramienta externa - Jenkins o GitLab CI]
+    B --&gt; D[OpenShift]
+    C --&gt; D</code></pre>
+<hr />
+<h2 id="openshift-pipelines-tekton">OpenShift Pipelines (Tekton)</h2>
+<p><strong>OpenShift Pipelines</strong> es la solución de automatización de pipelines integrada con OpenShift y basada en el proyecto <strong>Tekton</strong>.</p>
+<p>Tekton representa los pipelines mediante recursos declarativos de Kubernetes. Entre los conceptos principales se encuentran:</p>
+<ul>
+<li><strong>Task:</strong> define una tarea concreta compuesta por uno o varios pasos, como ejecutar pruebas o construir una imagen.</li>
+<li><strong>Pipeline:</strong> organiza y relaciona varias tareas.</li>
+<li><strong>PipelineRun:</strong> representa una ejecución concreta de un pipeline.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    A[PipelineRun] --&gt; B[Pipeline]
+    B --&gt; C[Task: pruebas]
+    B --&gt; D[Task: construcción]
+    B --&gt; E[Task: despliegue]
+    C --&gt; F[Pods de ejecución]
+    D --&gt; F
+    E --&gt; F</code></pre>
+<p>Las tareas se ejecutan mediante Pods creados en el clúster para la ejecución correspondiente. Esto permite aprovechar mecanismos propios de Kubernetes y OpenShift, como namespaces, ServiceAccounts, Secrets, volúmenes y controles de acceso.</p>
+<p>Cuando el operador de OpenShift Pipelines está instalado y configurado, los pipelines y sus ejecuciones pueden gestionarse desde la consola web y mediante recursos YAML.</p>
+<div class="admonition note">
+<p class="admonition-title">Disponibilidad en el clúster</p>
+<p>OpenShift Pipelines no debe darse por instalado en todos los entornos. Su disponibilidad depende de que el operador correspondiente haya sido instalado y configurado por el equipo administrador de la plataforma.</p>
+</div>
+<p>En este curso no vamos a construir un pipeline completo con Tekton. El objetivo es reconocer su función y comprender cómo podría automatizar las operaciones que hemos realizado manualmente.</p>
+<hr />
+<h2 id="herramientas-externas-de-cicd">Herramientas externas de CI/CD</h2>
+<p>OpenShift también puede integrarse con herramientas de CI/CD que se ejecutan fuera del clúster, como <strong>Jenkins</strong> o <strong>GitLab CI</strong>.</p>
+<p>En este modelo, la herramienta externa coordina el pipeline y utiliza credenciales autorizadas para interactuar con:</p>
+<ul>
+<li>el repositorio de código;</li>
+<li>las herramientas de calidad y seguridad;</li>
+<li>el registro de imágenes;</li>
+<li>y la API de OpenShift.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    A[Jenkins o GitLab CI] --&gt; B[Repositorio Git]
+    A --&gt; C[SonarQube]
+    A --&gt; D[Registro de imágenes]
+    A --&gt; E[API de OpenShift]</code></pre>
+<p>Este enfoque puede utilizarse cuando la organización ya dispone de una plataforma corporativa de automatización o cuando un mismo sistema de CI/CD debe trabajar con diferentes tecnologías y entornos.</p>
+<p>Lo importante es distinguir entre la herramienta que <strong>orquesta el proceso</strong> y OpenShift como plataforma en la que se construye o despliega la aplicación. OpenShift Pipelines, Jenkins y GitLab CI pueden organizar el flujo completo; un recurso de construcción de OpenShift, por sí solo, no sustituye a un orquestador de CI/CD.</p>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>Un pipeline de CI/CD automatiza una secuencia repetible de pruebas, controles de calidad, construcción, análisis de seguridad, despliegue y verificación.</li>
+<li><strong>SonarQube</strong> puede aplicar controles de calidad sobre el código antes de construir la imagen.</li>
+<li><strong>Trivy</strong> puede analizar la imagen y sus dependencias para detectar vulnerabilidades conocidas.</li>
+<li>En un <strong>pipeline unificado</strong>, CI y CD forman parte de una misma ejecución; en un modelo <strong>desacoplado</strong>, la construcción y validación se separan del despliegue.</li>
+<li><strong>OpenShift Pipelines</strong>, basado en <strong>Tekton</strong>, permite definir pipelines mediante recursos declarativos como <code>Task</code>, <code>Pipeline</code> y <code>PipelineRun</code>.</li>
+<li>Herramientas externas como <strong>Jenkins</strong> o <strong>GitLab CI</strong> también pueden automatizar despliegues sobre OpenShift.</li>
+<li>La automatización debe respetar los controles, permisos y aprobaciones establecidos por cada organización.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

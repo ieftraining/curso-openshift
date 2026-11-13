@@ -1,0 +1,2784 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../4.1%20Proyectos%20y%20permisos/">
+      
+      
+        <link rel="next" href="../4.3%20Aislamiento%20de%20Red/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>4.2 Recursos,cuotas y ubicación - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#42-recursos-cuotas-y-ubicacion-resourcequota-limitrange-y-el-overcommit" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  <img src="../../Logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4.2 Recursos,cuotas y ubicación
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  <img src="../../Logo.png" alt="logo">
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gobernanza-de-recursos-en-entornos-compartidos-multi-tenancy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gobernanza de recursos en entornos compartidos (multi-tenancy)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restriccion-del-consumo-global-resourcequota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricción del consumo global: ResourceQuota
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restricción del consumo global: ResourceQuota">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-recursos-que-se-pueden-limitar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de recursos que se pueden limitar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#politicas-por-defecto-y-fronteras-limitrange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Políticas por defecto y fronteras: LimitRange
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#demostracion-observar-las-politicas-de-recursos-del-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demostración: observar las políticas de recursos del Sandbox
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Demostración: observar las políticas de recursos del Sandbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-descubrir-las-politicas-existentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Descubrir las políticas existentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-comprobar-como-actua-el-limitrange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Comprobar cómo actúa el LimitRange
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-comprobar-como-lo-contabiliza-el-resourcequota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Comprobar cómo lo contabiliza el ResourceQuota
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-intentar-superar-la-cuota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Intentar superar la cuota
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-limpiar-los-recursos-de-la-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Limpiar los recursos de la práctica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-overcommit-limites-superiores-a-las-reservas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El overcommit: límites superiores a las reservas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El overcommit: límites superiores a las reservas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-se-utiliza-el-overcommit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué se utiliza el overcommit?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calidad-de-servicio-qos-y-presion-de-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calidad de Servicio (QoS) y presión de memoria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calidad de Servicio (QoS) y presión de memoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterio-de-diseno-limits-requests-o-limits-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterio de diseño: limits &gt; requests o limits = requests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Criterio de diseño: limits &gt; requests o limits = requests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-aplicaciones-con-consumo-variable-limits-requests-burstable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Aplicaciones con consumo variable: limits &gt; requests (Burstable)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cargas-sensibles-o-predecibles-limits-requests-guaranteed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cargas sensibles o predecibles: limits = requests (Guaranteed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-ocurre-cuando-se-agota-la-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué ocurre cuando se agota la memoria?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#como-mandar-un-pod-a-nodos-concretos-nodeselector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo mandar un Pod a nodos concretos: nodeSelector
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cómo mandar un Pod a nodos concretos: nodeSelector">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-etiquetar-los-nodos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: etiquetar los nodos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-definir-el-selector-en-el-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: definir el selector en el Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nodos-de-infraestructura-infra-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nodos de infraestructura (Infra Nodes)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nodos de infraestructura (Infra Nodes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-puede-ejecutarse-en-un-infra-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué puede ejecutarse en un Infra Node?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beneficios-del-aislamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Beneficios del aislamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-se-envian-los-componentes-de-infraestructura-a-sus-nodos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo se envían los componentes de infraestructura a sus nodos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuidad-del-gobierno-de-la-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Continuidad del gobierno de la plataforma
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20Aislamiento%20de%20Red/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gobernanza-de-recursos-en-entornos-compartidos-multi-tenancy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gobernanza de recursos en entornos compartidos (multi-tenancy)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restriccion-del-consumo-global-resourcequota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricción del consumo global: ResourceQuota
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restricción del consumo global: ResourceQuota">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-recursos-que-se-pueden-limitar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de recursos que se pueden limitar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#politicas-por-defecto-y-fronteras-limitrange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Políticas por defecto y fronteras: LimitRange
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#demostracion-observar-las-politicas-de-recursos-del-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demostración: observar las políticas de recursos del Sandbox
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Demostración: observar las políticas de recursos del Sandbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-descubrir-las-politicas-existentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Descubrir las políticas existentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-comprobar-como-actua-el-limitrange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Comprobar cómo actúa el LimitRange
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-comprobar-como-lo-contabiliza-el-resourcequota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Comprobar cómo lo contabiliza el ResourceQuota
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-intentar-superar-la-cuota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Intentar superar la cuota
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-limpiar-los-recursos-de-la-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Limpiar los recursos de la práctica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-overcommit-limites-superiores-a-las-reservas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El overcommit: límites superiores a las reservas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El overcommit: límites superiores a las reservas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-se-utiliza-el-overcommit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué se utiliza el overcommit?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calidad-de-servicio-qos-y-presion-de-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calidad de Servicio (QoS) y presión de memoria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calidad de Servicio (QoS) y presión de memoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterio-de-diseno-limits-requests-o-limits-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterio de diseño: limits &gt; requests o limits = requests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Criterio de diseño: limits &gt; requests o limits = requests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-aplicaciones-con-consumo-variable-limits-requests-burstable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Aplicaciones con consumo variable: limits &gt; requests (Burstable)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cargas-sensibles-o-predecibles-limits-requests-guaranteed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cargas sensibles o predecibles: limits = requests (Guaranteed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-ocurre-cuando-se-agota-la-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué ocurre cuando se agota la memoria?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#como-mandar-un-pod-a-nodos-concretos-nodeselector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo mandar un Pod a nodos concretos: nodeSelector
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cómo mandar un Pod a nodos concretos: nodeSelector">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-etiquetar-los-nodos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: etiquetar los nodos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-definir-el-selector-en-el-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: definir el selector en el Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nodos-de-infraestructura-infra-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nodos de infraestructura (Infra Nodes)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nodos de infraestructura (Infra Nodes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-puede-ejecutarse-en-un-infra-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué puede ejecutarse en un Infra Node?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beneficios-del-aislamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Beneficios del aislamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-se-envian-los-componentes-de-infraestructura-a-sus-nodos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo se envían los componentes de infraestructura a sus nodos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuidad-del-gobierno-de-la-plataforma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Continuidad del gobierno de la plataforma
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="42-recursos-cuotas-y-ubicacion-resourcequota-limitrange-y-el-overcommit">4.2 Recursos, cuotas y ubicación: ResourceQuota, LimitRange y el overcommit</h1>
+<h2 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h2>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender el modelo de gobierno de recursos en OpenShift y cómo la plataforma favorece la convivencia segura de múltiples equipos (<em>multi-tenancy</em>).</li>
+<li>Configurar y aplicar objetos <strong>ResourceQuota</strong> para restringir el consumo máximo total de cómputo, almacenamiento y objetos en un proyecto.</li>
+<li>Definir políticas por defecto mediante objetos <strong>LimitRange</strong> para evitar que los contenedores carezcan de valores de recursos o utilicen valores desproporcionados.</li>
+<li>Comprender el concepto de <strong>overcommit</strong> (sobreasignación), analizando los riesgos y oportunidades operativas del desfase entre reservas (<em>requests</em>), límites (<em>limits</em>) y uso real.</li>
+<li>Entender el concepto de <strong>Calidad de Servicio (QoS)</strong>, evaluando las estrategias de diseño (<code>limits &gt; requests</code> frente a <code>limits = requests</code>) y el comportamiento del sistema ante la presión de memoria.</li>
+<li>Utilizar <strong><code>nodeSelector</code></strong> para gobernar el posicionamiento de las cargas de trabajo en el clúster.</li>
+<li>Comprender la función de los <strong>nodos de infraestructura</strong> (<em>Infra Nodes</em>), distinguiendo qué componentes pueden ejecutarse en ellos y sus implicaciones operativas y de suscripción.</li>
+</ul>
+<hr />
+<h2 id="gobernanza-de-recursos-en-entornos-compartidos-multi-tenancy">Gobernanza de recursos en entornos compartidos (<em>multi-tenancy</em>)</h2>
+<p>En el apartado anterior vimos una primera dimensión del gobierno de la plataforma: controlar <strong>quién puede acceder a un proyecto y qué operaciones puede realizar</strong> mediante RBAC.</p>
+<p>Pero gobernar una plataforma compartida no consiste únicamente en controlar permisos. También necesitamos evitar que un proyecto consuma de forma desproporcionada los recursos disponibles para todos.</p>
+<p>En la Sesión 2 estudiamos cómo definir las peticiones (<em>requests</em>) y los límites (<em>limits</em>) de cada contenedor dentro del manifiesto de un <code>Deployment</code> o un <code>Pod</code>. Sin embargo, en una plataforma corporativa compartida por múltiples proyectos y equipos, confiar exclusivamente en que cada desarrollador dimensione correctamente sus aplicaciones no es una estrategia de gobierno suficiente.</p>
+<p>Un equipo podría, por ejemplo, desplegar demasiadas réplicas o solicitar una cantidad excesiva de CPU, memoria o almacenamiento, reduciendo los recursos disponibles para el resto de las aplicaciones del clúster.</p>
+<p>Para establecer políticas comunes a nivel de proyecto, OpenShift proporciona dos objetos fundamentales: <strong>ResourceQuota</strong> y <strong>LimitRange</strong>.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Proyecto[OpenShift Project / Namespace]
+        A[LimitRange&lt;br/&gt;Reglas por Pod / Contenedor]
+        B[ResourceQuota&lt;br/&gt;Techo global del proyecto]
+        subgraph Cargas[Cargas de trabajo]
+            P1[Pod 1]
+            P2[Pod 2]
+        end
+    end
+
+    A --&gt;|Inyecta o valida| P1
+    A --&gt;|Inyecta o valida| P2
+    P1 --&gt;|Consumo acumulado| B
+    P2 --&gt;|Consumo acumulado| B</code></pre>
+<ul>
+<li><strong>LimitRange, a nivel de Pod o contenedor:</strong> actúa como un regulador individual. Puede definir valores mínimos, máximos y valores por defecto para los contenedores que se creen dentro del proyecto.</li>
+<li><strong>ResourceQuota, a nivel de proyecto:</strong> actúa como un techo global. Limita la suma total de recursos, almacenamiento u objetos que puede consumir el conjunto del proyecto.</li>
+</ul>
+<hr />
+<h2 id="restriccion-del-consumo-global-resourcequota">Restricción del consumo global: <code>ResourceQuota</code></h2>
+<p>El objeto <strong>ResourceQuota</strong> limita el consumo acumulado de los recursos que residen dentro de un mismo proyecto. Cuando se crea un <code>ResourceQuota</code>, el servidor de la API de OpenShift rechaza cualquier nueva petición que provoque que el proyecto supere alguno de los máximos configurados.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Petición de despliegue&lt;br/&gt;oc apply] --&gt; B[API Server de OpenShift]
+    B --&gt;|Consulta| C{¿El nuevo consumo&lt;br/&gt;respeta la cuota?}
+    C --&gt;|Sí| D[Petición aceptada]
+    C --&gt;|No| E[Petición rechazada&lt;br/&gt;HTTP 403 Forbidden]</code></pre>
+<h3 id="tipos-de-recursos-que-se-pueden-limitar">Tipos de recursos que se pueden limitar</h3>
+<ol>
+<li><strong>Recursos de cómputo:</strong> suma total de <code>requests.cpu</code>, <code>requests.memory</code>, <code>limits.cpu</code> y <code>limits.memory</code>.</li>
+<li><strong>Recursos de almacenamiento:</strong> suma total de peticiones de almacenamiento (<code>requests.storage</code>), número total de PVC (<code>persistentvolumeclaims</code>) o restricciones específicas por clase de almacenamiento.</li>
+<li><strong>Conteo de objetos:</strong> cantidad máxima de recursos concretos dentro del proyecto, por ejemplo <code>pods</code>, <code>services</code>, <code>secrets</code>, <code>configmaps</code> o <code>services.loadbalancers</code>.</li>
+</ol>
+<hr />
+<h2 id="politicas-por-defecto-y-fronteras-limitrange">Políticas por defecto y fronteras: <code>LimitRange</code></h2>
+<p>Para evitar que los despliegues fallen porque un desarrollador olvidó especificar la sección <code>resources</code>, OpenShift permite configurar un <strong>LimitRange</strong>.</p>
+<p>Un <code>LimitRange</code> puede cumplir tres funciones principales:</p>
+<ol>
+<li><strong>Valores por defecto:</strong> si un contenedor no especifica <code>requests</code> o <code>limits</code>, la plataforma puede incorporar automáticamente los valores definidos en el <code>LimitRange</code>.</li>
+<li><strong>Valores mínimos y máximos:</strong> evita peticiones demasiado pequeñas o desproporcionadas para un contenedor individual.</li>
+<li><strong>Relación máxima entre límite y petición:</strong> mediante <code>maxLimitRequestRatio</code>, puede impedir que la diferencia entre un <code>limit</code> y su <code>request</code> supere una proporción determinada.</li>
+</ol>
+<hr />
+<h2 id="demostracion-observar-las-politicas-de-recursos-del-sandbox">Demostración: observar las políticas de recursos del Sandbox</h2>
+<p>En Red Hat OpenShift Sandbox, las políticas <code>ResourceQuota</code> y <code>LimitRange</code> ya están configuradas en el proyecto. Como usuarios del proyecto no necesitamos crear ni modificar estos objetos: vamos a descubrirlos, interpretar sus valores y comprobar cómo afectan a nuestras cargas.</p>
+<p>La práctica seguirá esta secuencia:</p>
+<ol>
+<li>Consultar las políticas existentes en el proyecto.</li>
+<li>Comprobar cómo un <code>LimitRange</code> incorpora valores por defecto a un Pod.</li>
+<li>Observar cómo esos valores se contabilizan en el <code>ResourceQuota</code>.</li>
+<li>Intentar desplegar una carga que supere la cuota y diagnosticar el rechazo.</li>
+</ol>
+<h3 id="1-descubrir-las-politicas-existentes">1. Descubrir las políticas existentes</h3>
+<p>Consultamos los objetos <code>ResourceQuota</code> y <code>LimitRange</code> disponibles en el proyecto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>resourcequota
+oc<span class="w"> </span>get<span class="w"> </span>limitrange
+</code></pre></div>
+<p>En el Sandbox podemos encontrar varias cuotas, separadas según el tipo de recurso o carga. Para esta demostración nos interesan especialmente:</p>
+<ul>
+<li><code>compute-deploy</code>, que contabiliza CPU y memoria de los Pods de larga duración, como los creados por un <code>Deployment</code>.</li>
+<li><code>resource-limits</code>, que define los valores por defecto aplicables a cada contenedor.</li>
+</ul>
+<p>Antes de observar el consumo actual, consultamos la definición YAML de la cuota:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>resourcequota<span class="w"> </span>compute-deploy<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<p>Dentro de <code>spec.hard</code> encontraremos los máximos establecidos por la política. Para esta práctica nos interesan especialmente los siguientes valores:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">hard</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">limits.cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"30"</span>
+<span class="w">    </span><span class="nt">limits.memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30Gi</span>
+<span class="w">    </span><span class="nt">limits.nvidia.com/gpu</span><span class="p">:</span><span class="w"> </span><span class="s">"0"</span>
+<span class="w">    </span><span class="nt">requests.cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"3"</span>
+<span class="w">    </span><span class="nt">requests.memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30Gi</span>
+<span class="w">    </span><span class="nt">requests.nvidia.com/gpu</span><span class="p">:</span><span class="w"> </span><span class="s">"0"</span>
+</code></pre></div>
+<p>La cuota establece dos techos distintos para la CPU:</p>
+<ul>
+<li><code>requests.cpu: "3"</code>: la suma de CPU reservada mediante <code>requests</code> no puede superar <strong>3 CPU</strong>.</li>
+<li><code>limits.cpu: "30"</code>: la suma de los límites de CPU no puede superar <strong>30 CPU</strong>.</li>
+</ul>
+<p>No existe contradicción entre ambos valores. <code>requests.cpu</code> controla la CPU reservada para la planificación, mientras que <code>limits.cpu</code> controla hasta dónde podrían llegar las cargas si existe capacidad disponible. Esta diferencia prepara el concepto de <em>overcommit</em> que veremos más adelante.</p>
+<p>En memoria, tanto los <code>requests</code> como los <code>limits</code> tienen un máximo acumulado de <code>30Gi</code>. La cuota también impide solicitar GPU, ya que los valores correspondientes están establecidos a <code>0</code>.</p>
+<p>Ahora consultamos el estado de la cuota:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>resourcequota<span class="w"> </span>compute-deploy
+</code></pre></div>
+<p>La salida obtenida en el Sandbox es similar a esta:</p>
+<div class="highlight"><pre><span></span><code>Name:       compute-deploy
+Namespace:  angel-cuaresma-alons-dev
+Scopes:     NotTerminating
+
+Resource                 Used    Hard
+--------                 ----    ----
+limits.cpu               1300m   30
+limits.memory            4736Mi  30Gi
+limits.nvidia.com/gpu    0       0
+requests.cpu             300m    3
+requests.memory          768Mi   30Gi
+requests.nvidia.com/gpu  0       0
+</code></pre></div>
+<p>Las columnas se interpretan así:</p>
+<ul>
+<li><strong>Used:</strong> recursos ya contabilizados por las cargas actuales.</li>
+<li><strong>Hard:</strong> máximo acumulado establecido en <code>spec.hard</code>.</li>
+</ul>
+<p>Por ejemplo:</p>
+<ul>
+<li><code>requests.cpu: 300m / 3</code> significa que hay <code>300m</code>, es decir, <strong>0,3 CPU</strong>, reservadas de un máximo de <strong>3 CPU</strong>.</li>
+<li><code>limits.cpu: 1300m / 30</code> significa que se han definido límites acumulados de <code>1300m</code>, es decir, <strong>1,3 CPU</strong>, frente a un máximo de <strong>30 CPU</strong>.</li>
+<li><code>requests.memory: 768Mi / 30Gi</code> indica que se han reservado <code>768Mi</code> de un máximo acumulado de <code>30Gi</code>.</li>
+<li><code>limits.memory: 4736Mi / 30Gi</code> indica que los límites de memoria suman <code>4736Mi</code> frente a un máximo de <code>30Gi</code>.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Cómo interpretar la CPU</p>
+<p>En Kubernetes y OpenShift, <code>1000m</code> equivalen a <code>1</code> CPU. Por tanto, <code>300m</code> son <code>0,3</code> CPU y <code>1300m</code> son <code>1,3</code> CPU. Un valor sin el sufijo <code>m</code>, como <code>3</code> o <code>30</code>, representa directamente 3 o 30 CPU completas.</p>
+</div>
+<p>Consultamos también la definición del <code>LimitRange</code> existente:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>limitrange<span class="w"> </span>resource-limits<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<p>Después podemos mostrarla de forma resumida mediante:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>limitrange<span class="w"> </span>resource-limits
+</code></pre></div>
+<p>El <code>LimitRange</code> del Sandbox define los siguientes valores por defecto:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Recurso</th>
+<th style="text-align: left;">Request por defecto</th>
+<th style="text-align: left;">Limit por defecto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">CPU</td>
+<td style="text-align: left;"><code>10m</code></td>
+<td style="text-align: left;"><code>1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Memoria</td>
+<td style="text-align: left;"><code>64Mi</code></td>
+<td style="text-align: left;"><code>1000Mi</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-comprobar-como-actua-el-limitrange">2. Comprobar cómo actúa el <code>LimitRange</code></h3>
+<p>Creamos un Deployment temporal sin declarar <code>requests</code> ni <code>limits</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>demo-recursos<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--image<span class="o">=</span>docker.io/ieftraining/demo-formacion:v3
+</code></pre></div>
+<p>Comprobamos los recursos declarados en la plantilla del Deployment:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>demo-recursos<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.template.spec.containers[0].resources}{"\n"}'</span>
+</code></pre></div>
+<p>El resultado es un objeto vacío:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{}</span>
+</code></pre></div>
+<p>Esto confirma que el Deployment creado por nosotros no contiene una sección <code>resources</code>.</p>
+<p>Consultamos ahora los recursos del Pod generado a partir de ese Deployment:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>demo-recursos<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].spec.containers[0].resources}{"\n"}'</span>
+</code></pre></div>
+<p>El Pod sí contiene valores de recursos:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"limits"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cpu"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"memory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1000Mi"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"requests"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cpu"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10m"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"memory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"64Mi"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">¿De dónde han salido estos valores?</p>
+<p>Los valores no estaban incluidos en el Deployment. El <code>LimitRange resource-limits</code> los ha incorporado durante la admisión del Pod, antes de que este fuera creado.</p>
+<p>El <code>LimitRange</code> no modifica la plantilla almacenada en el Deployment. Los valores aparecen en el Pod resultante.</p>
+</div>
+<h3 id="3-comprobar-como-lo-contabiliza-el-resourcequota">3. Comprobar cómo lo contabiliza el <code>ResourceQuota</code></h3>
+<p>Volvemos a consultar la cuota:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>resourcequota<span class="w"> </span>compute-deploy
+</code></pre></div>
+<p>Los valores por defecto incorporados al Pod pasan a formar parte del consumo acumulado del proyecto. En la prueba realizada en el Sandbox, tras crear <code>demo-recursos</code>, se observó el siguiente incremento:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Recurso</th>
+<th style="text-align: right;">Antes</th>
+<th style="text-align: right;">Después</th>
+<th style="text-align: right;">Incremento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>requests.cpu</code></td>
+<td style="text-align: right;"><code>300m</code></td>
+<td style="text-align: right;"><code>310m</code></td>
+<td style="text-align: right;"><code>10m</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>requests.memory</code></td>
+<td style="text-align: right;"><code>768Mi</code></td>
+<td style="text-align: right;"><code>832Mi</code></td>
+<td style="text-align: right;"><code>64Mi</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>limits.cpu</code></td>
+<td style="text-align: right;"><code>1300m</code></td>
+<td style="text-align: right;"><code>2300m</code></td>
+<td style="text-align: right;"><code>1</code> CPU</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>limits.memory</code></td>
+<td style="text-align: right;"><code>4736Mi</code></td>
+<td style="text-align: right;"><code>5736Mi</code></td>
+<td style="text-align: right;"><code>1000Mi</code></td>
+</tr>
+</tbody>
+</table>
+<p>Así se relacionan ambos mecanismos:</p>
+<ol>
+<li>El <code>LimitRange</code> incorpora valores por defecto al contenedor del Pod.</li>
+<li>El <code>ResourceQuota</code> contabiliza esos valores dentro del consumo global del proyecto.</li>
+</ol>
+<p>Los valores exactos de la columna <strong>Used</strong> pueden variar según las cargas que existan en el proyecto cuando se realice la práctica.</p>
+<h3 id="4-intentar-superar-la-cuota">4. Intentar superar la cuota</h3>
+<p>En nuestra prueba, <code>compute-deploy</code> permite un máximo acumulado de <code>3</code> CPU en <code>requests</code>, mientras que el proyecto ya utiliza <code>310m</code>.</p>
+<p>Creamos el fichero <code>prueba-cuota.yaml</code> con un Deployment cuyo Pod solicita <code>3</code> CPU adicionales:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prueba-cuota</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prueba-cuota</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prueba-cuota</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/ieftraining/demo-formacion:v3</span>
+<span class="w">          </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"3"</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"64Mi"</span>
+<span class="w">            </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"3"</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"128Mi"</span>
+</code></pre></div>
+<p>Aplicamos el manifiesto:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>prueba-cuota.yaml
+</code></pre></div>
+<p>El <code>Deployment</code> y su <code>ReplicaSet</code> pueden crearse, pero el controlador no consigue crear el Pod porque su petición haría que el proyecto superase la cuota.</p>
+<p>Comprobamos primero el estado del Deployment:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>prueba-cuota
+</code></pre></div>
+<p>El Deployment existe, pero no consigue alcanzar la réplica deseada. A continuación comprobamos si se ha creado algún Pod:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>prueba-cuota
+</code></pre></div>
+<p>No aparece ningún Pod porque la cuota ha rechazado su creación. Para localizar el motivo, recordamos la cadena que ya conocemos:</p>
+<div class="highlight"><pre><span></span><code>Deployment → ReplicaSet → Pod
+</code></pre></div>
+<p>El Deployment delega en un ReplicaSet la creación y el mantenimiento de los Pods. Por ello, localizamos primero el ReplicaSet asociado:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>replicaset<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>prueba-cuota
+</code></pre></div>
+<p>Obtendremos una salida similar a esta:</p>
+<div class="highlight"><pre><span></span><code>NAME                     DESIRED   CURRENT   READY   AGE
+prueba-cuota-66b7fb8f55  1         0         0       1m
+</code></pre></div>
+<p>El ReplicaSet desea crear un Pod, pero actualmente tiene cero. Consultamos entonces sus eventos, sustituyendo el nombre por el obtenido en el comando anterior:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>describe<span class="w"> </span>replicaset<span class="w"> </span>prueba-cuota-66b7fb8f55
+</code></pre></div>
+<p>Al final de la salida, en la sección <strong>Events</strong>, encontraremos el motivo del rechazo. El mensaje observado en el Sandbox es equivalente a:</p>
+<div class="highlight"><pre><span></span><code>Error creating: pods "prueba-cuota-..." is forbidden:
+exceeded quota: compute-deploy,
+requested: requests.cpu=3,
+used: requests.cpu=310m,
+limited: requests.cpu=3
+</code></pre></div>
+<p>La lectura del error es directa:</p>
+<ul>
+<li><code>requested: requests.cpu=3</code>: el nuevo Pod solicita <code>3</code> CPU.</li>
+<li><code>used: requests.cpu=310m</code>: el proyecto ya tiene <code>310m</code> contabilizados.</li>
+<li><code>limited: requests.cpu=3</code>: la cuota permite un máximo total de <code>3</code> CPU.</li>
+</ul>
+<p>Por tanto:</p>
+<div class="highlight"><pre><span></span><code>310m + 3000m = 3310m &gt; 3000m
+</code></pre></div>
+<p>OpenShift rechaza la creación del Pod porque el consumo acumulado superaría el máximo permitido.</p>
+<div class="admonition note">
+<p class="admonition-title">El Deployment puede existir aunque el Pod sea rechazado</p>
+<p><code>ResourceQuota</code> no impide necesariamente que se almacene el objeto <code>Deployment</code>. La restricción se manifiesta cuando el controlador intenta crear el Pod sujeto a la cuota. Por eso debemos revisar los Pods, los eventos y el estado del Deployment, no únicamente el resultado de <code>oc apply</code>.</p>
+</div>
+<h3 id="5-limpiar-los-recursos-de-la-practica">5. Limpiar los recursos de la práctica</h3>
+<p>Eliminamos los Deployments temporales:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>demo-recursos<span class="w"> </span>prueba-cuota
+</code></pre></div>
+<p>Al desaparecer sus Pods, los recursos que contabilizaban dejan de aparecer en la columna <strong>Used</strong> del <code>ResourceQuota</code>.</p>
+<hr />
+<h2 id="el-overcommit-limites-superiores-a-las-reservas">El overcommit: límites superiores a las reservas</h2>
+<p>En la arquitectura de plataformas existe una diferencia importante entre los recursos <strong>reservados</strong>, los recursos <strong>permitidos</strong> y los recursos <strong>consumidos realmente</strong>:</p>
+<ul>
+<li><strong>Requests:</strong> cantidad que el Scheduler utiliza para decidir si un nodo tiene capacidad para alojar un Pod.</li>
+<li><strong>Limits:</strong> consumo máximo permitido para el contenedor cuando existe capacidad disponible.</li>
+<li><strong>Uso real:</strong> consumo instantáneo medido por el sistema operativo y las herramientas de monitorización.</li>
+</ul>
+<p>El <strong>overcommit</strong> o sobreasignación consiste en permitir que la suma de los <code>limits</code> sea superior a la capacidad física del nodo, confiando en que no todas las aplicaciones alcanzarán simultáneamente su consumo máximo.</p>
+<p>Los <code>requests</code>, en cambio, son la referencia utilizada por el Scheduler para colocar los Pods. Por ello, en condiciones normales, no se programarán nuevos Pods si la suma de sus reservas no cabe en la capacidad asignable del nodo.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Nodo[Nodo físico: 16 GiB de memoria asignable]
+        subgraph Pods[Pods programados]
+            P1[Pod A&lt;br/&gt;Request: 3 GiB&lt;br/&gt;Limit: 6 GiB&lt;br/&gt;Uso real: 1 GiB]
+            P2[Pod B&lt;br/&gt;Request: 3 GiB&lt;br/&gt;Limit: 6 GiB&lt;br/&gt;Uso real: 1,5 GiB]
+            P3[Pod C&lt;br/&gt;Request: 3 GiB&lt;br/&gt;Limit: 6 GiB&lt;br/&gt;Uso real: 1 GiB]
+            P4[Pod D&lt;br/&gt;Request: 3 GiB&lt;br/&gt;Limit: 6 GiB&lt;br/&gt;Uso real: 1,5 GiB]
+        end
+        TOTAL_REQ[Suma de requests: 12 GiB]
+        TOTAL_LIMIT[Suma de limits: 24 GiB]
+        TOTAL_REAL[Uso real: 5 GiB]
+    end</code></pre>
+<h3 id="por-que-se-utiliza-el-overcommit">¿Por qué se utiliza el overcommit?</h3>
+<p>Muchas aplicaciones se dimensionan para soportar picos puntuales, pero durante gran parte del tiempo consumen menos recursos. Si todos los <code>limits</code> tuvieran que estar físicamente reservados en todo momento, el clúster quedaría infrautilizado.</p>
+<p>El overcommit permite aumentar la densidad de cargas, aunque introduce un riesgo: si muchas aplicaciones intentan alcanzar simultáneamente sus límites de memoria, el nodo puede quedarse sin memoria física.</p>
+<div class="admonition note">
+<p class="admonition-title">CPU y memoria no se comportan igual</p>
+<p>Cuando un contenedor alcanza su límite de CPU, normalmente su ejecución se ralentiza mediante <em>throttling</em>. Cuando supera su límite de memoria, puede ser terminado con estado <code>OOMKilled</code>.</p>
+</div>
+<hr />
+<h2 id="calidad-de-servicio-qos-y-presion-de-memoria">Calidad de Servicio (QoS) y presión de memoria</h2>
+<p>En el apartado 2.3 estudiamos <code>requests</code> y <code>limits</code>, pero dejamos pendiente la clasificación de Calidad de Servicio. Kubernetes y OpenShift asignan automáticamente a cada Pod una clase de <strong>QoS</strong> según cómo estén definidos los recursos de todos sus contenedores.</p>
+<p>Esta clasificación influye en las decisiones del nodo cuando existe presión de memoria.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Clase de QoS</th>
+<th style="text-align: left;">Regla de configuración</th>
+<th style="text-align: left;">Protección relativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Guaranteed</strong></td>
+<td style="text-align: left;">Todos los contenedores definen <code>requests</code> y <code>limits</code> de CPU y memoria, y para cada recurso <code>request = limit</code>.</td>
+<td style="text-align: left;">Mayor protección relativa ante una evicción por presión de recursos.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Burstable</strong></td>
+<td style="text-align: left;">El Pod no cumple las condiciones de <code>Guaranteed</code>, pero al menos un contenedor define algún <code>request</code> o <code>limit</code>.</td>
+<td style="text-align: left;">Protección intermedia. Los Pods que consumen por encima de sus <code>requests</code> son candidatos preferentes cuando existe presión de memoria.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>BestEffort</strong></td>
+<td style="text-align: left;">Ningún contenedor define <code>requests</code> ni <code>limits</code> de CPU o memoria.</td>
+<td style="text-align: left;">Menor protección. Son los primeros candidatos a la evicción.</td>
+</tr>
+</tbody>
+</table>
+<pre class="mermaid"><code>flowchart TD
+    A[Presión de memoria en el nodo] --&gt; B[El kubelet intenta recuperar recursos]
+    B --&gt; C[Evicción según QoS,&lt;br/&gt;prioridad y consumo respecto al request]
+    C --&gt; D[BestEffort: menor protección]
+    C --&gt; E[Burstable: protección intermedia]
+    C --&gt; F[Guaranteed: mayor protección relativa]</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">QoS no es una garantía absoluta</p>
+<p>Un Pod <code>Guaranteed</code> no es invulnerable. La QoS es uno de los factores utilizados ante la presión de recursos, junto con la prioridad del Pod y el consumo real respecto a sus <code>requests</code>.</p>
+</div>
+<h3 id="criterio-de-diseno-limits-requests-o-limits-requests">Criterio de diseño: <code>limits &gt; requests</code> o <code>limits = requests</code></h3>
+<p>No existe una única regla válida para todas las aplicaciones. La decisión depende de la naturaleza de la carga y del equilibrio deseado entre protección y aprovechamiento del clúster.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Burstable["Burstable: limits &gt; requests"]
+        A[Microservicios y aplicaciones variables] --&gt;|Absorben picos| B[Mayor aprovechamiento del clúster]
+    end
+
+    subgraph Guaranteed["Guaranteed: limits = requests"]
+        C[Cargas sensibles o predecibles] --&gt;|Reserva coherente| D[Mayor protección relativa]
+    end</code></pre>
+<h4 id="1-aplicaciones-con-consumo-variable-limits-requests-burstable">1. Aplicaciones con consumo variable: <code>limits &gt; requests</code> (<em>Burstable</em>)</h4>
+<ul>
+<li>Es un patrón habitual para aplicaciones web y microservicios con tráfico variable.</li>
+<li>El <code>request</code> representa la reserva necesaria para el funcionamiento normal.</li>
+<li>El <code>limit</code> proporciona margen para absorber picos cuando el nodo dispone de recursos.</li>
+<li>Permite mayor densidad y overcommit, pero aumenta el riesgo bajo presión de memoria.</li>
+</ul>
+<h4 id="2-cargas-sensibles-o-predecibles-limits-requests-guaranteed">2. Cargas sensibles o predecibles: <code>limits = requests</code> (<em>Guaranteed</em>)</h4>
+<ul>
+<li>Puede ser adecuado para cargas con necesidades previsibles o especialmente sensibles a la falta de recursos.</li>
+<li>La igualdad debe cumplirse para CPU y memoria en todos los contenedores del Pod para obtener QoS <code>Guaranteed</code>.</li>
+<li>Reduce el margen de overcommit y puede disminuir la densidad de cargas del clúster.</li>
+</ul>
+<p>No debe asumirse que todas las bases de datos o aplicaciones críticas necesitan automáticamente QoS <code>Guaranteed</code>. El dimensionamiento debe basarse en mediciones, requisitos de servicio y comportamiento real de cada aplicación.</p>
+<h3 id="que-ocurre-cuando-se-agota-la-memoria">¿Qué ocurre cuando se agota la memoria?</h3>
+<p>Conviene distinguir dos situaciones relacionadas, pero diferentes:</p>
+<ul>
+<li><strong>Presión de memoria en el nodo:</strong> el kubelet puede expulsar Pods para recuperar recursos. El Pod aparece como <code>Evicted</code>.</li>
+<li><strong>El contenedor supera su límite de memoria:</strong> el kernel puede terminar su proceso y Kubernetes muestra el estado <code>OOMKilled</code>, normalmente con código de salida <code>137</code>.</li>
+</ul>
+<p>La QoS influye en las decisiones de evicción del nodo, pero no evita que un contenedor sea terminado si supera su propio límite de memoria.</p>
+<hr />
+<h2 id="como-mandar-un-pod-a-nodos-concretos-nodeselector">Cómo mandar un Pod a nodos concretos: <code>nodeSelector</code></h2>
+<p>Por defecto, el Scheduler de OpenShift decide en qué nodo de trabajo debe ejecutarse cada Pod, basándose, entre otros factores, en la capacidad disponible y las restricciones de programación.</p>
+<p>Sin embargo, existen escenarios en los que necesitamos dirigir una carga hacia nodos con características concretas:</p>
+<ul>
+<li>nodos con hardware especializado, como GPU;</li>
+<li>nodos ubicados en una zona determinada;</li>
+<li>cumplimiento de requisitos organizativos o de licenciamiento;</li>
+<li>separación de determinados tipos de carga.</li>
+</ul>
+<p>El mecanismo más sencillo para hacerlo es combinar <strong>etiquetas</strong> en los nodos y un <strong><code>nodeSelector</code></strong> en la plantilla del Pod.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Aplicacion[Deployment / Pod]
+        A["nodeSelector:&lt;br/&gt;zone: pci-dss"]
+    end
+
+    subgraph Nodos[Cluster Nodes]
+        N1["Worker 01&lt;br/&gt;zone: general"]
+        N2["Worker 02&lt;br/&gt;zone: pci-dss"]
+        N3["Worker 03&lt;br/&gt;zone: general"]
+    end
+
+    A --&gt;|No coincide| N1
+    A --&gt;|Coincide| N2
+    A --&gt;|No coincide| N3</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Ejemplo ilustrativo en el entorno de formación</p>
+<p>En Red Hat OpenShift Sandbox no disponemos de permisos para etiquetar los nodos del clúster, por lo que no podemos preparar nodos específicos sobre los que probar este ejemplo.</p>
+<p>Los comandos y manifiestos siguientes se muestran para comprender el funcionamiento de <code>nodeSelector</code>, pero no es necesario ejecutarlos durante la práctica.</p>
+</div>
+<h3 id="paso-1-etiquetar-los-nodos">Paso 1: etiquetar los nodos</h3>
+<p>El equipo de plataforma asigna etiquetas clave-valor a los nodos correspondientes:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker-02.example.com<span class="w"> </span><span class="nv">zone</span><span class="o">=</span>pci-dss<span class="w"> </span><span class="nv">hardware</span><span class="o">=</span>gpu
+</code></pre></div>
+<h3 id="paso-2-definir-el-selector-en-el-deployment">Paso 2: definir el selector en el Deployment</h3>
+<p>Dentro de <code>spec.template.spec</code> se añade la sección <code>nodeSelector</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">procesamiento-seguro</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">angel-cuaresma-alons-dev</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">procesamiento-seguro</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">procesamiento-seguro</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">nodeSelector</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pci-dss</span>
+<span class="w">        </span><span class="nt">hardware</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gpu</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">worker-app</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.example.com/app/worker:v1.0</span>
+<span class="w">          </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"500m"</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"1Gi"</span>
+</code></pre></div>
+<p>Cuando se especifican varias etiquetas, el nodo debe cumplirlas todas.</p>
+<div class="admonition note">
+<p class="admonition-title">Selectores estrictos</p>
+<p>Si el <code>nodeSelector</code> no coincide con ningún nodo, o los nodos coincidentes no disponen de capacidad, el Pod permanece en estado <code>Pending</code>.</p>
+<p>Al ejecutar <code>oc describe pod &lt;nombre-del-pod&gt;</code>, los eventos indicarán que ningún nodo cumple el selector, por ejemplo: <code>0/N nodes are available: node(s) didn't match Pod's node selector</code>.</p>
+</div>
+<p><code>nodeSelector</code> es un mecanismo sencillo y estricto. Kubernetes dispone de opciones más avanzadas, como afinidad y antiafinidad, pero no son necesarias para comprender el objetivo de este apartado.</p>
+<hr />
+<h2 id="nodos-de-infraestructura-infra-nodes">Nodos de infraestructura (<em>Infra Nodes</em>)</h2>
+<p>En la arquitectura de un clúster de producción de OpenShift, introducida en el apartado 1.5, los nodos pueden especializarse según su función:</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Cluster[OpenShift Cluster]
+        A[Control Plane / Masters&lt;br/&gt;etcd, API Server, Scheduler]
+        B[Infra Nodes&lt;br/&gt;Componentes de soporte de la plataforma]
+        C[Worker Nodes&lt;br/&gt;Aplicaciones y cargas de usuario]
+    end</code></pre>
+<ol>
+<li><strong>Nodos de control o Control Plane:</strong> ejecutan los servicios centrales del clúster, como la API, el Scheduler y <code>etcd</code>. Normalmente no ejecutan cargas de usuario.</li>
+<li><strong>Worker Nodes:</strong> están destinados a las aplicaciones y cargas de trabajo de los usuarios.</li>
+<li><strong>Infra Nodes:</strong> son nodos de trabajo dedicados a determinados componentes de infraestructura de la plataforma, con el fin de aislarlos de las aplicaciones de usuario.</li>
+</ol>
+<h3 id="que-puede-ejecutarse-en-un-infra-node">¿Qué puede ejecutarse en un Infra Node?</h3>
+<p>No existe una prohibición técnica universal que impida programar cualquier otro Pod en un nodo marcado como <code>infra</code>. La separación se consigue mediante etiquetas, taints, tolerations y selectores, y debe respetar la arquitectura y las condiciones de suscripción definidas para el clúster.</p>
+<p>Entre los componentes que habitualmente pueden ubicarse en nodos de infraestructura se encuentran:</p>
+<ul>
+<li>routers de Ingress;</li>
+<li>registro interno de imágenes;</li>
+<li>componentes de monitorización de la plataforma;</li>
+<li>componentes de agregación de logs;</li>
+<li>otros componentes de infraestructura admitidos por Red Hat para este tipo de nodo.</li>
+</ul>
+<p>Las aplicaciones de negocio y cargas generales de usuario deben mantenerse en los Worker Nodes. Ejecutarlas en nodos contabilizados como infraestructura puede romper el aislamiento previsto y afectar a las condiciones de suscripción.</p>
+<h3 id="beneficios-del-aislamiento">Beneficios del aislamiento</h3>
+<ul>
+<li><strong>Aislamiento de rendimiento:</strong> evita que una carga de usuario afecte a componentes críticos como los routers o la monitorización.</li>
+<li><strong>Previsibilidad operativa:</strong> reserva capacidad para servicios necesarios para el funcionamiento de la plataforma.</li>
+<li><strong>Separación de responsabilidades:</strong> facilita aplicar políticas de programación diferentes a los componentes de plataforma y a las aplicaciones.</li>
+<li><strong>Optimización de suscripciones:</strong> determinados componentes de infraestructura pueden ejecutarse en nodos designados como <code>infra</code> sin consumir suscripciones de cómputo de la misma forma que los nodos destinados a aplicaciones, siempre que se respeten las condiciones vigentes de Red Hat.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">La etiqueta no cambia por sí sola las condiciones de suscripción</p>
+<p>Añadir la etiqueta <code>node-role.kubernetes.io/infra</code> no basta por sí mismo. Debe verificarse que el nodo ejecuta únicamente componentes admitidos para ese uso y que la arquitectura cumple las condiciones de la suscripción contratada.</p>
+</div>
+<h3 id="como-se-envian-los-componentes-de-infraestructura-a-sus-nodos">Cómo se envían los componentes de infraestructura a sus nodos</h3>
+<p>El equipo administrador combina varios mecanismos:</p>
+<ol>
+<li><strong>Etiquetado del nodo:</strong> los servidores de infraestructura reciben la etiqueta correspondiente.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>infra-worker-01.example.com<span class="w"> </span>node-role.kubernetes.io/infra<span class="o">=</span><span class="s2">""</span>
+</code></pre></div>
+<ol>
+<li><strong>Configuración de los operadores:</strong> los operadores que gestionan Ingress, monitorización u otros componentes se configuran para utilizar el selector adecuado.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nt">nodeSelector</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">node-role.kubernetes.io/infra</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+</code></pre></div>
+<ol>
+<li><strong>Taints y tolerations, cuando proceda:</strong> pueden utilizarse para impedir que cargas no autorizadas terminen en esos nodos. Las tolerations permiten que los componentes de infraestructura aceptados superen esa restricción.</li>
+</ol>
+<p>De esta forma, el Scheduler coloca los Pods gestionados por los operadores en los nodos de infraestructura seleccionados y evita mezclar indiscriminadamente componentes de plataforma con aplicaciones de negocio.</p>
+<hr />
+<h2 id="continuidad-del-gobierno-de-la-plataforma">Continuidad del gobierno de la plataforma</h2>
+<p>A lo largo de estos dos primeros apartados de la sesión hemos visto dos dimensiones complementarias del gobierno:</p>
+<ul>
+<li>En el <strong>apartado 4.1</strong>, quién puede actuar sobre un proyecto y qué operaciones puede realizar.</li>
+<li>En el <strong>apartado 4.2</strong>, cuánto puede consumir un proyecto y dónde pueden ejecutarse sus cargas.</li>
+</ul>
+<p>El siguiente paso será controlar una tercera dimensión: <strong>qué comunicaciones de red están permitidas entre las cargas</strong>, mediante <code>NetworkPolicy</code>.</p>
+<hr />
+<h2 id="ideas-clave-para-recordar">Ideas clave para recordar</h2>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li><strong>ResourceQuota</strong> limita el consumo máximo acumulado de CPU, memoria, almacenamiento u objetos del conjunto de un proyecto.</li>
+<li>La necesidad de declarar <code>requests</code> y <code>limits</code> depende de los recursos que controle la cuota. En nuestro ejemplo se requieren porque la cuota contabiliza los cuatro valores de CPU y memoria.</li>
+<li><strong>LimitRange</strong> puede establecer valores por defecto y restricciones mínimas o máximas para cada contenedor.</li>
+<li>El <strong>overcommit</strong> permite que la suma de los <code>limits</code> sea superior a la capacidad física, mientras que el Scheduler utiliza los <code>requests</code> para decidir si un Pod puede ubicarse en un nodo.</li>
+<li>La <strong>QoS</strong> clasifica los Pods como <code>Guaranteed</code>, <code>Burstable</code> o <code>BestEffort</code> según la definición de recursos de todos sus contenedores.</li>
+<li>Un Pod puede ser expulsado por presión de memoria del nodo o un contenedor puede terminar como <code>OOMKilled</code> al superar su propio límite. Son situaciones relacionadas, pero no equivalentes.</li>
+<li><strong><code>nodeSelector</code></strong> dirige un Pod hacia nodos que contienen etiquetas concretas. Si ningún nodo coincide, el Pod queda en <code>Pending</code>.</li>
+<li>Los <strong>Infra Nodes</strong> aíslan componentes de soporte de la plataforma de las aplicaciones de usuario. Su uso debe respetar la arquitectura y las condiciones de suscripción aplicables.</li>
+<li>El gobierno de OpenShift combina permisos, recursos, ubicación y, como veremos a continuación, aislamiento de red.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2393 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/">
+      
+      
+        <link rel="next" href="../4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>4.3 Aislamiento de Red - Curso OpenShift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#43-aislamiento-de-red-networkpolicy" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Curso OpenShift" class="md-header__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  <img src="../../Logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Curso OpenShift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4.3 Aislamiento de Red
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Curso OpenShift" class="md-nav__button md-logo" aria-label="Curso OpenShift" data-md-component="logo">
+      
+  <img src="../../Logo.png" alt="logo">
+
+    </a>
+    Curso OpenShift
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 1 - entender la plataforma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 1 - entender la plataforma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.1%20Introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.1 Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.2%20de%20servidor%20a%20contendor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2 De servidor a contenedor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.3%20kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.3 Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.4%20que%20a%C3%B1ade%20openshift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.4 Qué añade OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.5%20Arquitectura%20cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.5 Arquitectura del clúster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.6%20Consola%20web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6 Consola web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.7%20cliente%20oc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.7 Cliente oc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.8-practica-imagen-cluster-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.8 Práctica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion1/1.9%20cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 2 - Desplegar una aplicación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.1%20Cargas%20de%20trabajo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1 Cargas de trabajo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.2%20Exponer%20aplicaciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2 Exponer aplicaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.3%20Salud%20recursos%20y%20escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3 Salud recursos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.4%20Configuracion%20fuera%20de%20la%20imagen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.4 Configuracion fuera de la imagen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.5%20Almacenamiento%20Persistente/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.5 Almacenamiento Persistente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.6%20Politicas%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.6 Politicas de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion2/2.7%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.7 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 3 - Monitorizar y recuperar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.1%20Metricas%20y%20cuadros%20de%20mando/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1 Metricas y cuadros de mando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.2%20Autoescalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2 Autoescalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.3%20Alertas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.3 Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.4%20Logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.4 Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.5%20Diagnostico%20de%20incidencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.5 Diagnostico de incidencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.6%20Es%20mi%20aplicacion%20o%20es%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.6 Es mi aplicacion o es la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.7%20Operadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.7 Operadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.8%20Copias%20de%20Seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.8 Copias de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sesion3/3.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesión 4 - Gobernar e industrializar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20Proyectos%20y%20permisos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.1 Proyectos y permisos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20Recursoso%2C%20cuotas%20y%20ubicaci%C3%B3n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.2 Recursos,cuotas y ubicación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.3 Aislamiento de Red
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#43-aislamiento-de-red-networkpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Aislamiento de red: NetworkPolicy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Aislamiento de red: NetworkPolicy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-aislamiento-de-red-como-parte-del-gobierno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El aislamiento de red como parte del gobierno
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#por-que-necesitamos-aislamiento-de-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué necesitamos aislamiento de red?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-es-una-networkpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es una NetworkPolicy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principios-fundamentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principios fundamentales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Principios fundamentales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-declarativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelo declarativo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seleccion-mediante-etiquetas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selección mediante etiquetas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-de-entrada-y-salida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control de entrada y salida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#naturaleza-aditiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Naturaleza aditiva
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cuando-queda-aislado-un-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Cuándo queda aislado un Pod?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anatomia-de-una-networkpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anatomía de una NetworkPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#podselector-pods-a-los-que-se-aplica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        podSelector: Pods a los que se aplica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policytypes-direccion-del-trafico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        policyTypes: dirección del tráfico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-y-to-origenes-y-destinos-permitidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from y to: orígenes y destinos permitidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ports-protocolos-y-puertos-permitidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ports: protocolos y puertos permitidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patron-de-gobierno-denegacion-por-defecto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Patrón de gobierno: denegación por defecto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#las-politicas-de-red-en-nuestro-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Las políticas de red en nuestro entorno
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Las políticas de red en nuestro entorno">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#politica-allow-same-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Política allow-same-namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politica-allow-from-openshift-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Política allow-from-openshift-ingress
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20Registro%2C%20gesti%C3%B3n%20y%20seguridad%20de%20im%C3%A1genes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.4 Registro, gestión y seguridad de imágenes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.5%20Construir%20en%20la%20plataforma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.5 Construir en la plataforma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.6%20Promocion%20entre%20entornos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.6 Promocion entre entornos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.7%20Opciones%20de%20automatizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.7 Opciones de automatizacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.8%20Openshift%20Virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.8 Openshift Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.9%20Cierre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.9 Cierre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#43-aislamiento-de-red-networkpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Aislamiento de red: NetworkPolicy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Aislamiento de red: NetworkPolicy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-aislamiento-de-red-como-parte-del-gobierno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El aislamiento de red como parte del gobierno
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#por-que-necesitamos-aislamiento-de-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Por qué necesitamos aislamiento de red?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#que-es-una-networkpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué es una NetworkPolicy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principios-fundamentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principios fundamentales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Principios fundamentales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-declarativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelo declarativo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seleccion-mediante-etiquetas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selección mediante etiquetas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-de-entrada-y-salida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control de entrada y salida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#naturaleza-aditiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Naturaleza aditiva
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cuando-queda-aislado-un-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Cuándo queda aislado un Pod?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anatomia-de-una-networkpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anatomía de una NetworkPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#podselector-pods-a-los-que-se-aplica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        podSelector: Pods a los que se aplica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policytypes-direccion-del-trafico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        policyTypes: dirección del tráfico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-y-to-origenes-y-destinos-permitidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from y to: orígenes y destinos permitidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ports-protocolos-y-puertos-permitidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ports: protocolos y puertos permitidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patron-de-gobierno-denegacion-por-defecto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Patrón de gobierno: denegación por defecto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#las-politicas-de-red-en-nuestro-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Las políticas de red en nuestro entorno
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Las políticas de red en nuestro entorno">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#politica-allow-same-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Política allow-same-namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politica-allow-from-openshift-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Política allow-from-openshift-ingress
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ideas-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ideas clave para recordar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>4.3 Aislamiento de Red</h1>
+
+<h2 id="43-aislamiento-de-red-networkpolicy">4.3 Aislamiento de red: NetworkPolicy</h2>
+<h3 id="objetivos-de-aprendizaje">Objetivos de aprendizaje</h3>
+<p>Al finalizar este apartado serás capaz de:</p>
+<ul>
+<li>Comprender por qué el aislamiento de red forma parte del gobierno de una plataforma OpenShift compartida.</li>
+<li>Entender el concepto de <strong>NetworkPolicy</strong> como mecanismo declarativo para controlar las comunicaciones entre Pods.</li>
+<li>Comprender cómo el aislamiento de red ayuda a limitar el movimiento lateral si una carga resulta comprometida.</li>
+<li>Interpretar los elementos principales de una política de red.</li>
+<li>Diferenciar entre el control del tráfico de entrada (<code>Ingress</code>) y el tráfico de salida (<code>Egress</code>).</li>
+<li>Comprender el patrón de denegación por defecto o <em>Default Deny</em>.</li>
+<li>Reconocer algunas de las políticas de red existentes en el entorno disponible, sin necesidad de modificarlas.</li>
+</ul>
+<hr />
+<h3 id="el-aislamiento-de-red-como-parte-del-gobierno">El aislamiento de red como parte del gobierno</h3>
+<p>En los apartados anteriores hemos visto dos dimensiones del gobierno de una plataforma OpenShift compartida:</p>
+<ul>
+<li><strong>RBAC</strong> establece quién puede realizar cada acción.</li>
+<li><strong>ResourceQuota</strong> y <strong>LimitRange</strong> controlan cuánto puede consumir cada proyecto y cada contenedor.</li>
+</ul>
+<p>Las <strong>NetworkPolicy</strong> incorporan una tercera dimensión:</p>
+<blockquote>
+<p><strong>Quién puede comunicarse con quién dentro del clúster.</strong></p>
+</blockquote>
+<pre class="mermaid"><code>flowchart LR
+    A[RBAC] --&gt; G[Gobierno de la plataforma]
+    B[ResourceQuota y LimitRange] --&gt; G
+    C[NetworkPolicy] --&gt; G
+
+    A --&gt; A1[Quién puede hacer qué]
+    B --&gt; B1[Cuánto puede consumir]
+    C --&gt; C1[Quién puede comunicarse con quién]</code></pre>
+<p>Kubernetes parte de un modelo de conectividad en el que los Pods pueden comunicarse entre sí.</p>
+<p>Sin embargo, esto no significa que todos los clústeres permitan siempre cualquier comunicación. En una plataforma corporativa, los administradores pueden aplicar políticas de red para segmentar proyectos, proteger cargas de trabajo y permitir únicamente los flujos necesarios.</p>
+<p>El objetivo no es impedir todas las comunicaciones, sino evitar que una carga pueda comunicarse con sistemas a los que no necesita acceder.</p>
+<h3 id="por-que-necesitamos-aislamiento-de-red">¿Por qué necesitamos aislamiento de red?</h3>
+<p>Supongamos que una aplicación presenta una vulnerabilidad y un atacante consigue comprometer uno de sus Pods.</p>
+<p>El acceso inicial podría afectar únicamente a ese componente. Sin embargo, si el Pod dispone de conectividad indiscriminada hacia otras cargas del clúster, el atacante podría utilizarlo como punto de partida para:</p>
+<ul>
+<li>intentar acceder a otros Pods de la aplicación;</li>
+<li>localizar servicios internos;</li>
+<li>conectarse con bases de datos;</li>
+<li>explorar otros proyectos;</li>
+<li>intentar comprometer nuevas cargas.</li>
+</ul>
+<p>Este desplazamiento desde un sistema comprometido hacia otros sistemas se denomina habitualmente <strong>movimiento lateral</strong>.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Atacante] --&gt; B[Pod comprometido]
+    B -. Sin aislamiento .-&gt; C[Base de datos]
+    B -. Sin aislamiento .-&gt; D[Otro servicio]
+    B -. Sin aislamiento .-&gt; E[Otro proyecto]</code></pre>
+<p>Las políticas de red permiten limitar ese riesgo restringiendo las comunicaciones a los flujos que realmente necesita la aplicación.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Atacante] --&gt; B[Pod comprometido]
+    B --&gt;|Flujo permitido| C[Servicio necesario]
+    B -. Bloqueado .-&gt; D[Base de datos no autorizada]
+    B -. Bloqueado .-&gt; E[Otro proyecto]</code></pre>
+<p>El aislamiento de red ayuda, por tanto, a:</p>
+<ul>
+<li>reducir la superficie de exposición;</li>
+<li>limitar comunicaciones innecesarias;</li>
+<li>dificultar el movimiento lateral;</li>
+<li>proteger servicios internos;</li>
+<li>
+<p>aplicar el principio de mínimo privilegio también a la red.</p>
+</li>
+<li>
+<p>contribuir a implantar medidas de seguridad requeridas o recomendadas por distintos marcos normativos y estándares. En el ámbito de las Administraciones Públicas, la segmentación de red y el principio de mínimo privilegio están alineados con requisitos del <strong>Esquema Nacional de Seguridad (ENS)</strong>, como el mínimo privilegio y la existencia de líneas de defensa.</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Defensa en profundidad</p>
+<p>Una <code>NetworkPolicy</code> no evita por sí misma que una aplicación tenga una vulnerabilidad.</p>
+<p>Su función es añadir una capa adicional de protección. Si una carga resulta comprometida, la política puede limitar los sistemas con los que esa carga puede comunicarse.</p>
+</div>
+<h3 id="que-es-una-networkpolicy">¿Qué es una NetworkPolicy?</h3>
+<p>Una <strong>NetworkPolicy</strong> es un objeto de Kubernetes, disponible también en OpenShift, que declara qué tráfico de red está permitido para determinados Pods.</p>
+<p>Las políticas pueden controlar:</p>
+<ul>
+<li>qué Pods pueden recibir tráfico;</li>
+<li>desde qué Pods o proyectos puede llegar ese tráfico;</li>
+<li>hacia qué Pods, proyectos o redes pueden realizarse conexiones;</li>
+<li>qué protocolos y puertos están permitidos.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    O[Pod de origen] --&gt;|Tráfico de red| P{NetworkPolicy}
+    P --&gt;|Flujo permitido| D[Pod de destino]
+    P -.-&gt;|Flujo no permitido| X[Tráfico descartado]</code></pre>
+<p>Las <code>NetworkPolicy</code> actúan principalmente sobre información de red de capa 3 y capa 4: direcciones IP, protocolos y puertos.</p>
+<p>No analizan el contenido funcional de una petición HTTP ni sustituyen a otros mecanismos de seguridad, como la autenticación, la autorización de la aplicación, el cifrado TLS, la gestión segura de credenciales o la corrección de vulnerabilidades.</p>
+<div class="admonition important">
+<p class="admonition-title">Las políticas necesitan soporte del clúster</p>
+<p>Kubernetes define el objeto <code>NetworkPolicy</code>, pero su aplicación efectiva depende del plugin de red utilizado por el clúster.</p>
+<p>OpenShift utiliza una implementación de red compatible con estas políticas, habitualmente OVN-Kubernetes en las versiones actuales de la plataforma.</p>
+</div>
+<h3 id="principios-fundamentales">Principios fundamentales</h3>
+<h4 id="modelo-declarativo">Modelo declarativo</h4>
+<p>Las políticas se definen mediante recursos YAML, igual que el resto de objetos de Kubernetes y OpenShift.</p>
+<p>En ellas describimos qué Pods quedan seleccionados, qué dirección del tráfico se controla y qué comunicaciones deben permitirse. La plataforma se encarga de convertir esa declaración en reglas efectivas de conectividad.</p>
+<h4 id="seleccion-mediante-etiquetas">Selección mediante etiquetas</h4>
+<p>Las políticas utilizan etiquetas para identificar Pods y proyectos. Esto permite evitar la dependencia de las direcciones IP de los Pods, que pueden cambiar cuando estos se eliminan y vuelven a crearse.</p>
+<h4 id="control-de-entrada-y-salida">Control de entrada y salida</h4>
+<p>Una política puede controlar:</p>
+<ul>
+<li><strong><code>Ingress</code></strong>: tráfico que llega a los Pods seleccionados;</li>
+<li><strong><code>Egress</code></strong>: tráfico iniciado desde los Pods seleccionados;</li>
+<li>ambos sentidos.</li>
+</ul>
+<h4 id="naturaleza-aditiva">Naturaleza aditiva</h4>
+<p>Las <code>NetworkPolicy</code> tienen un comportamiento aditivo. Cuando varias políticas se aplican a un mismo Pod, los flujos permitidos por ellas se combinan.</p>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo conceptual</p>
+<p>Si una política permite tráfico desde el frontend y otra permite tráfico desde el sistema de monitorización, el Pod podrá recibir tráfico desde ambos orígenes.</p>
+</div>
+<h3 id="cuando-queda-aislado-un-pod">¿Cuándo queda aislado un Pod?</h3>
+<p>La existencia de una <code>NetworkPolicy</code> en un proyecto no implica automáticamente que todos sus Pods queden aislados.</p>
+<p>Un Pod queda aislado en una dirección cuando existe al menos una política que lo selecciona e incluye esa dirección en <code>policyTypes</code>.</p>
+<p>Por ejemplo, si una política selecciona un Pod para tráfico <code>Ingress</code>, desde ese momento el Pod solo podrá recibir los flujos de entrada autorizados por el conjunto de políticas aplicables. El tráfico de salida podría seguir sin estar aislado si ninguna política selecciona el Pod para <code>Egress</code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Aislamiento por dirección</p>
+<p>Un Pod puede estar aislado para tráfico de entrada y no estarlo para tráfico de salida, o al contrario.</p>
+<p>Por eso siempre debemos comprobar si la política controla <code>Ingress</code>, <code>Egress</code> o ambos.</p>
+</div>
+<h3 id="anatomia-de-una-networkpolicy">Anatomía de una NetworkPolicy</h3>
+<p>El siguiente ejemplo protege los Pods de una base de datos y permite que reciban tráfico únicamente desde el frontend, por el puerto TCP 5432:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkPolicy</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">permitir-frontend-a-bd</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">podSelector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span>
+<span class="w">  </span><span class="nt">policyTypes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ingress</span>
+<span class="w">  </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">from</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">podSelector</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+<span class="w">      </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+<span class="w">          </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432</span>
+</code></pre></div>
+<p>Para interpretar una política de red conviene responder, en este orden, a cuatro preguntas:</p>
+<ol>
+<li><strong>¿A qué Pods se aplica?</strong></li>
+<li><strong>¿Controla tráfico entrante, saliente o ambos?</strong></li>
+<li><strong>¿Qué orígenes o destinos permite?</strong></li>
+<li><strong>¿Qué protocolos y puertos autoriza?</strong></li>
+</ol>
+<h3 id="podselector-pods-a-los-que-se-aplica"><code>podSelector</code>: Pods a los que se aplica</h3>
+<p>El campo <code>spec.podSelector</code> identifica los Pods del mismo proyecto a los que se aplica la política.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">podSelector</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span>
+</code></pre></div>
+<p>Un selector vacío selecciona todos los Pods del proyecto:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">podSelector</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">El valor <none> mostrado por oc</p>
+<p>En la salida de <code>oc get networkpolicy</code>, el valor <code>&lt;none&gt;</code> en la columna <code>POD-SELECTOR</code> suele corresponder a <code>podSelector: {}</code>.</p>
+<p>No significa que la política no seleccione ningún Pod, sino que selecciona todos los Pods del proyecto.</p>
+</div>
+<h3 id="policytypes-direccion-del-trafico"><code>policyTypes</code>: dirección del tráfico</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">policyTypes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ingress</span>
+</code></pre></div>
+<p>Controla el tráfico que llega a los Pods seleccionados.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">policyTypes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Egress</span>
+</code></pre></div>
+<p>Controla las conexiones iniciadas desde los Pods seleccionados.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">policyTypes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ingress</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Egress</span>
+</code></pre></div>
+<p>Controla ambos sentidos.</p>
+<h3 id="from-y-to-origenes-y-destinos-permitidos"><code>from</code> y <code>to</code>: orígenes y destinos permitidos</h3>
+<ul>
+<li><code>ingress.from</code> define los <strong>orígenes permitidos</strong> para el tráfico entrante.</li>
+<li><code>egress.to</code> define los <strong>destinos permitidos</strong> para el tráfico saliente.</li>
+</ul>
+<p>Los selectores más habituales son <code>podSelector</code>, <code>namespaceSelector</code> e <code>ipBlock</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">from</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">podSelector</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+</code></pre></div>
+<p>Cuando se utiliza de esta forma, el <code>podSelector</code> busca Pods dentro del mismo namespace en el que se encuentra la política.</p>
+<p>También podemos seleccionar namespaces por sus etiquetas:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">from</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">namespaceSelector</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">entorno</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">compartido</span>
+</code></pre></div>
+<p>O combinar ambos selectores:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">from</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">namespaceSelector</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">entorno</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">produccion</span>
+<span class="w">    </span><span class="nt">podSelector</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">La estructura YAML cambia el significado</p>
+<p>Si <code>podSelector</code> y <code>namespaceSelector</code> aparecen dentro del mismo elemento de <code>from</code>, ambas condiciones deben cumplirse.</p>
+<p>Si aparecen como elementos separados, representan orígenes alternativos. Por ello, la indentación y los guiones deben revisarse con especial cuidado.</p>
+</div>
+<h3 id="ports-protocolos-y-puertos-permitidos"><code>ports</code>: protocolos y puertos permitidos</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">ports</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432</span>
+</code></pre></div>
+<p>Si una regla no incluye <code>ports</code>, permite todos los puertos para los orígenes o destinos definidos en ella.</p>
+<div class="admonition tip">
+<p class="admonition-title">Principio de mínimo privilegio</p>
+<p>Siempre que resulte viable, una política debería permitir únicamente los protocolos y puertos que la aplicación necesita.</p>
+</div>
+<h3 id="patron-de-gobierno-denegacion-por-defecto">Patrón de gobierno: denegación por defecto</h3>
+<p>Una estrategia habitual consiste en partir de una política de <strong>denegación por defecto</strong> y añadir después las autorizaciones necesarias para el funcionamiento de las aplicaciones y de la propia plataforma.</p>
+<p>Este patrón se conoce habitualmente como <em>Default Deny</em>.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Denegación por defecto] --&gt; B[Proyecto aislado]
+    B --&gt; C[Permitir tráfico desde Ingress]
+    B --&gt; D[Permitir monitorización]
+    B --&gt; E[Permitir comunicación interna necesaria]</code></pre>
+<p>El siguiente manifiesto selecciona todos los Pods del proyecto para tráfico de entrada, pero no incluye ninguna regla permitida:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkPolicy</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default-deny-ingress</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">podSelector</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">policyTypes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ingress</span>
+<span class="w">  </span><span class="nt">ingress</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+</code></pre></div>
+<p>La interpretación sería:</p>
+<ol>
+<li><code>podSelector: {}</code> selecciona todos los Pods del proyecto.</li>
+<li><code>policyTypes: Ingress</code> controla el tráfico entrante.</li>
+<li><code>ingress: []</code> no define ningún flujo de entrada permitido.</li>
+</ol>
+<p>Mientras no exista otra política que autorice un determinado flujo, los Pods seleccionados no podrán recibir ese tráfico.</p>
+<p>Después se incorporan políticas adicionales para permitir únicamente las comunicaciones necesarias, por ejemplo:</p>
+<ul>
+<li>tráfico desde el Ingress Controller hacia una aplicación publicada mediante una Route;</li>
+<li>comunicación entre componentes de una misma aplicación;</li>
+<li>acceso desde los servicios de monitorización;</li>
+<li>acceso a una base de datos únicamente desde el backend autorizado.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Manifiesto ilustrativo</p>
+<p>Este manifiesto se incluye para comprender el patrón <em>Default Deny</em>.</p>
+<p>En el entorno disponible ya existen políticas de red administradas por la plataforma. Aplicar una denegación adicional podría interrumpir Routes, herramientas del entorno u otros servicios necesarios.</p>
+<p>Por este motivo, en este apartado observaremos las políticas existentes, pero no las modificaremos.</p>
+</div>
+<h3 id="las-politicas-de-red-en-nuestro-entorno">Las políticas de red en nuestro entorno</h3>
+<p>En el entorno disponible ya existen varias <code>NetworkPolicy</code>. En lugar de crear políticas nuevas, utilizaremos dos de las políticas existentes para comprobar cómo se aplican estos conceptos en una plataforma OpenShift real.</p>
+<p>Podemos consultar la lista mediante:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>networkpolicy
+</code></pre></div>
+<p>La salida obtenida incluye:</p>
+<div class="highlight"><pre><span></span><code>NAME                                             POD-SELECTOR
+allow-from-codeready-workspaces-operator         &lt;none&gt;
+allow-from-console-namespaces                    &lt;none&gt;
+allow-from-dev-sandbox-managed-ns                &lt;none&gt;
+allow-from-olm-namespaces                        &lt;none&gt;
+allow-from-openshift-ingress                     &lt;none&gt;
+allow-from-openshift-monitoring                  &lt;none&gt;
+allow-from-openshift-virtualization-namespaces   &lt;none&gt;
+allow-from-redhat-ods-app-to-mariadb             app=mariadb-dspa
+allow-from-redhat-ods-app-to-mm                  modelmesh-service=modelmesh-serving
+allow-same-namespace                             &lt;none&gt;
+</code></pre></div>
+<p>La lista muestra que la plataforma ya ha definido distintas reglas de conectividad. Algunas se aplican a todos los Pods del proyecto, mientras que otras seleccionan cargas concretas mediante etiquetas.</p>
+<div class="admonition note">
+<p class="admonition-title">No deducir el comportamiento únicamente por el nombre</p>
+<p>El nombre de una política aporta una pista sobre su finalidad, pero no demuestra exactamente qué tráfico permite. Para conocer su comportamiento debemos consultar el manifiesto YAML.</p>
+</div>
+<h4 id="politica-allow-same-namespace">Política <code>allow-same-namespace</code></h4>
+<p>La política <code>allow-same-namespace</code> está orientada a permitir comunicaciones entre cargas del mismo proyecto.</p>
+<p>Podemos consultar su definición con:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>networkpolicy<span class="w"> </span>allow-same-namespace<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<p>La salida completa contiene metadatos generados por la plataforma que no necesitamos para comprender la política. Si nos centramos en su definición funcional, encontramos:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkPolicy</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">allow-same-namespace</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">from</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">podSelector</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">podSelector</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">policyTypes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ingress</span>
+</code></pre></div>
+<p>Podemos leer la política paso a paso:</p>
+<ol>
+<li>El <code>podSelector: {}</code> situado directamente bajo <code>spec</code> selecciona <strong>todos los Pods del proyecto</strong>.</li>
+<li><code>policyTypes: Ingress</code> indica que la política controla <strong>el tráfico que reciben esos Pods</strong>.</li>
+<li>Dentro de <code>ingress.from</code>, el segundo <code>podSelector: {}</code> selecciona <strong>todos los Pods del mismo namespace</strong>. Al no estar acompañado de un <code>namespaceSelector</code>, se refiere al namespace de la propia política.</li>
+<li>La regla no incluye <code>ports</code>, por lo que <strong>no restringe la comunicación a puertos concretos</strong>.</li>
+</ol>
+<p>En otras palabras, esta política permite que los Pods del proyecto puedan comunicarse entre sí, incluso cuando existen políticas que aíslan el tráfico de entrada.</p>
+<h4 id="politica-allow-from-openshift-ingress">Política <code>allow-from-openshift-ingress</code></h4>
+<p>La política <code>allow-from-openshift-ingress</code> permite relacionar el aislamiento de red con las <strong>Routes</strong> estudiadas anteriormente.</p>
+<p>Podemos consultar su definición con:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>networkpolicy<span class="w"> </span>allow-from-openshift-ingress<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<p>Si nos centramos nuevamente en la definición funcional, encontramos:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkPolicy</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">allow-from-openshift-ingress</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">from</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">namespaceSelector</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">network.openshift.io/policy-group</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ingress</span>
+<span class="w">  </span><span class="nt">podSelector</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">policyTypes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ingress</span>
+</code></pre></div>
+<p>La lectura de esta política es la siguiente:</p>
+<ol>
+<li><code>podSelector: {}</code> selecciona <strong>todos los Pods del proyecto</strong>.</li>
+<li><code>policyTypes: Ingress</code> indica que controla <strong>el tráfico que reciben esos Pods</strong>.</li>
+<li><code>namespaceSelector</code> permite como origen los namespaces que tengan la etiqueta <code>network.openshift.io/policy-group: ingress</code>.</li>
+<li>La regla no incluye <code>ports</code>, por lo que <strong>no limita el tráfico permitido a puertos concretos</strong>.</li>
+</ol>
+<p>Esta política permite que los componentes de Ingress de OpenShift puedan alcanzar los Pods del proyecto. De esta forma, una aplicación puede seguir siendo accesible mediante una Route aunque el proyecto tenga políticas que restrinjan el tráfico de entrada.</p>
+<pre class="mermaid"><code>flowchart LR
+    U[Usuario] --&gt; R[Route]
+    R --&gt; I[Ingress Controller]
+    I --&gt;|Permitido por NetworkPolicy| P[Pods de la aplicación]</code></pre>
+<p>Este ejemplo muestra que una política de red no consiste únicamente en bloquear tráfico, sino en <strong>bloquear lo innecesario y permitir explícitamente los flujos que la aplicación y la plataforma necesitan</strong>.</p>
+<h3 id="ideas-clave-para-recordar">Ideas clave para recordar</h3>
+<div class="admonition tip">
+<p class="admonition-title">Resumen</p>
+<ul>
+<li>Las <code>NetworkPolicy</code> completan el gobierno de la plataforma definiendo <strong>quién puede comunicarse con quién</strong>.</li>
+<li>El aislamiento de red ayuda a limitar el movimiento lateral si un Pod resulta comprometido.</li>
+<li>Kubernetes proporciona conectividad entre Pods, pero un clúster OpenShift administrado puede restringir esa comunicación.</li>
+<li><code>podSelector</code> identifica los Pods a los que se aplica la política.</li>
+<li><code>podSelector: {}</code> selecciona todos los Pods del proyecto.</li>
+<li><code>Ingress</code> controla el tráfico entrante y <code>Egress</code> el saliente.</li>
+<li><code>from</code> y <code>to</code> definen los orígenes y destinos permitidos.</li>
+<li>Las políticas aplicables a un Pod son aditivas.</li>
+<li>El patrón <em>Default Deny</em> obliga a autorizar después los flujos necesarios.</li>
+<li><code>allow-same-namespace</code> permite la comunicación entre los Pods del mismo proyecto.</li>
+<li><code>allow-from-openshift-ingress</code> permite que el Ingress Controller alcance los Pods publicados mediante una Route.</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
